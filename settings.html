@@ -1,0 +1,107 @@
+<div class="row">
+	<div class="col-lg-6 text-center">
+		<div class="ibox float-e-margins">
+			<div class="ibox-title">
+				<h5>Two Factor Authentication</h5>
+			</div>
+			<div class="ibox-content">
+				<div class="btn-group btn-toggle"> 
+					<button class="btn btn-lg btn-default switch2fa" id="switch2faon" onclick="setup2fa()">ON</button>
+					<button class="btn btn-lg btn-danger switch2fa" id="switch2faoff" onclick="setup2fa()">OFF</button>
+				</div>
+			</div>
+		</div>
+		<div class="ibox float-e-margins">
+			<div class="ibox-title">
+				<h5>Notification Settings</h5>
+			</div>
+			<div class="ibox-content">
+				<b>Email</b><br>
+				<span class="checkbox" style="display: inline-block; margin-right: 30px;">
+					<label><input type="checkbox" id="transactionEmail" style="margin-top: 2px;" onclick="toggleEmailSettings('transaction')">Transaction Notifications</label>
+				</span>
+				<span class="checkbox" style="display: inline-block;">
+					<label><input type="checkbox" id="newsletterEmail" style="margin-top: 2px;" onclick="toggleEmailSettings('newsletter')">Newsletter</label>
+				</span>
+				<br><br>
+				<button class="btn btn-primary" onclick="toggleEmailSettings('globalresubscribe');">I am not receiving emails, check unsubscribe list</button>
+			</div>
+		</div>
+	</div>
+	<div class="col-lg-6 text-center">
+		<div class="ibox float-e-margins">
+			<div class="ibox-title">
+				<h5>API Key</h5>
+			</div>
+			<div class="ibox-content">
+				<div class="generalbox">
+					<h3>API</h3>
+					<button class="btn btn-primary" onclick="showAPIKey()">Show API Key</button>
+					<div class="linkbox hide" id="apikey"></div>
+					<div class="hide" id="additional-api-buttons">
+						<button class="btn btn-primary" onclick="copyToClipboard('apikey');">Copy To Clipboard</button>
+						<button class="btn btn-primary" onclick="resetAPIKey();">Reset API Key</button>
+					</div>
+					<select class="form-control w300c breakword" id="apilevel" onchange="updateAPILevel()">
+					  <option value="0">0 - Off, no API access, select another option to use API</option>
+					  <option value="1">1 - Read access to check balances, some private data such as siteID's</option>
+					  <option value="2">2 - Write access can make transfers and exports, full control</option>
+					</select>
+					<script>$('#apilevel option[value="'+user.apiLevel+'"]').attr("selected", "selected");</script>
+					<div class="linkbox">For information on the API please visit: <a href="https://developer.jsecoin.com/" target="_blank">https://developer.jsecoin.com/</a></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col-lg-12 text-center">
+		<div class="ibox float-e-margins">
+			<div class="ibox-title">
+				<h5>Account Details</h5>
+			</div>
+			<div class="ibox-content">
+				<p>Full name:</p>
+				<div class="form-group">
+					<input type="text" id="newname" class="form-control w300c" placeholder="Full Name">
+				</div>
+				<p>E-mail:<br><small>(not possible to change email address)</small></p>
+				<div class="form-group">
+					<input type="email" id="newemail" class="form-control w300c" readonly>
+				</div>
+				<p>Address:</p>
+				<div class="form-group">
+					<textarea class="form-control w300c" id="newaddress" placeholder="Address"></textarea>
+				</div>
+				<button class="btn btn-primary" onclick="updateDetails()">Update Details</button>
+				<hr>
+				<div><a href="javascript:void(0)" onclick="loadPage('ResetPassword');">Change Password</a></div>
+				<br>
+				<h3>Public Key:</h3>
+				<div class="linkbox" id="publicKeyBox"></div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+$('.titletext').html('Settings');
+$('#publicKeyBox').html(user.publicKey);
+if (user.twoFactorAuth) {
+	$('#switch2faon').removeClass('btn-default').addClass('btn-primary');
+	$('#switch2faoff').removeClass('btn-danger').addClass('btn-default');
+	$('.switch2fa').attr("onclick","remove2fa()");
+}
+if (user.noNewsletter) {
+	$('#newsletterEmail').prop('checked', false);
+} else {
+	$('#newsletterEmail').prop('checked', true);
+}
+if (user.noEmailTransaction) {
+	$('#transactionEmail').prop('checked', false);
+} else {
+	$('#transactionEmail').prop('checked', true);
+}
+$('#newname').val(user.name);
+$('#newemail').val(user.email);
+$('#newaddress').val(user.address);
+</script>

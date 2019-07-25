@@ -1,0 +1,236 @@
+<!--
+<div class="row">
+	<div class="col-lg-2"></div>
+	<div class="col-lg-8 text-center">
+		<h2>Temporarily Offline</h2>  
+		<p>The self-mining platform has been placed offline</p>
+		<p>The user base has been doubling every few days and our engineers need time to catch up</p>
+		<p>Apologies for the inconvenience</p>
+	</div>
+	<div class="col-lg-2"></div>
+</div>
+-->
+
+<div class="row">
+	<div class="col-lg-2"></div>
+	<div class="col-lg-8 text-center">
+		<div class="bannerframe">
+		</div>
+		<script>
+			function loadMiningBanner() {
+				if (Math.random() > 0.5) {
+					$('.bannerframe').html('<h2>Tell your friends about JSEcoin, get affiliate referral payments</h2>');
+					$('.bannerframe').attr("onclick","loadReferrals()");
+				} else {
+					$('.bannerframe').html('<h2>Own a website? Make more JSE by getting visitors to mine for you</h2>');
+					$('.bannerframe').attr("onclick","loadPublishers()");
+				}
+			}
+			if (bannerInterval) { clearInterval(bannerInterval); }
+			var bannerInterval = setInterval(function() {
+				loadMiningBanner();
+			}, 10000);
+			loadMiningBanner();
+		</script>
+	</div>
+	<div class="col-lg-2"></div>
+</div>
+
+<div class="row">
+	<div class="col-lg-4">
+		<div>
+			<div class="mining-button-container">
+				<button id="startminingbutton" class="btn btn-primary btn-lg dim mt5" onclick="startMining(); $(this).addClass('animated tada');" type="button"><i class="fa fa-gavel"></i> Start Mining</button>
+				<button class="btn btn-primary dim mt5" onclick="loadPublishers();" type="button"><i class="fa fa-file-code-o"></i> Website Mining</button>
+			</div>
+			<div class="mining-button-container">
+				<button id="advancedbutton" class="btn btn-primary dim" onclick="$('#advancedbox').toggleClass('hide');" type="button"><i class="fa fa-cogs"></i> Settings</button>
+				<button class="btn btn-primary dim" onclick="$('#mininginfo').toggleClass('hide');" type="button"><i class="fa fa-question-circle"></i> Info</button>
+				<!--<button class="btn btn-primary dim mt5 button-spacer" onclick="loadIframe();" type="button"><i class="fa fa-globe"></i> &nbsp; Browse Web</button>-->
+			</div>
+		</div>
+		<div id="advancedbox" class="hide">
+			<div class="range-slider">
+				<div class="linkbox">
+					<h5><i class="fa fa-sliders"></i> &nbsp;  Hash Rate Acceleration (<span class="range-value">3</span>)</h5>
+					<input class="input-range" type="range" id="hashrateacceleration" value="3" min="0" max="9" onchange="updateHashRateAcceleration();">
+					
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-lg-2">
+		<div class="widget style1 light-blue-bg">
+			<div class="row">
+				<div class="col-xs-4">
+					<i class="fa fa-archive fa-2x"></i>
+				</div>
+				<div class="col-xs-8 text-right">
+					<span>Balance</span>
+					<h4 class="font-bold"><span class="jsebalance"></span> JSE</h4>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-lg-2">
+		<div class="widget style1 light-blue-bg">
+			<div class="row">
+				<div class="col-xs-4">
+					<i class="fa fa-clock-o fa-2x"></i>
+				</div>
+				<div class="col-xs-8 text-right">
+					<span>Pending Rewards</span>
+					<h4 class="font-bold"><span class="pending-self-mining">0</span> JSE</h4>
+					<div style="clear: both;"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-lg-2">
+			<div class="widget style1 light-blue-bg">
+				<div class="row">
+					<div class="col-xs-4">
+						<i class="fa fa-money fa-2x"></i>
+					</div>
+					<div class="col-xs-8 text-right">
+						<span>Today Earnings</span>
+						<h4 class="font-bold"><span class="todayearnings">0</span> JSE</h4>
+						<div style="clear: both;"></div>
+					</div>
+					<div class="stats-reset text-right"></div>
+				</div>
+			</div>
+		</div>
+	<div class="col-lg-2">
+		<div class="widget style1 light-blue-bg">
+			<div class="row">
+				<div class="col-xs-4">
+					<i class="fa fa-puzzle-piece fa-2x"></i>
+				</div>
+				<div class="col-xs-8 text-right">
+					<span>Hashes Found</span>
+					<h2 class="font-bold"><span class="sessionhashes">0</span></h2>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col-lg-12">
+
+		<div id="mininginfo" class="generalbox hide">
+			<h5>Self-Mining Information</h5>
+			<p>You can earn JSE by helping secure our blockchain. Simply click the start mining button and your computer will start carrying out the mathematical equations. You can see a graph which shows your hashes per second over time. Finding a valid hash doesn't guarantee you a JSEcoin payout. Each valid hash earns you a ticket into a lottery system where 50 winners get rewarded a 1 JSE token (Maximum of one ticket per user per 30 second block). This lottery takes place every 30 seconds, with a new 50 x 1JSE available each time. This adds up to 144,000JSE available each day. As the userbase grows it will become increasingly difficult to mine substantial quantities of JSE.</p>
+
+			<p>In the console window you can see the actual hash rate displayed by the speed test in hashes per second or hashes/sec.</p>
+
+			<p>The session hashes in the top right shows how many hashes you have found since you last logged in and there is also a display for today's earnings.</p>
+
+			<p>In the very bottom table you can see transactions for mining rewards coming in live.</p>
+
+			<p>You can find advanced settings using the button with cogs on it. Here you will find a hash rate acceleration slider you can move up and down to adjust your hash rate. Don't go too high though or you might crash or slow down your browser. </p>
+
+			<p>The self-mining platform was built for everyone to have a go with and enjoy. Anyone found to be using multiple devices, accounts or abusing the system in any way risks having their account suspended. We don't want this to turn into a tool for large industrial corporations it should be here for the end users to get their fair share of the coin distribution.</p>
+
+			<p>Daily stats are refreshed at 00:15 UTC - if you are mining during this change over you will notice your "Todays Earnings" stat drop down. Your balance will not be affected this is just a calculation of the earnings for a 24 hour time period.</p>
+			 
+			<p>If you have any questions or queries we have a forum at: <a href="https://jsecoin.com/forums/" target="_blank">https://jsecoin.com/forums/</a></p>
+
+			<button class="btn btn-primary btn-lg dim mt5 pull-center" onclick="$('#mininginfo').toggleClass('hide');" type="button">Close</button>
+		</div>
+
+		<div class="ibox float-e-margins">
+			<div class="ibox-title">
+				<h5>Hash Rate Percentage Chart <span class="hidden-xs">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (Maximum Hash Rate: <span class="maxhashrate">0</span> hashes/sec)</span></h5>
+			</div>
+			<div class="ibox-content">
+				<div class="flot-chart">
+					<div class="flot-chart-content" id="hashratechart"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-lg-12">
+		<div class="ibox float-e-margins">
+			<div class="ibox-title ibox-title-only">
+				<h5>Number of currently active self-miners: <span class="selfMinersNow"></span></h5> 
+				<div id="lastReward"></div>
+				<div style="clear: both;"></div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-lg-12">
+		<div class="ibox float-e-margins">
+			<div class="ibox-title">
+				<h5>Information</h5>
+			</div>
+			<div class="ibox-content">
+				<div id="console">
+					Click the start mining button
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-lg-12">
+		<div class="ibox float-e-margins">
+			<div class="ibox-title">
+				<h5>Recent Self-Mining Payments</h5>
+			</div>
+			<div class="ibox-content">
+				<table class="table table-hover">
+					<thead>
+						<tr>
+							<th>Date</th>
+							<th>Amount</th>
+							<th>Reference</th>
+						</tr>
+					</thead>
+					<tbody class="miningtable"></tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+$('.titletext').html('Mining');
+if (user.statsToday) { $('.todayearnings').html(user.statsToday.c); }
+calculatePendingTotal();
+$('.pending-self-mining').html(user.pendingSelfMining);
+$('#startminingbutton').on('touchstart mousedown', function(e){
+  pX = e.pageX || e.offsetX || e.clientX || 0;
+});
+$('.jsebalance').html(user.balance);
+if (localStorage.getItem("hashRateAccStored") !== null) {
+  var hashRateStored = localStorage.getItem("hashRateAccStored");
+  $('#hashrateacceleration').val(hashRateStored);
+  //console.log(hashRateStored);
+  updateHashRateAcceleration();
+}
+if (quitMining == false) {
+  $('#startminingbutton').html('<i class="fa fa-times"></i> &nbsp; Stop Mining');
+}
+createHashRateChart(chartData);
+shortMiningInterval();
+if (app === false) {
+  longMiningInterval();
+}		
+// Update Todays Miners
+$.ajax({url:jseServer+'/stats/',type:'GET',contentType:'application/json'}).done(function(data) {
+  publicStats = JSON.parse(data);
+  //$('.selfMinersToday').html(publicStats.selfMiners);
+  var totalSelfMiners = 0;
+  for (var key in publicStats.clients) {
+    if (publicStats.clients[key].selfMinersCount) { totalSelfMiners += publicStats.clients[key].selfMinersCount; }
+   }
+  $('.selfMinersNow').html(totalSelfMiners);
+});
+</script>

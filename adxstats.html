@@ -1,0 +1,57 @@
+<div class="row">
+	<div class="col-lg-12">
+		<ul class="nav nav-tabs">
+			<li class="adx-stats-tab active" id="adx-stats-tab-summary"><a href="javascript:void(0);" class="adx-stats-tab-link" onclick="loadAdxStats(currentCampaignID,'adv','summary','j');">Campaign Summary</a></li>
+			<li class="adx-stats-tab" id="adx-stats-tab-creatives"><a href="javascript:void(0);" class="adx-stats-tab-link" onclick="loadAdxStats(currentCampaignID,'adv','creatives','j');">Creatives</a></li>
+			<li class="adx-stats-tab" id="adx-stats-tab-geos"><a href="javascript:void(0);" class="adx-stats-tab-link" onclick="loadAdxStats(currentCampaignID,'adv','geos','j');">Countries</a></li>
+			<li class="adx-stats-tab" id="adx-stats-tab-domains"><a href="javascript:void(0);" class="adx-stats-tab-link" onclick="loadAdxStats(currentCampaignID,'adv','domains','j');">Sites</a></li>
+			<li class="adx-stats-tab" id="adx-stats-tab-pubIDs"><a href="javascript:void(0);" class="adx-stats-tab-link" onclick="loadAdxStats(currentCampaignID,'adv','pubIDs','j');">Publishers</a></li>
+			<li class="adx-stats-tab" id="adx-stats-tab-devices"><a href="javascript:void(0);" class="adx-stats-tab-link" onclick="loadAdxStats(currentCampaignID,'adv','devices','j');">Devices</a></li>
+			<li class="adx-stats-tab" id="adx-stats-tab-browsers"><a href="javascript:void(0);" class="adx-stats-tab-link" onclick="loadAdxStats(currentCampaignID,'adv','browsers','j');">Browsers</a></li>
+		</ul>
+		<div class="ibox float-e-margins">
+			<div class="ibox-title">
+				<h5 class="adx-current-campaign mt10"></h5>
+				<button onclick="editCampaign(currentCampaignID);" class="btn btn-primary btn-xs" style="margin-left: 20px;">Edit</button>
+				<div class="pull-right">
+					<label for="adx-from-datepicker">From:</label>
+					<input id="adx-from-datepicker" class="datepicker adx-datepicker" name="adx-from-datepicker" type="date" min="2018-11-01" max="2025-12-01" onchange="loadAdxStats(currentCampaignID,'adv',null,'j');"> &nbsp;&nbsp; 
+					<label for="adx-to-datepicker">To:</label>
+					<input id="adx-to-datepicker" class="datepicker adx-datepicker" name="adx-to-datepicker" type="date" min="2018-11-01" max="2025-12-01" onchange="loadAdxStats(currentCampaignID,'adv',null,'j');">
+				</div>
+				<div style="clear: both;"></div>
+			</div>
+			<div class="ibox-content mhtab">
+				<table class="table">
+					<tr><th id="adx-stats-th-what"></th>
+						<th class="text-center">Impressions <a href="javascript:void(0);" class="small" onclick="loadAdxStats(currentCampaignID,'adv',null,'i');"><i class="fa fa-chevron-down"></i> <i class="fa fa-info-circle fa-tooltip" aria-hidden="true" onclick="notify('Impressions is the number of times your ad has been viewed');"></i>
+					</a></th>
+					<th class="text-center">Validated <a href="javascript:void(0);" class="small" onclick="loadAdxStats(currentCampaignID,'adv',null,'v');"><i class="fa fa-chevron-down"></i> <i class="fa fa-info-circle fa-tooltip" aria-hidden="true" onclick="notify('Validated impressions shows the percentage of users that stayed on a site for a set amount of time and passed a bot detection and IP check');"></i>
+					</a></th>
+					<th class="text-center">Clicks <a href="javascript:void(0);" class="small" onclick="loadAdxStats(currentCampaignID,'adv',null,'c');"><i class="fa fa-chevron-down"></i> <i class="fa fa-info-circle fa-tooltip" aria-hidden="true" onclick="notify('The number of times an ad has been clicked and the user has gone through to the destination page.');"></i>
+					</a></th>
+					<th class="text-center">CTR <i class="fa fa-info-circle fa-tooltip" aria-hidden="true" onclick="notify('Click through rate is the percentage of users that viewed an ad that clicked through to the landing page i.e. clicks/impressions');"></i>
+					</a></th>
+					<th class="text-center">Conversions <a href="javascript:void(0);" class="small" onclick="loadAdxStats(currentCampaignID,'adv',null,'k');"><i class="fa fa-chevron-down"></i> <i class="fa fa-info-circle fa-tooltip" aria-hidden="true" onclick="notify('Conversion tracking data can be set up in the campaign setup page to provide key performance indicators for your campaigns');"></i>
+					</a></th>
+					<th class="text-center">Spend (JSE) <a href="javascript:void(0);" class="small" onclick="loadAdxStats(currentCampaignID,'adv',null,'j');"><i class="fa fa-chevron-down"></i> <i class="fa fa-info-circle fa-tooltip" aria-hidden="true" onclick="notify('Advertising cost in JSE tokens');"></i>
+					</a></th></tr>
+					<tbody id="adx-stats-table"></tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+
+<style>
+	.datepicker { border-radius: 4px; border: 1px solid #CCC; padding: 4px; }
+	.adx-stats-tab-link { color: #666 !important; }
+</style>
+<script>
+	var rightNow = new Date();
+	var yymmdd = rightNow.toISOString().slice(2,10).replace(/-/g,"");
+	$('#adx-to-datepicker').val(ymd2datepicker(yymmdd));
+	rightNow.setDate(rightNow.getDate()-7);
+	yymmdd = rightNow.toISOString().slice(2,10).replace(/-/g,"");
+	$('#adx-from-datepicker').val(ymd2datepicker(yymmdd));
+</script>

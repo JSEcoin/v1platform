@@ -1,0 +1,438 @@
+<div class="row">
+	<div class="col-lg-3">
+		<div class="ibox float-e-margins">
+			<div class="ibox-title">
+				<span class="label label-primary pull-right pointer" onclick="notify('This is your total JSE account balance excluding pending rewards');">JSE</span>
+				<h5>JSE Balance</h5>
+			</div>
+			<div class="ibox-content text-center">
+				<h1 class="jsebalance"></h1>
+			</div>
+		</div>
+	</div>
+	<div class="col-lg-3">
+		<div class="ibox float-e-margins">
+			<div class="ibox-title">
+				<span class="label label-primary info-label dashboard-rewards-label" onclick="notify('Mining rewards and referrals are paid out after 7 days.');">i</span>
+				<h5>Rewards Pending</h5>
+			</div>
+			<div class="ibox-content text-center">
+				<h1 class="pending-total"></h1>
+			</div>
+		</div>
+	</div>
+	<div class="col-lg-3">
+		<div class="ibox float-e-margins">
+			<div class="ibox-title">
+				<span class="label label-primary pull-right pointer" onclick="notify('Todays accumulated publisher and platform mining rewards, these will go into a 7 day pending period before being added to your main balance.');">Today</span>
+				<h5>Mined Today</h5>
+			</div>
+			<div class="ibox-content text-center">
+				<h1 class="minedtoday"></h1>
+			</div>
+		</div>
+	</div>
+	<div class="col-lg-3">
+		<div class="ibox float-e-margins">
+			<div class="ibox-title">
+				<span class="label label-primary pull-right pointer" onclick="notify('Total accumulated publisher and platform mining rewards');">Lifetime</span>
+				<h5>Mined Lifetime</h5>
+			</div>
+			<div class="ibox-content text-center">
+				<h1 class="minedlifetime"></h1>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col-lg-6">
+
+		<div class="row">
+			<div class="col-lg-4">
+				<div class="ibox float-e-margins">
+					<div class="ibox-title dashboard-rewards-title">
+							<span class="label label-primary info-label dashboard-rewards-label" onclick="notify('Last 7 Days Platform Mining Rewards Pending Payment');">i</span>
+							<h5>Platform Mining Pending</h5>
+					</div>
+					<div class="ibox-content text-center">
+						<h2 class="pending-self-mining"></h2>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-4">
+				<div class="ibox float-e-margins">
+					<div class="ibox-title dashboard-rewards-title">
+						<span class="label label-primary info-label dashboard-rewards-label" onclick="notify('Last 7 Days Publisher Mining Rewards Pending Payment');">i</span>
+						<h5>Publisher Mining Pending</h5>
+					</div>
+					<div class="ibox-content text-center">
+						<h2 class="pending-publisher-mining"></h2>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-4">
+				<div class="ibox float-e-margins">
+					<div class="ibox-title dashboard-rewards-title">
+						<span class="label label-primary info-label dashboard-rewards-label" onclick="notify('Last 7 Days Referral Rewards Pending Payment');">i</span>
+						<h5>Referral Rewards Pending</h5>
+					</div>
+					<div class="ibox-content text-center">
+						<h2 class="pending-referrals"></h2>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="ibox float-e-margins">
+			<div class="ibox-title">
+				<h5>Recent History</h5>
+			</div>
+			<div class="ibox-content mhtab">
+				<table class="table table-hover">
+					<thead>
+						<tr>
+							<th>Type</th>
+							<th>Value</th>
+							<th>From &gt; To</th>
+							<th>Reference</th>
+							<th>Date</th>
+						</tr>
+					</thead>
+					<tbody class="history-table"></tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-lg-6">
+	
+		<div class="ibox float-e-margins">
+			<div class="ibox-title">
+				<h5>Account Details</h5>
+			</div>
+			<div class="ibox-content">
+
+				<div class="row">
+					<div class="col-lg-8">
+						<div class="accountdetails">Loading...</div>
+					</div>
+					<div class="col-lg-4">
+						<div id="identicon-dashboard" onclick="identiconClick();"></div>
+					</div>
+				</div>
+				
+			</div>
+		</div>
+
+		<div class="ibox float-e-margins">
+			<div class="ibox-title">
+				<h5>Purchases / Subscriptions</h5>
+			</div>
+			<div class="ibox-content mhtab">
+				<table class="table table-hover">
+					<thead>
+						<tr>
+							<th>Value</th>
+							<th>Item</th>
+							<th>Type</th>
+							<th>Merchant</th>
+							<th>Date</th>
+							<th>Actions</th>
+						</tr>
+					</thead>
+					<tbody class="purchasetable"></tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-lg-6">
+		<div class="ibox float-e-margins">
+			<div class="ibox-title">
+				<h5>Recent Mining Earnings</h5>
+			</div>
+			<div class="ibox-content mhtab">
+				<table class="table table-hover">
+					<thead>
+						<tr>
+							<th>Value</th>
+							<th>Reference</th>
+							<th>Date</th>
+						</tr>
+					</thead>
+					<tbody class="dashboardminingtable"></tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<div class="col-lg-6">
+
+		<div class="row">
+			<div class="col-lg-6">
+				<div class="ibox float-e-margins">
+					<div class="ibox-title">
+						<h5>Rewards Breakdown (Last 7 Days)</h5>
+					</div>
+					<div class="ibox-content">
+						<div class="flot-chart-pie-content" id="earningsbreakdown"></div>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-6">
+				<div class="ibox float-e-margins">
+					<div class="ibox-title dashboard-rewards-title">
+						<span class="label label-primary info-label dashboard-rewards-label" onclick="notify('This is the next daily payment you will receive from pending to your main balance');">i</span>
+						<h5>Next Pending Payment Due</h5>
+					</div>
+					<div class="ibox-content text-center">
+						<h2 class="pending-next-payment"></h2>
+					</div>
+				</div>
+				<div class="ibox float-e-margins">
+					<div class="ibox-title dashboard-rewards-title">
+						<span class="label label-primary info-label dashboard-rewards-label" onclick="notify('This is the next amount due to be paid from pending to your main balance within 24 hours');">i</span>
+						<h5>Due Within 24 Hours</h5>
+					</div>
+					<div class="ibox-content text-center">
+						<h2 class="pending-today"></h2>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="ibox float-e-margins hide" id="platform-pending-chart-container">
+					<div class="ibox-title dashboard-rewards-title">
+							<span class="label label-primary info-label dashboard-rewards-label" onclick="notify('Last 7 Days Platform Mining Rewards Pending Payment');">i</span>
+							<h5>Platform Mining Breakdown</h5>
+					</div>
+					<div class="ibox-content basic-chart" id="platform-pending-chart">
+					</div>
+				</div>
+				<div class="ibox float-e-margins hide" id="publisher-pending-chart-container">
+					<div class="ibox-title dashboard-rewards-title">
+						<span class="label label-primary info-label dashboard-rewards-label" onclick="notify('Last 7 Days Publisher Mining Rewards Pending Payment');">i</span>
+						<h5>Publisher Mining Breakdown</h5>
+					</div>
+					<div class="ibox-content basic-chart" id="publisher-pending-chart">
+					</div>
+				</div>
+				<div class="ibox float-e-margins hide" id="referral-pending-chart-container">
+					<div class="ibox-title dashboard-rewards-title">
+						<span class="label label-primary info-label dashboard-rewards-label" onclick="notify('Last 7 Days Referral Rewards Pending Payment');">i</span>
+						<h5>Referral Rewards Breakdown</h5>
+					</div>
+					<div class="ibox-content basic-chart" id="referral-pending-chart">
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>
+
+<script>
+$('.titletext').html('Welcome '+user.name);
+if (user.balance == 0.12 || user.balance == 0) {
+	$('.jsebalance').html(user.balance+'<span style="margin-left: 50px"><button id="startminingbutton" class="btn btn-primary btn-lg dim" style="margin-bottom: 0px !important;" onclick="loadMining();" type="button">Try Mining</button></span>');
+} else {
+	if (String(user.balance).length > 6 && $(window).width() < 1500) { // don't add coin if not enough room
+		$('.jsebalance').html(user.balance.toFixed(4));
+	} else {
+		$('.jsebalance').html(user.balance.toFixed(4)+' <img src="img/coin_gold.png" alt="JSE" class="dashboard-coin" />')
+	}
+}
+generateIdenticon(user.publicKey,'identicon-dashboard','160px');
+$('.sharebuttoncontainer').html('<button class="btn btn-primary pull-right" onclick="sharePopUp();" type="button"><i class="fa fa-share-alt-square"></i> &nbsp; Share</button>');
+var lastLoginDetails = '';
+if (user.lastLogin == Number(user.lastLogin)) { // convert old style timestamps
+	lastLoginDetails = utcTS2local(Number(user.lastLogin));
+} else if (user.lastLogin && user.lastLogin.geo) {
+	var llua = user.lastLogin.ua.toLowerCase();
+	var llDevice = '';
+	if (llua.indexOf('ipad') > -1) {
+		llDevice = 'iPad';
+	} else if (llua.indexOf('iphone') > -1) {
+			llDevice = 'iPhone';
+	} else if (llua.indexOf('samsung') > -1) {
+			llDevice = 'Samsung';
+	} else if (llua.indexOf('android') > -1) {
+		llDevice = 'Android';
+	} else if (llua.indexOf('chrome') > -1) {
+		llDevice = 'chrome';
+	} else if (llua.indexOf('firefox') > -1) {
+		llDevice = 'firefox';
+	} else if (llua.indexOf('linux') > -1) {
+		llDevice = 'Linux';
+	} else if (llua.indexOf('win') > -1) {
+		llDevice = 'Windows';
+	} else if (llua.indexOf('mobile') > -1) {
+		llDevice = 'Mobile';
+	}
+	lastLoginDetails = utcTS2local(Number(user.lastLogin.ts))+'<br>'+user.lastLogin.geo+', '+user.lastLogin.ip+', '+llDevice;
+}
+$('.accountdetails').html('<table class="table"><tr><th><i class="fa fa-id-card custom-fa-dashboard"></i> User ID</th><td>'+user.uid+'</td></tr><tr><th class="pointer" onclick="viewLogins();"><i class="fa fa-eye custom-fa-dashboard"></i> Sessions</th><td>'+lastLoginDetails+'</td></tr><tr><th><i class="fa fa-user custom-fa-dashboard"></i> Name</th><td>'+user.name+'</td></tr><tr><th><i class="fa fa-envelope custom-fa-dashboard"></i> E-mail</th><td>'+user.email+'</td></tr><tr><th><i class="fa fa-home custom-fa-dashboard"></i> Address</th><td>'+user.address+'<br>'+user.country+'</td></tr></table>');
+calculatePendingTotal();
+$('.pending-total').html(user.pendingTotal.toFixed(4)+' <img src="img/coin_gold.png" alt="JSE" class="dashboard-coin" />');
+$('.pending-self-mining').html(user.pendingSelfMining+' <img src="img/coin_silver.png" alt="JSE" class="dashboard-small-coin"  />');
+$('.pending-publisher-mining').html(user.pendingPublisherMining+' <img src="img/coin_silver.png" alt="JSE" class="dashboard-small-coin"  />');
+$('.pending-referrals').html(user.pendingReferrals+' <img src="img/coin_silver.png" alt="JSE" class="dashboard-small-coin"  />');
+$('.pending-next-payment').html(user.pendingNextPayment+' <img src="img/coin_silver.png" alt="JSE" class="dashboard-small-coin"  />');
+$('.pending-today').html(user.pendingToday+' <img src="img/coin_silver.png" alt="JSE" class="dashboard-small-coin"  />');
+if (user.pendingSelfMining) {
+	$('#platform-pending-chart-container').removeClass('hide');
+	drawBasicChart('platform-pending-chart',user.platformPendingChartData); 
+}
+if (user.pendingPublisherMining) {
+	$('#publisher-pending-chart-container').removeClass('hide');
+	drawBasicChart('publisher-pending-chart',user.publisherPendingChartData);
+}
+if (user.pendingReferrals) {
+	$('#referral-pending-chart-container').removeClass('hide');
+	drawBasicChart('referral-pending-chart',user.referralPendingChartData);
+}
+var minedToday = 0;
+if (user.statsToday) {
+	var minedToday = Math.floor(user.statsToday.c) || 0;
+}
+$('.minedtoday').html(minedToday+' <img src="img/coin_gold.png" alt="JSE" class="dashboard-coin" />');
+$('.minedlifetime').html((Math.floor(user.statsTotal.c) || 0)+' <img src="img/coin_gold.png" alt="JSE" class="dashboard-coin" />');
+var transactionTable = '';
+//for (var i = user.history.length - 1; i >= 0; i--) {
+var reverseArray = [];
+for (var i in user.history) {
+	reverseArray.push(user.history[i]);
+}
+for (var i = reverseArray.length - 1; i >= 0; i--) {
+	var t = reverseArray[i]
+	if (t.command) { // && t.command == 'transfer') {
+		//var transactionTime = new Date(t.ts);
+		//t.utcdate = transactionTime.toUTCString();
+		t.localTime = utcTS2local(t.ts);
+		var fromRef, toRef, reference;
+		if (t.user1email) {
+			fromRef = t.user1email;
+		} else if (t.publicKey) {
+			fromRef = '<span class="pointer" onclick="notify(\''+t.publicKey+'\');">'+t.publicKey.substring(0,5)+'...'+t.publicKey.slice(-5)+'</span>'; 
+		} else if (t.command === 'advertisingReward') {
+			fromRef = 'Advertisers';
+		} else {
+			fromRef = '?';
+		}
+		if (t.user2email) {
+			toRef = t.user2email;
+		} else if (t.toPublicKey) {
+			toRef = '<span class="pointer" onclick="notify(\''+t.toPublicKey+'\');">'+t.toPublicKey.substring(0,5)+'...'+t.toPublicKey.slice(-5)+'</span>';
+		} else if (t.withdrawalAddress) {
+			toRef = 'ETH: <span class="pointer" onclick="notify(\''+t.withdrawalAddress+'\');">'+t.withdrawalAddress.substring(0,5)+'...'+t.withdrawalAddress.slice(-5)+'</span>';
+		} else if (t.command === 'advertisingReward') {
+			toRef = user.email;
+		} else {
+			toRef = '?';
+		}
+		var commandRef = t.command;
+		
+		if (t.command == 'export') {
+			toRef = 'coincode';
+		} else if (t.command == 'import') {
+			fromRef = 'coincode';
+			toRef = user.email;
+		} else if (t.command == 'deposit') {
+			fromRef = 'ETH: <span class="pointer" onclick="notify(\''+t.txFrom+'\');">'+t.txFrom.substring(0,5)+'...'+t.txFrom.slice(-5)+'</span>';
+			toRef = user.email;
+		} else if (t.command == 'platformReward' || t.command == 'publisherReward' || t.command == 'referralReward') {
+			fromRef = 'Distribution';
+			toRef = user.email;
+			commandRef = 'reward';
+		}
+		if (t.reference) {
+			reference = t.reference;
+		} else {
+			reference = '';
+		}
+		transactionTable += '<tr><td><i class="fa fa-check custom-fa-dashboard" aria-hidden="true"></i> '+commandRef+'<td>'+t.value+'<small>JSE</small></td><td>'+fromRef+' &gt; '+toRef+'</td><td>'+reference+'</td><td>'+t.localTime+'</td></tr>';
+	}
+}
+$('.history-table').html(transactionTable);
+if (typeof user.merchantPurchases !== 'undefined') {
+	var purchasesTable = '';
+	var reverseArray2 = [];
+	for (var i in user.merchantPurchases) {
+		reverseArray2.push(user.merchantPurchases[i]);
+	}
+	for (var i = reverseArray2.length - 1; i >= 0; i--) {
+		var t = reverseArray2[i];
+		var timeCheck = new Date().getTime();
+		t.localTime = utcTS2local(t.completedTS);
+		t.niceAmount = t.amount+' <small>JSE</small>';
+		t.niceType = 'Single Payment';
+		t.actions = '<button class="btn btn-xs btn-primary" onclick="displayPurchase(\''+t.reference+'\');" type="button">Details</button> ';
+		if (t.type === 'recurring') {
+			t.niceType = 'Subscription';
+			t.niceAmount = 'Initial: '+t.amount+' <small>JSE</small>, '+t.rebillFrequency+': '+t.recurringPrice+' <small>JSE</small><br>Due: '+utcTS2local(t.payableDate);
+			if (typeof t.cancelledTS !== 'undefined') {
+				t.niceType = 'Cancelled Subscription';
+				t.localTime += '<br><span style="color: #D00;">Cancelled: '+utcTS2local(t.cancelledTS)+'</span>';
+			} else {
+				t.actions += '<button class="btn btn-xs btn-primary" onclick="cancelSubscription(\''+t.reference+'\');" type="button">Cancel Subscription</button> ';
+			}
+		}
+		purchasesTable += '<tr><td>'+t.niceAmount+'</td><td>'+t.item+'</td><td>'+t.niceType+'</td><td>'+t.sellerEmail+'</td><td>'+t.localTime+'</td><td>'+t.actions+'</td></tr>';
+	}
+	$('.purchasetable').html(purchasesTable);
+}
+var transactionTable = '';
+var reverseArray = [];
+for (var i in user.mining) {
+	reverseArray.push(user.mining[i]);
+}
+for (var i = reverseArray.length - 1; i >= 0; i--) {
+	var t = reverseArray[i]
+	if (t.command && t.command == 'mining') {
+		t.localTime = utcTS2local(t.ts);
+		transactionTable += '<tr><td><img src="img/coin_gold.png" alt="" class="table-coin" /> '+t.value+' JSE</td><td>'+t.siteid+'</td><td>'+t.localTime+'</td></tr>';
+	}
+}
+$('.dashboardminingtable').html(transactionTable);
+var earningsChartData = [{
+	label: "Platform Mining",
+	data: user.pendingSelfMining,
+	color: "#1AB394",
+}, {
+	label: "Publisher Mining",
+	data: user.pendingPublisherMining,
+	color: "#1C84C6",
+}, {
+	label: "Referral Rewards",
+	data: user.pendingReferrals,
+	color: "#f3c42c",
+}];
+
+var plotObj = $.plot($("#earningsbreakdown"), earningsChartData, {
+	series: {
+		pie: {
+			innerRadius: 0.3,
+			show: true
+		}
+	},
+	grid: {
+		hoverable: true
+	},
+	legend: {
+		position: 'sw'
+	},
+	tooltip: true,
+	tooltipOpts: {
+		cssClass: 'chartTooltips',
+		content: "%s - %p.0%", // show percentages, rounding to 2 decimal places
+		shifts: {
+				x: 20,
+				y: 0
+		},
+		defaultTheme: false
+	}
+});
+</script>

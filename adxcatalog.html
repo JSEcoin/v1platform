@@ -1,0 +1,135 @@
+
+<div class="row">
+	<div class="col-lg-12">
+		<div class="ibox float-e-margins">
+			<div class="ibox-title">
+				<h5 class="mt10">Inventory Catalog</h5>
+			</div>
+			<div class="ibox-content">
+				<div id="adx-catalog-container"><br><br><center>Loading...</center><br><br><br><br></div>
+			</div>
+		</div>
+	</div>
+</div>
+<style>
+	.adx-catalog-image { width: 256px; height: 144px; border: 1px solid #CCC; border-radius: 2px; }
+	.adx-catalog-box { border: 2px solid #CCC; width: 276px; padding: 10px; cursor: pointer; position: relative; }
+	.adx-catalog-selected { border: 2px solid #4B4 !important; }
+	.adx-catalog-hover { border: 2px solid #1B5794; }
+	#adx-catalog-sitelist { max-height: 300px; overflow: scroll; }
+	.adx-catalog-preview-icon { position: absolute; bottom: 0px; right: 0px; color: #FFF; background: #1B5794; border-radius: 5px 0 0 0; padding: 1px 8px; }
+	.adx-showcase-image { width: 960px; max-width: 90%; margin-left: 5%; }
+  #adx-showcase-title-container { margin-top: -50px; }
+  #adx-showcase-self-serve { float: right; margin-right: 5px; margin-top: 2px; font-size: 11px; color: #666; }
+  #adx-showcase-domain { font-size: 36px; font-weight: bold; color: #000; }
+	#adx-showcase-title { font-size: 21px; font-weight: bold; color: #444; margin: 10px 0px; }
+	.adx-showcase-details { margin: 10px 0px; }
+  #adx-showcase-description { background: #FFF; border: 1px solid #EEE; border-radius: 2px; padding: 5px; color: #444; }
+  #adx-showcase-keywords { background: #FFF; border: 1px solid #EEE;border-radius: 2px; padding: 5px; color: #444; }
+</style>
+<script>
+	var catalog = {};
+
+	function drawCatalog() {
+		document.getElementById('adx-catalog-container').innerHTML = '<button class="btn btn-primary" onclick="catSelectAll();">Select All</button> <button class="btn btn-primary" onclick="catSelectNone();">Select None</button> <button class="btn btn-primary" onclick="catExport();">Export Site List</button> <button class="btn btn-primary" onclick="catBack();">Back To Campaign</button><div style="clear: both;"></div>';
+		var catDivs = '';
+		for (var key in catalog) {
+			if (!catalog.hasOwnProperty(key)) continue;
+			if (!catalog[key].images) continue;
+			var catImg = '<img class="adx-catalog-image" src="'+jseAdXServer+'/showcase/'+catalog[key].images.thumbnail+'" alt="Thumbnail not available" />';
+			var catData = '<div class="adx-catalog-domain" catkey="'+key+'"><b>'+catalog[key].domain+'</b></div>'; //<br>Language: '+catalog[key].language+'<br>'+catalog[key].title+'</div>';
+			var catSelected = '';
+			if (catalog[key].selected) {
+				catSelected = ' adx-catalog-selected';
+			}
+			var catDiv = '<div class="generalbox pull-left text-center adx-catalog-box'+catSelected+'" onclick="catSelect(\''+key+'\');">'+catImg+catData+'</div>';
+			catDivs += catDiv;
+		}
+		document.getElementById('adx-catalog-container').innerHTML += catDivs+'<div style="clear: both;"></div>';
+		$('.adx-catalog-box').hover(
+			function(){ 
+				$(this).addClass('adx-catalog-hover');
+				$(this).append('<div class="adx-catalog-preview-icon"><i class="fa fa-eye fa-2x" aria-hidden="true"></i></div>');
+				$(".adx-catalog-preview-icon").click(function(e) {
+					drawShowcase($(this).parent().find('.adx-catalog-domain').attr('catkey'));
+					e.stopPropagation();
+				});
+			},
+			function(){
+				$(this).removeClass('adx-catalog-hover');
+				$(this).find('.adx-catalog-preview-icon').remove();
+			}
+		);
+	}
+
+	function drawShowcase(catKey) {
+		var showcaseReturn = '<button class="btn btn-primary" onclick="drawCatalog();">Return To Inventory Catalog</button>';
+		var showcaseImg = '<div id="adx-showcase-image-container"><img class="adx-showcase-image" src="'+jseAdXServer+'/showcase/'+catalog[catKey].images.showCase+'" alt="'+catalog[catKey].domain+'" /></div>';
+		var showcaseHeader = '<div id="adx-showcase-domain">'+catalog[catKey].domain+'</div><div id="adx-showcase-title">'+catalog[catKey].title+'</div>';
+		var showcaseDetails = '<div class="row adx-showcase-details"><div class="col-lg-6"><div id="adx-showcase-description"><b>Description:</b><br>'+catalog[catKey].description+'</div></div><div class="col-lg-6"><div id="adx-showcase-keywords"><b>Keywords:</b><br>'+catalog[catKey].keywords.join(', ')+'</div></div></div>';
+		var lastChecked = new Date(catalog[catKey].ts).toUTCString();
+		var showcaseTable = '<div id="adx-showcase-details"><table class="table"><tr><td>Language</td><td>'+catalog[catKey].language+'</td></tr><tr><td>Category</td><td>'+catalog[catKey].category.name+'</td></tr><tr><td>IAB Category</td><td>'+catalog[catKey].category.reference+'</td></tr><tr><td>Manual Review</td><td>'+catalog[catKey].manualReview+'</td></tr><tr><td>Last Checked</td><td>'+lastChecked+'</td></tr></table></div>';
+		var showcaseContainer = '<div class="adx-showcase-container">'+showcaseReturn+showcaseImg+showcaseHeader+showcaseDetails+showcaseTable+showcaseReturn+'</div>';
+		document.getElementById('adx-catalog-container').innerHTML = showcaseContainer;
+  }
+
+	function catSelect(domainKey) {
+		if (catalog[domainKey].selected) {
+			catalog[domainKey].selected = false;
+		} else {
+			catalog[domainKey].selected = true;
+		}
+		drawCatalog();
+	}
+
+	function catSelectAll() {
+		for (var key in catalog) {
+			if (!catalog.hasOwnProperty(key)) continue;
+			catalog[key].selected = true;
+		}
+		drawCatalog();
+	}
+
+	function catSelectNone() {
+		for (var key in catalog) {
+			if (!catalog.hasOwnProperty(key)) continue;
+			catalog[key].selected = false;
+		}
+		drawCatalog();
+	}
+
+	function catExport() {
+		catSiteList = [];
+		for (var key in catalog) {
+			if (!catalog.hasOwnProperty(key)) continue;
+			if (catalog[key].selected) {
+				catSiteList.push(catalog[key].domain);
+			}
+		}
+		var copyButton = '<button class="btn btn-sm btn-primary" onclick="copyToClipboard(\'adx-catalog-sitelist\'); $(this).addClass(\'animated tada\');">Copy to Clipboard</button>';
+		notify('<div class="generalbox white-box text-left" id="adx-catalog-sitelist">'+catSiteList.join('<br>')+'</div>'+copyButton);
+	}
+
+	function catBack() {
+		catSiteList = [];
+		for (var key in catalog) {
+			if (!catalog.hasOwnProperty(key)) continue;
+			if (catalog[key].selected) {
+				catSiteList.push(catalog[key].domain);
+			}
+		}
+		$('#tmpmodal').modal('show');
+		if (catSiteList.length) {
+			$('#adx-campaign-domain-list').show();
+			$('#adx-campaign-domain-whitelist').html(catSiteList.join("\n"));
+			$('#adx-campaign-domains').prop('checked', false);
+		}
+	}
+	
+	var credentials = {};
+	credentials.session = user.session;
+	$.ajax({url:jseServer+'/advertising/showcase/',type:'POST',contentType:'application/json',data: JSON.stringify(credentials)}).done(function(data) {
+		catalog = JSON.parse(data);
+		drawCatalog();
+	});
+</script>

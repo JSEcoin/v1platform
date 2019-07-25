@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>JSEcoin</title>
+	<meta name="description" content="This is the JSECoin HTML5 banner designed to let people know all about browser based cryptocurrency.">
+
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css" integrity="sha384-OHBBOqpYHNsIqQy8hL1U+8OXf9hH6QRxi0+EODezv82DfnZoV7qoHAZDwMwEJvSw" crossorigin="anonymous">
+	<script>
+	function getQueryParams(qs) {
+		qs = qs.split("+").join(" ");
+		var params = {}, tokens, re = /[?&]?([^=]+)=([^&]*)/g;
+		while (tokens = re.exec(qs)) { params[decodeURIComponent(tokens[1])] = decodeURIComponent(tokens[2]); }
+		return params;
+	}
+	var get = getQueryParams(document.location.search);
+
+	function shuffle(array) {
+			var counter = array.length, temp, index;
+			while (counter > 0) {
+					index = Math.floor(Math.random() * counter);
+					counter--;
+					temp = array[counter];
+					array[counter] = array[index];
+					array[index] = temp;
+			}
+			return array;
+	}
+
+	function randString(length) {
+		var chars = ['0','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','A','B','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','0','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','A','B','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','0','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','A','B','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','0','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','A','B','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','0','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','A','B','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','0','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','A','B','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','0','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','A','B','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','0','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','A','B','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','0','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','A','B','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','0','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','A','B','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
+		var randString = shuffle(chars).join('').slice(0,length);
+		return randString;
+	}
+
+	$(function() {
+		var jseHashesFound = 0;
+		var earings = 0.01;
+		var affID = get.aff || 1;
+		affID = affID.split(/[^-a-zA-Z0-9]/).join(''); // rxss prevention
+		var utmContent = get['utm_content'] || 'JSEiframeBanner';
+		utmContent = utmContent.split(/[^-a-zA-Z0-9]/).join(''); // rxss prevention
+
+		$('.afflink').html('<button class="cta-button" onclick="window.open(\'https://platform.jsecoin.com/?lander=1&utm_source=referral&utm_campaign=aff'+affID+'&utm_content='+utmContent+'\');">REGISTER</button>');
+		setInterval(function() {
+			if (localStorage) {
+				jseHashesFound = localStorage.jseHashesFound || 0;
+				$('.jse-hashes-found').html(jseHashesFound);
+				var earnings = jseHashesFound / 100;
+				if (earnings > 0.5) { earnings = 0.5; }
+				$('.jse-earnings').html(earnings);
+			}
+		}, 5000);
+		setInterval(function() {
+			var randText = randString(64);
+			$('.hashing').html(randText);
+		}, 500);
+
+		// Fix CSS for different banner sizes
+		if (window.innerWidth < 290) {
+			$('.hashing').css('width',(window.innerWidth - 20)+'px');
+		}
+    if (window.innerHeight > 400) {
+    	$('.pull-left').css('margin','20px 10px');
+    	$('.cta-button').css('padding','10px 15px');
+    }
+    if (window.innerHeight < 120) {
+    	$('.earnings').css('font-size','18px');
+    }
+    if (window.innerWidth < 350 && window.innerHeight < 120) {
+			$('.logo').css('height','35px').css('width','70px');
+			$('.headline').css('font-size','12px');
+			$('.earnings').css('font-size','16px');
+			$('.cta').css('font-size','10px');
+
+		}
+	});
+	</script>
+	<style>
+		@import url("//fonts.googleapis.com/css?family=Open+Sans:300,400,600,700&amp;lang=en");
+		html { height: 100%; }
+		body { font-family: 'Open Sans', Arial, sans-serif; background: #1e5799; background: -moz-linear-gradient(top, #1e5799 0%, #2b3b49 100%, #254971 100%); background: -webkit-linear-gradient(top, #1e5799 0%,#2b3b49 100%,#254971 100%); background: linear-gradient(to bottom, #1e5799 0%,#2b3b49 100%,#254971 100%); color: #FFF; margin: 0px; padding: 0px; height: 100%; text-align: center; overflow: hidden; }
+		.pull-left { float: left; margin: 5px 10px; }
+		.headline { font-size: 18px; font-weight: bold; }
+		.earnings { font-size: 22px; font-weight: bold; }
+		.headline { font-size: 16px; font-weight: bold; }
+		.green { color: #83CD29; }
+		.grey { color: #BBBBBB; }
+		.cta { font-size: 14px; font-weight: bold; margin-top: 0px; }
+		.cta-button { background-color: #83CD29; border: none; color: #FFF; padding: 4px 15px; text-align: center; text-decoration: none;display: inline-block; font-weight:bold; margin: 2px 5px 0px 5px; border-radius: 3px; cursor: pointer; }
+		.cta-button:hover { background-color: #6C9F2C; }
+		.hashing { font-size: 9px; letter-spacing: 2px; font-style: italic; font-family: Arial, sans-serif; word-wrap: break-word; width: 280px; }
+	</style>
+</head>
+<body>
+	<div class="pull-left"><img class="logo" src="https://jsecoin.com/img/logov2.png"></div>
+	<div class="pull-left">
+		<div class="headline">You have found: <span class="jse-hashes-found">0</span> hashes</div>
+		<div class="earnings grey">Earnings: <span class="jse-earnings green">0</span><small class="green"> JSE</small></div>
+	</div>
+	<div class="cta pull-left">Claim your JSE coins by setting up an account here: <span class="afflink"></span></div>
+	<div class="hashing grey pull-left">4</div>
+</body>
+</html>

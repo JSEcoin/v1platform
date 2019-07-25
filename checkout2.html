@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+		<title>JSE Checkout</title>
+	<link rel="icon" type="image/png" sizes="32x32" href="https://jsecoin.com/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="96x96" href="https://jsecoin.com/favicon-96x96.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="https://jsecoin.com/favicon-16x16.png">
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/metisMenu/2.7.0/metisMenu.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css" integrity="sha384-OHBBOqpYHNsIqQy8hL1U+8OXf9hH6QRxi0+EODezv82DfnZoV7qoHAZDwMwEJvSw" crossorigin="anonymous">
+	<link href="css/style.min.css?v=1.8.11" rel="stylesheet">
+	<style>
+		html, body {
+		  height: 100%;
+		  margin: 0;
+		}
+		body {
+			font-family: Nunito, Arial, sans-serif;
+			background: #F7F7F7;
+			font-size: 14px;
+		  -webkit-box-align: center;
+		      -ms-flex-align: center;
+		          align-items: center;
+		  display: -webkit-box;
+		  display: -ms-flexbox;
+		  display: flex;
+		}
+		button { background: #1B5794; color: #FFF; border-radius: 3px; border: none; padding: 5px 20px; cursor: pointer; }
+		#checkout-outer-container { color: #444; }
+		#checkout-logo-container { width: 100%; max-width: 500px !important; text-align: center; display: inline-table; margin-bottom: 10px;}
+		#checkout-logo-image-login { margin-bottom: 20px; max-width: 200px; }
+		#checkout-logo-dual-container { width: 100%; display: inline-block; vertical-align: middle; text-align: center; }
+		.checkout-logo-dual-images { width:44%; margin: auto 3%; max-width: 200px !important; }
+		#checkout-outer-container { max-width: 500px; margin: 10px auto;}
+		#checkout-currency-container { background: #FFF; border: 1px solid #CCC; padding: 15px 30px 30px 30px; border-radius: 3px; min-width: 300px; }
+		#checkout-currency-title { width: 100%; text-align: center; font-size: 14px; }
+		.checkout-currency-option { width: 100%; text-align: left; height: 50px; background: #F7F7F7; font-size: 18px; line-height: 50px; vertical-align: middle; margin-top: 10px; cursor: pointer; }
+		.checkout-currency-icon { width: 40px; height: 40px; margin: -4px 20px 0px 20px; }
+		#checkout-btceth-container { background: #FFF; border: 1px solid #CCC; padding: 15px 10px 30px 10px; border-radius: 3px; width: 300px; display: none; }
+		#checkout-btceth-info { font-size: 12px; margin-top: 10px; }
+		.checkout-btceth-refresh { float:right; margin: 5px; }
+		#checkout-btceth-address { padding: 5px; font-size: 11px; border: 1px solid #CCC; border-radius: 3px; margin: 10px 0px; }
+		#checkout-login-container { background: #FFF; border: 1px solid #CCC; padding: 30px; border-radius: 3px; min-width: 300px; display: none; }
+		#checkout-login-title { width: 100%; text-align: center; font-size: 14px; }
+		#checkout-complete-container { background: #FCFCFC; border: 1px solid #CCC; padding: 30px 50px; display: none; border-radius: 3px; }
+		.checkout-text-input { border-radius: 3px; border: 1px solid #DDD; padding: 5px; width: 200px; }
+		.checkout-select-input { border-radius: 3px; border: 1px solid #DDD; padding: 5px 5px; }
+		#checkout-login-email-container { margin-top: 20px; }
+		#checkout-login-buttons { margin-top: 10px; }
+		#checkout-form { margin: 0px auto; width: 200px; }
+		#checkout-footer { font-size: 10px; color: #666; width: 100%; text-align: center; margin-top: 5px; }
+		#checkout-footer a { font-size: 10px; color: #666; text-decoration: none; }
+		#checkout-footer-padlock { height: 13px; opacity: 0.4; position: relative; top: -2px; left: 3px; }
+		#checkout-logo-image-complete { margin-bottom: 20px; width: 150px; }
+		#checkout-complete-title { font-size: 14px; font-weight: bold; }
+		#checkout-contract { font-style: italic; font-size: 12px; padding: 20px; }
+		#checkout-complete-body { min-height: 300px; }
+		#checkout-complete-cart { height: 14px; opacity: 0.9; float: right; }
+		#checkout-complete-buttons { width: 100%; text-align: center; margin-top: 15px; }
+		#checkout-delivery-address { font-size: 12px; border: 1px solid #CCC; padding: 15px; margin: 5px 0px; background: #FFF; border-radius: 2px; }
+		#checkout-jse-icon { height: 16px; opacity: 0.6; position: relative; top: -2px; }
+		#checkout-delivery-title { margin-top: 10px; }
+		#checkout-payment-method-container { width: 350px; margin: 10px auto; }
+		#checkout-payment-method { margin-left: 30px; }
+		#checkout-item-container { width: 350px; margin: 0px auto; }
+		#checkout-complete-item { margin-left: 60px; }
+		#checkout-hide-address-container { float: right; margin-right: 5px; margin-top: 2px }
+		#checkout-hide-address-label { font-weight: normal; margin-left: 2px; font-size: 10px; }
+		#checkout-hide-address { position: relative; top: 3px; }
+	</style>
+</head>
+<body>
+	<div id="checkout-outer-container">
+		<div id="checkout-logo-container">
+			<img id="checkout-logo-image-login" src="img/merchant-logo.png" alt="JSEcoin" />
+		</div>
+
+		<div id="checkout-currency-container">
+			<div id="checkout-currency-title">Select your payment currency</div>
+			<div class="checkout-currency-option" onclick="$('#checkout-currency-container').hide(); loadBTC();">
+				<img class="checkout-currency-icon" src="img/bitcoin.png" />
+				Bitcoin
+			</div>
+			<div class="checkout-currency-option" onclick="$('#checkout-currency-container').hide(); loadETH();">
+				<img class="checkout-currency-icon" src="img/ethereum.png" />
+				Ethereum
+			</div>
+			<div class="checkout-currency-option" onclick="$('#checkout-currency-container').hide(); $('#checkout-login-container').show();">
+				<img class="checkout-currency-icon" src="img/jsecoin.png" />
+				JSEcoin
+			</div>
+		</div>
+
+		<div id="checkout-btceth-container">
+			<div id="checkout-btceth-title">Select your payment currency</div>
+			<div id="checkout-btceth-address">Select your payment currency</div>
+			<button class="btn btn-primary" onclick="copyToClipboard('checkout-btceth-address');">Copy</button>
+			<button class="btn btn-primary" onclick="$('#checkout-btceth-container').hide(); $('#checkout-currency-container').show();">Return</button>
+			<div id="checkout-btceth-info">Payment will be received automatically after two block confirmations and you will be returned to the merchants website.</div>
+			<i class="checkout-btceth-refresh fa fa-spinner fa-spin" aria-hidden="true"></i>
+		</div>
+
+		<div id="checkout-login-container">
+			<div id="checkout-login-title">Log in to complete your payment</div>
+			<div id="checkout-form">
+				<div id="checkout-login-email-container">
+					<div id="checkout-email" class="checkout-title">E-mail:</div>
+					<input type="text" id="loginemail" class="checkout-text-input">
+				</div>
+				<div id="checkout-login-password-container">
+					<div id="checkout-password" class="checkout-title">Password:</div>
+					<input type="password" id="loginpassword" class="checkout-text-input">
+				</div>
+				<div id="checkout-login-buttons">
+					<button type="submit" data-sitekey="6Lfl8S8UAAAAAAWfKHLDyRbcanMwKKSBckVYuQLZ" data-callback="login" class="g-recaptcha btn btn-primary" onclick="$(this).addClass('animated tada');">Login</button>
+					<script src='https://www.google.com/recaptcha/api.js'></script>
+					<button id="checkout-register-button" class="btn btn-secondary" onclick="window.open('https://platform.jsecoin.com/?lander=2', '_blank');">Register</button>
+				</div>
+				<div class="checkout-login-tip">
+					Always check the domain in the browser address bar is https://platform.jsecoin.com
+				</div>
+			</div>
+		</div>
+
+		<div id="checkout-complete-container">
+			<div id="checkout-complete-body">
+				<img id="checkout-complete-cart" src="img/cart.png" alt="" />
+				<div id="checkout-complete-title">Complete your payment</div>
+				<div id="checkout-contract"></div>
+				<div class="checkout-title" id="checkout-item-container">Item <span id="checkout-complete-item"></span></div>
+				<div class="checkout-title" id="checkout-payment-method-container">Pay with <span id="checkout-payment-method"></span></div>
+				<div class="checkout-title" id="checkout-delivery-title">Delivery Address</div>
+				<div id="checkout-hide-address-container"><input type="checkbox" id="checkout-hide-address" value="1" onclick="checkoutHideAddress();" /><label for="checkout-hide-address" id="checkout-hide-address-label" >hide</label></div>
+				<div id="checkout-delivery-address" contenteditable="true"></div>
+				<div id="checkout-complete-buttons">
+					<button id="checkout-cancel-button" class="btn btn-primary" onclick="cancelCheckout();">Cancel</button>
+					<button id="checkout-complete-button" class="btn btn-primary" onclick="completeCheckout();">Make Payment</button> 
+				</div>
+			</div>
+		</div>
+
+		<div id="checkout-footer">
+			<a href="https://jsecoin.com/en/support/contact" target="_blank">Feedback</a> | 
+			<a href="https://jsecoin.com/en/legal/privacyPolicy" target="_blank">Privacy</a> | 
+			<a href="https://jsecoin.com/en/legal/terms" target="_blank">Terms</a> | 
+			&copy; <a href="https://jsecoin.com" target="_blank">JSEcoin</a> <img src="img/padlock.png" alt="" id="checkout-footer-padlock" />
+		</div>
+	</div>
+
+	<div class="modal fade" id="tmpmodal" tabindex="-1" role="dialog">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title"></h4>
+				</div>
+				<div class="modal-body breakword" id="tmpmodalbody">
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="alert alert-success text-center hide" id="notify" role="alert">
+		<button type="button" class="close alertx" onclick="closeAlert()">
+			<span aria-hidden="true">&times;</span>
+		</button>
+		<div class="notifycontent mt5"></div>
+		<button type="button" class="btn btn-primary alertbutton" onclick="closeAlert()">
+			OK
+		</button>
+	</div>
+	
+	<div class="check-pin-container hide">
+		<div class="check-pin">
+			<h4>Please enter your pin number:</h4>
+			<form action="javascript:void(0);">
+				<input type="text" id="pin" class="w150c text-center" autocomplete="off" name="pinNumber" /><br>
+				<button class="btn btn-primary mt5" onclick="checkPinFunction();">Confirm</button>
+			</form>
+			<br>
+			<a href="javascript:void(0)" onclick="forgotPin();">Forgot Pin?</a>
+		</div>
+	</div>
+
+<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="js/jsecoin.min.js?v=1.8.25"></script>
+
+	<script>
+
+	function cleanURL(stringRaw) { // includes &={}
+		var stringClean = String(stringRaw);
+		stringClean = stringClean.split(/[^ {}&=.$*+?\\\-_:/,@a-zA-Z0-9\s]/).join('');
+		stringClean = stringClean.substr(0, 255);
+		return stringClean;
+	}
+
+	function getQueryParams(qs) {
+		qs = qs.split("+").join(" ");
+		var params = {}, tokens, re = /[?&]?([^=]+)=([^&]*)/g;
+		while (tokens = re.exec(qs)) { params[decodeURIComponent(tokens[1])] = decodeURIComponent(tokens[2]); }
+		return params;
+	}
+	var get = getQueryParams(document.location.search);
+
+	function loadBTC() {
+		$('#checkout-btceth-container').show();
+		$('#checkout-btceth-title').html('Please make your Bitcoin payment within the next hour to:');
+		$('#checkout-btceth-address').html('0x7a1f4c1031f11571a95e4778c2b4281af88c1e28');
+	}
+
+	function loadETH() {
+		$('#checkout-btceth-container').show();
+		$('#checkout-btceth-title').html('Please make your Ethereum payment within the next hour to:');
+		$('#checkout-btceth-address').html('0x7a1f4c1031f11571a95e4778c2b4281af88c1e28');
+	}
+
+	var checkout = {};
+	if (typeof get.encoded !== 'undefined') {
+		var getParsed = JSON.parse(atob(get.encoded));
+	} else {
+		var getParsed = get;
+	}
+
+	checkout.uid = cleanString(getParsed.uid);
+	checkout.sAuth = cleanString(getParsed.sAuth);
+	checkout.item = cleanString(getParsed.item);
+	if (typeof getParsed.rebillFrequency !== 'undefined') {
+		checkout.initialPrice = cleanString(getParsed.initialPrice);
+		checkout.recurringPrice = cleanString(getParsed.recurringPrice);
+		checkout.rebillFrequency = cleanString(getParsed.rebillFrequency);
+		var now = new Date();
+		if (checkout.rebillFrequency === 'daily') {
+			checkout.payableDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 11, 0, 0);
+		} else if (checkout.rebillFrequency === 'weekly') {
+			checkout.payableDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 7, 11, 0, 0);
+		} else if (checkout.rebillFrequency === 'monthly') {
+			checkout.payableDate = new Date(now.getFullYear(), now.getMonth() + 1, now.getDate(), 11, 0, 0);
+		} else if (checkout.rebillFrequency === 'annually') {
+			checkout.payableDate = new Date(now.getFullYear() + 1, now.getMonth(), now.getDate(), 11, 0, 0);
+		}
+		checkout.payableDateString = new Date(checkout.payableDate.getTime() + 3600000).toLocaleString();
+	} else {
+		checkout.singlePrice = cleanString(getParsed.singlePrice);
+	}
+	if (typeof getParsed.currency !== 'undefined' && getParsed.currency !== 'JSE') { // leave blank if JSE
+		checkout.currency = cleanString(getParsed.currency);
+	}
+
+	var initialOrSinglePrice = checkout.singlePrice || checkout.initialPrice;
+	checkout.completionURL = cleanURL(getParsed.completionURL).split('{item}').join(checkout.item).split('{price}').join(initialOrSinglePrice).split('{c1}').join(cleanString(getParsed.c1)).split('{c2}').join(cleanString(getParsed.c2)).split('{c3}').join(cleanString(getParsed.c3)); // buyeremail and reference added later
+
+	if (typeof getParsed.cancellationURL !== 'undefined') {
+		checkout.cancellationURL = cleanURL(getParsed.cancellationURL).split('{item}').join(checkout.item).split('{price}').join(initialOrSinglePrice).split('{c1}').join(cleanString(getParsed.c1)).split('{c2}').join(cleanString(getParsed.c2)).split('{c3}').join(cleanString(getParsed.c3));
+	}
+
+	if (typeof getParsed.ipnURL !== 'undefined') {
+		checkout.ipnURL = cleanURL(getParsed.ipnURL).split('{item}').join(checkout.item).split('{price}').join(initialOrSinglePrice).split('{c1}').join(cleanString(getParsed.c1)).split('{c2}').join(cleanString(getParsed.c2)).split('{c3}').join(cleanString(getParsed.c3)); // buyer email added later, IPN added server side
+	}
+
+	if (typeof getParsed.logoURL !== 'undefined') {
+		checkout.logoURL = cleanURL(getParsed.logoURL);
+		if (checkout.logoURL.match(/\.(jpeg|jpg|gif|png)$/) != null && checkout.logoURL.indexOf('?') == -1) {
+			$('#checkout-logo-container').html(`<img class="checkout-logo-dual-images" src="img/merchant-logo.png" alt="JSEcoin" /><img class="checkout-logo-dual-images" src="${checkout.logoURL}" alt="JSEcoin" /><div style="clear: both;"></div>`);
+		}
+	}
+
+	checkout.ts = new Date().getTime();
+	
+	//checkout.completedTS = new Date().getTime();
+	//checkout.cancelledTS = new Date().getTime();
+
+	function checkoutHideAddress() {
+		if ($('#checkout-delivery-address').text() == 'Hidden') {
+			$('#checkout-delivery-address').html(user.address+'<br>'+user.country);
+		} else {
+			$('#checkout-delivery-address').text('Hidden');
+		}
+	}
+
+	function merchantCheckoutLogin() {
+		$('#checkout-login-container').hide();
+		$('#checkout-complete-container').show();
+		if (checkout.currency) {
+			// Get live exchange rates
+			$.ajax({url:jseServer+'/stats/',type:'GET',contentType:'application/json'}).done(function(publicStatsJSON) {
+				var publicStats = JSON.parse(publicStatsJSON);
+				if (publicStats.exchangeRates[checkout.currency+'JSE']) {
+					if (typeof checkout.rebillFrequency !== 'undefined') {
+						checkout.calculatedPrice = Math.round(checkout.initialPrice / publicStats.exchangeRates[checkout.currency+'JSE']);
+						$('#checkout-complete-title').html('Complete your payment for '+checkout.calculatedPrice+' JSE ('+checkout.initialPrice+' '+checkout.currency+')');
+						$('#checkout-contract').html('Make payment for '+checkout.calculatedPrice+' JSE ('+checkout.initialPrice+' '+checkout.currency+')  with a recurring '+checkout.rebillFrequency+' payment of '+checkout.recurringPrice+' '+checkout.currency+' in JSE. First recurring payment will <b>automatically be billed on the '+checkout.payableDateString+'</b>, you will receive e-mail notification 24hrs in advance. This billing agreement is cancellable at any time.');
+					} else {
+						checkout.calculatedPrice = Math.round(checkout.singlePrice / publicStats.exchangeRates[checkout.currency+'JSE']);
+						$('#checkout-complete-title').html('Complete your payment for '+checkout.calculatedPrice+' JSE ('+checkout.singlePrice+' '+checkout.currency+')');
+						$('#checkout-contract').html('Make a single payment for '+checkout.calculatedPrice+' JSE ('+checkout.singlePrice+' '+checkout.currency+')');
+					}
+				} else {
+					notify('Error: live exchange rates not found, please refresh and try again in 30 seconds');
+					return false;
+				}
+			});
+		} else {
+			if (typeof checkout.rebillFrequency !== 'undefined') {
+				$('#checkout-complete-title').html('Complete your payment for '+checkout.initialPrice+' JSE');
+				$('#checkout-contract').html('Make payment for '+checkout.initialPrice+' JSE with a recurring '+checkout.rebillFrequency+' payment of '+checkout.recurringPrice+' JSE. First recurring payment will <b>automatically be billed on the '+checkout.payableDateString+'</b>, you will receive e-mail notification 24hrs in advance. This billing agreement is cancellable at any time.');
+			} else {
+				$('#checkout-complete-title').html('Complete your payment for '+checkout.singlePrice+' JSE');
+				$('#checkout-contract').html('Make a single payment for '+checkout.singlePrice+' JSE');
+			}
+		}
+		$('#checkout-complete-item').html(checkout.item);
+		$('#checkout-delivery-address').html(user.address+'<br>'+user.country);
+		$('#checkout-payment-method').html('<img src="img/jseicon.png" id="checkout-jse-icon" /> User ID '+user.uid+' - Balance '+user.balance+' JSE');
+
+		checkout.buyer = {};
+		checkout.session = user.session; // sensative data
+		checkout.buyer.uid = user.uid;
+		checkout.buyer.email = user.email;
+		checkout.buyer.name = user.name;
+		checkout.buyer.address = user.address;
+		checkout.buyer.country = user.country;
+		//checkout.buyer.deliveryAddress = $('#checkout-delivery-address').html(); // done on completion
+		checkout.buyer.balance = user.balance;
+		if (typeof checkout.ipnURL !== 'undefined') {
+			checkout.ipnURL = checkout.ipnURL.split('{buyeremail}').join(encodeURIComponent(checkout.buyer.email));
+		}
+		if (typeof checkout.completionURL !== 'undefined') {
+			checkout.completionURL = checkout.completionURL.split('{buyeremail}').join(encodeURIComponent(checkout.buyer.email));
+		}
+		if (typeof getParsed.hideAddress !== 'undefined') {
+			checkoutHideAddress();
+			$('#checkout-hide-address').prop('checked', true);
+		} else {
+			// focus on contenteditable address div?
+		}
+	}
+
+	function notify(txtString) {
+		alert(txtString);
+	}
+
+	function cancelCheckout() {
+		$('#checkout-complete-buttons').hide();
+		notify('Checkout has been cancelled');
+		checkout.cancelledTS = new Date().getTime();
+		if (typeof checkout.cancellationURL !== 'undefined') {
+			window.location.href = checkout.cancellationURL;
+		} else {
+			$('#checkout-complete-container').html('<div id="checkout-complete-body"><div id="checkout-complete-title">Please use the back button to navigate back to the merchant webstie</div></div>');
+		}
+	}
+
+	function completeCheckout() {
+		$('#checkout-complete-buttons').hide();
+		checkPin(function() {
+			checkout.completedTS = new Date().getTime();
+			checkout.deliveryAddress = $('#checkout-delivery-address').text();
+			if (get.encoded && get.hash) {
+				checkout.encoded = get.encoded;
+				checkout.hash = get.hash;
+			}
+			checkout.pin = getPin();
+			$.ajax({url:jseServer+'/checkout/',type:'POST',contentType:'application/json',data: JSON.stringify(checkout)}).done(function(data) {
+				var response = JSON.parse(data);
+				if (response.fail) {
+					notify(response.notification);
+					grecaptcha.reset();
+					$('#checkout-complete-buttons').show();
+				} else {
+					notify('Payment completed, redirecting back to merchant website');
+					setTimeout(function() {
+						if (response.reference) {
+							window.location.href = checkout.completionURL.split('{reference}').join(response.reference); // reference sent back from JSON response
+						} else {
+							window.location.href = checkout.completionURL;
+						}
+					}, 1500);
+				}
+				return false;
+			}).fail(function(data2) {
+				var failObj = JSON.parse(data2.responseText);
+				if (failObj && failObj.notification) { notify(failObj.notification); }
+				$('#checkout-complete-buttons').show();
+				return false;
+			});
+		});
+	}
+
+</script>
+
+
+<!-- PIXELS -->
+<script>
+	if ((document.getElementById('JSEW-pixels') === null) && (String(document.location).indexOf('localhost') === -1) && (String(document.location).indexOf('privacyPolicy') === -1)) {
+		var iframe = document.createElement('iframe');
+		iframe.id="JSEW-pixels";
+		iframe.src = 'https://jsecoin.com/pixels.php?rt=jsecoin.com';
+		document.body.appendChild(iframe);
+	}
+</script>
+
+
+<!-- Google Analytics Code -->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-48537439-15', 'auto');
+  ga('send', 'pageview');
+</script>
+
+</body>
+</html>

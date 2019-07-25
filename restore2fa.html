@@ -1,0 +1,28 @@
+<div class="row">
+	<div class="col-lg-12">
+		<div class="wrapper wrapper-content">
+			<div class="ibox">
+				<div class="ibox-content text-center animated fadeInRightBig">
+				 	<h3>Restore Two Factor Authentication</h3>
+					<p>Enter your account email address and your backup key to create a scanable 2fa QR code for <a href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&hl=en" target="_blank">Google Authenticator</a> or <a href="https://authy.com/download/" target="_blank">Authy App</a>.</p>
+					<div class="generalbox">
+						<h3>Enter your JSEcoin account email address</h3>
+						<div class="form-group">
+							<input type="email" id="restore-email" class="form-control w300c" placeholder="Email you used to sign up" required="">
+						</div>
+						<h3>Enter your 2fa backup key</h3>
+						<div class="form-group">
+							<input type="text" id="restore-secret" class="form-control w300c" placeholder="2fa backup key" required="">
+						</div>
+						<button onclick="restore2fa();" class="btn btn-primary block m-b w300c">Get QR Code</button>
+						<div class="qrcontainer"><div id="qrcode" style="width:166px; height:166px; margin: 0 auto;"></div></div>	
+					</div>
+					<p class="text-muted text-center"><small>Want to create a new account?</small></p>
+					<a class="btn btn-sm btn-white btn-block w300c"  href="https://platform.jsecoin.com/?register=1">Create an account</a>
+					<p class="text-muted text-center"><small>Log in below</small></p>
+					<a class="btn btn-sm btn-white btn-block w300c"  href="https://platform.jsecoin.com">Log in</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

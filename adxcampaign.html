@@ -1,0 +1,980 @@
+<form style="min-height: 450px;" id="adx-campaign-setup-form" enctype="multipart/form-data">
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="" id="adx-campaign-setup">
+				<table class="table adx-campaign-table">
+					<tr>
+						<input type="hidden" id="adx-campaign-cid" value="0" />
+						<th>Campaign Name: <i class="fa fa-info-circle fa-tooltip" aria-hidden="true" onclick="notify('For organisational purposes please provide a name for your advertising campaign');"></i></th>
+						<td><input type="text" placeholder="Enter a name for your new ad campaign" id="adx-campaign-name" class="form-control"></td>
+					</tr>
+					<tr>
+						<th>Country Targeting: <i class="fa fa-info-circle fa-tooltip" aria-hidden="true" onclick="notify('Where do you want your ads to run? Target one or more specific countries.');"></i></th>
+						<td>   
+							<table style="width: 550px;">
+								<tr>
+									<td style="width: 250px;">
+										Available Regions:<br />
+										<select style="width: 250px; font-size:0.9em;" class="adx-form-custom mt5" name="FromLB" id="FromLB" multiple="multiple" size="10" ondblclick="moveCountry(document.getElementById('FromLB'),document.getElementById('ToLB'))">
+
+											<option value="NAM">North America</option>
+											<option value="SAM">South America</option>
+											<option value="EUR">Europe</option>
+											<option value="ASI">Asia</option>
+											<option value="AFR">Africa</option>
+											<option value="OCE">Oceania</option>
+											<option value="ANT">Antartica</option>
+											<option value="NONE"><hr></option>
+											
+											<option value="AF">Afghanistan</option>
+											<option value="AX">Aland Islands</option>
+											<option value="AL">Albania</option>
+											<option value="DZ">Algeria</option>
+											<option value="AS">American Samoa</option>
+											<option value="AD">Andorra</option>
+											<option value="AO">Angola</option>
+											<option value="AI">Anguilla</option>
+											<option value="AQ">Antarctica</option>
+											<option value="AG">Antigua and Barbuda</option>
+											<option value="AR">Argentina</option>
+											<option value="AM">Armenia</option>
+											<option value="AW">Aruba</option>
+											<option value="AU">Australia</option>
+											<option value="AT">Austria</option>
+											<option value="AZ">Azerbaijan</option>
+											<option value="BS">Bahamas</option>
+											<option value="BH">Bahrain</option>
+											<option value="BD">Bangladesh</option>
+											<option value="BB">Barbados</option>
+											<option value="BY">Belarus</option>
+											<option value="BE">Belgium</option>
+											<option value="BZ">Belize</option>
+											<option value="BJ">Benin</option>
+											<option value="BM">Bermuda</option>
+											<option value="BT">Bhutan</option>
+											<option value="BO">Bolivia</option>
+											<option value="BQ">Bonaire, Saint Eustatius and Saba</option>
+											<option value="BA">Bosnia and Herzegovina</option>
+											<option value="BW">Botswana</option>
+											<option value="BV">Bouvet Island</option>
+											<option value="BR">Brazil</option>
+											<option value="IO">British Indian Ocean Territory</option>
+											<option value="BN">Brunei Darussalam</option>
+											<option value="BG">Bulgaria</option>
+											<option value="BF">Burkina Faso</option>
+											<option value="BI">Burundi</option>
+											<option value="KH">Cambodia</option>
+											<option value="CM">Cameroon</option>
+											<option value="CA">Canada</option>
+											<option value="CV">Cape Verde</option>
+											<option value="KY">Cayman Islands</option>
+											<option value="CF">Central African Republic</option>
+											<option value="TD">Chad</option>
+											<option value="CL">Chile</option>
+											<option value="CN">China</option>
+											<option value="CX">Christmas Island</option>
+											<option value="CC">Cocos (Keeling) Islands</option>
+											<option value="CO">Colombia</option>
+											<option value="KM">Comoros</option>
+											<option value="CG">Congo</option>
+											<option value="CD">Congo, The Democratic Republic of the</option>
+											<option value="CK">Cook Islands</option>
+											<option value="CR">Costa Rica</option>
+											<option value="CI">Cote d'Ivoire</option>
+											<option value="HR">Croatia</option>
+											<option value="CU">Cuba</option>
+											<option value="CW">Curacao</option>
+											<option value="CY">Cyprus</option>
+											<option value="CZ">Czech Republic</option>
+											<option value="DK">Denmark</option>
+											<option value="DJ">Djibouti</option>
+											<option value="DM">Dominica</option>
+											<option value="DO">Dominican Republic</option>
+											<option value="EC">Ecuador</option>
+											<option value="EG">Egypt</option>
+											<option value="SV">El Salvador</option>
+											<option value="GQ">Equatorial Guinea</option>
+											<option value="ER">Eritrea</option>
+											<option value="EE">Estonia</option>
+											<option value="ET">Ethiopia</option>
+											<option value="FK">Falkland Islands (Malvinas)</option>
+											<option value="FO">Faroe Islands</option>
+											<option value="FJ">Fiji</option>
+											<option value="FI">Finland</option>
+											<option value="FR">France</option>
+											<option value="GF">French Guiana</option>
+											<option value="PF">French Polynesia</option>
+											<option value="TF">French Southern Territories</option>
+											<option value="GA">Gabon</option>
+											<option value="GM">Gambia</option>
+											<option value="GE">Georgia</option>
+											<option value="DE">Germany</option>
+											<option value="GH">Ghana</option>
+											<option value="GI">Gibraltar</option>
+											<option value="GR">Greece</option>
+											<option value="GL">Greenland</option>
+											<option value="GD">Grenada</option>
+											<option value="GP">Guadeloupe</option>
+											<option value="GU">Guam</option>
+											<option value="GT">Guatemala</option>
+											<option value="GG">Guernsey</option>
+											<option value="GN">Guinea</option>
+											<option value="GW">Guinea-Bissau</option>
+											<option value="GY">Guyana</option>
+											<option value="HT">Haiti</option>
+											<option value="HM">Heard Island and McDonald Islands</option>
+											<option value="VA">Holy See (Vatican City State)</option>
+											<option value="HN">Honduras</option>
+											<option value="HK">Hong Kong</option>
+											<option value="HU">Hungary</option>
+											<option value="IS">Iceland</option>
+											<option value="IN">India</option>
+											<option value="ID">Indonesia</option>
+											<option value="IR">Iran, Islamic Republic of</option>
+											<option value="IQ">Iraq</option>
+											<option value="IE">Ireland</option>
+											<option value="IM">Isle of Man</option>
+											<option value="IL">Israel</option>
+											<option value="IT">Italy</option>
+											<option value="JM">Jamaica</option>
+											<option value="JP">Japan</option>
+											<option value="JE">Jersey</option>
+											<option value="JO">Jordan</option>
+											<option value="KZ">Kazakhstan</option>
+											<option value="KE">Kenya</option>
+											<option value="KI">Kiribati</option>
+											<option value="KP">Korea, Democratic People's Republic of</option>
+											<option value="KR">Korea, Republic of</option>
+											<option value="KW">Kuwait</option>
+											<option value="KG">Kyrgyzstan</option>
+											<option value="LA">Lao People's Democratic Republic</option>
+											<option value="LV">Latvia</option>
+											<option value="LB">Lebanon</option>
+											<option value="LS">Lesotho</option>
+											<option value="LR">Liberia</option>
+											<option value="LY">Libyan Arab Jamahiriya</option>
+											<option value="LI">Liechtenstein</option>
+											<option value="LT">Lithuania</option>
+											<option value="LU">Luxembourg</option>
+											<option value="MO">Macao</option>
+											<option value="MK">Macedonia</option>
+											<option value="MG">Madagascar</option>
+											<option value="MW">Malawi</option>
+											<option value="MY">Malaysia</option>
+											<option value="MV">Maldives</option>
+											<option value="ML">Mali</option>
+											<option value="MT">Malta</option>
+											<option value="MH">Marshall Islands</option>
+											<option value="MQ">Martinique</option>
+											<option value="MR">Mauritania</option>
+											<option value="MU">Mauritius</option>
+											<option value="YT">Mayotte</option>
+											<option value="MX">Mexico</option>
+											<option value="FM">Micronesia, Federated States of</option>
+											<option value="MD">Moldova, Republic of</option>
+											<option value="MC">Monaco</option>
+											<option value="MN">Mongolia</option>
+											<option value="ME">Montenegro</option>
+											<option value="MS">Montserrat</option>
+											<option value="MA">Morocco</option>
+											<option value="MZ">Mozambique</option>
+											<option value="MM">Myanmar</option>
+											<option value="NA">Namibia</option>
+											<option value="NR">Nauru</option>
+											<option value="NP">Nepal</option>
+											<option value="NL">Netherlands</option>
+											<option value="NC">New Caledonia</option>
+											<option value="NZ">New Zealand</option>
+											<option value="NI">Nicaragua</option>
+											<option value="NE">Niger</option>
+											<option value="NG">Nigeria</option>
+											<option value="NU">Niue</option>
+											<option value="NF">Norfolk Island</option>
+											<option value="MP">Northern Mariana Islands</option>
+											<option value="NO">Norway</option>
+											<option value="OM">Oman</option>
+											<option value="PK">Pakistan</option>
+											<option value="PW">Palau</option>
+											<option value="PS">Palestinian Territory</option>
+											<option value="PA">Panama</option>
+											<option value="PG">Papua New Guinea</option>
+											<option value="PY">Paraguay</option>
+											<option value="PE">Peru</option>
+											<option value="PH">Philippines</option>
+											<option value="PN">Pitcairn</option>
+											<option value="PL">Poland</option>
+											<option value="PT">Portugal</option>
+											<option value="PR">Puerto Rico</option>
+											<option value="QA">Qatar</option>
+											<option value="RE">Reunion</option>
+											<option value="RO">Romania</option>
+											<option value="RU">Russia</option>
+											<option value="RW">Rwanda</option>
+											<option value="BL">Saint Bartelemey</option>
+											<option value="SH">Saint Helena</option>
+											<option value="KN">Saint Kitts and Nevis</option>
+											<option value="LC">Saint Lucia</option>
+											<option value="MF">Saint Martin</option>
+											<option value="PM">Saint Pierre and Miquelon</option>
+											<option value="VC">Saint Vincent and the Grenadines</option>
+											<option value="WS">Samoa</option>
+											<option value="SM">San Marino</option>
+											<option value="ST">Sao Tome and Principe</option>
+											<option value="SA">Saudi Arabia</option>
+											<option value="SN">Senegal</option>
+											<option value="RS">Serbia</option>
+											<option value="SC">Seychelles</option>
+											<option value="SL">Sierra Leone</option>
+											<option value="SG">Singapore</option>
+											<option value="SX">Sint Maarten</option>
+											<option value="SK">Slovakia</option>
+											<option value="SI">Slovenia</option>
+											<option value="SB">Solomon Islands</option>
+											<option value="SO">Somalia</option>
+											<option value="ZA">South Africa</option>
+											<option value="GS">South Georgia and the South Sandwich Islands</option>
+											<option value="ES">Spain</option>
+											<option value="LK">Sri Lanka</option>
+											<option value="SD">Sudan</option>
+											<option value="SR">Suriname</option>
+											<option value="SJ">Svalbard and Jan Mayen</option>
+											<option value="SZ">Swaziland</option>
+											<option value="SE">Sweden</option>
+											<option value="CH">Switzerland</option>
+											<option value="SY">Syrian Arab Republic</option>
+											<option value="TW">Taiwan</option>
+											<option value="TJ">Tajikistan</option>
+											<option value="TZ">Tanzania, United Republic of</option>
+											<option value="TH">Thailand</option>
+											<option value="TL">Timor-Leste</option>
+											<option value="TG">Togo</option>
+											<option value="TK">Tokelau</option>
+											<option value="TO">Tonga</option>
+											<option value="TT">Trinidad and Tobago</option>
+											<option value="TN">Tunisia</option>
+											<option value="TR">Turkey</option>
+											<option value="TM">Turkmenistan</option>
+											<option value="TC">Turks and Caicos Islands</option>
+											<option value="TV">Tuvalu</option>
+											<option value="UG">Uganda</option>
+											<option value="UA">Ukraine</option>
+											<option value="AE">United Arab Emirates</option>
+											<option value="GB">United Kingdom</option>
+											<option value="UM">United States Minor Outlying Islands</option>
+											<option value="UY">Uruguay</option>
+											<option value="UZ">Uzbekistan</option>
+											<option value="VU">Vanuatu</option>
+											<option value="VE">Venezuela</option>
+											<option value="VN">Vietnam</option>
+											<option value="VG">Virgin Islands, British</option>
+											<option value="VI">Virgin Islands, U.S.</option>
+											<option value="WF">Wallis and Futuna</option>
+											<option value="EH">Western Sahara</option>
+											<option value="YE">Yemen</option>
+											<option value="ZM">Zambia</option>
+											<option value="ZW">Zimbabwe</option>
+										</select>
+									</td>
+									<td style="width: 50px; text-align: center;">
+										<br /><br />
+										<i class="fa fa-arrow-circle-right fa-2x pointer fa-primary" onClick="moveCountry(document.getElementById('FromLB'),document.getElementById('ToLB'))" aria-hidden="true"></i>
+										<br /><br />
+										<i class="fa fa-arrow-circle-left fa-2x pointer fa-primary" onClick="moveCountry(document.getElementById('ToLB'),document.getElementById('FromLB'))" aria-hidden="true"></i>
+									</td>
+									<td style="width: 250px;">
+										Selected Countries:<br />
+										<select style="width: 250px; font-size:0.9em;" class="adx-form-custom mt5" id="ToLB" name="ToLB[]" multiple size="10" ondblclick="moveCountry(document.getElementById('ToLB'),document.getElementById('FromLB'))">
+										<option value="US">United States</option>
+										</select>
+									</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+					<tr>
+						<th>Device Targeting: <i class="fa fa-info-circle fa-tooltip" aria-hidden="true" onclick="notify('Target specific devices for your ads to be shown on');"></i></th>
+						<td>
+							<div class="form-check form-check-inline">
+								<input class="form-check-input" type="checkbox" id="adx-campaign-devices" onclick="$('#adx-campaign-device-list').toggle();" checked>
+								<label class="form-check-label" for="adx-campaign-devices">All</label>
+							</div>
+							<div id="adx-campaign-device-list">
+								<div class="form-check form-check-inline">
+									<input class="form-check-input" type="checkbox" id="adx-campaign-windows-desktop">
+									<label class="form-check-label" for="adx-campaign-windows-desktop">Windows Desktop</label>
+								</div>
+								<div class="form-check form-check-inline">
+									<input class="form-check-input" type="checkbox" id="adx-campaign-mac-desktop">
+									<label class="form-check-label" for="adx-campaign-mac-desktop">Mac Desktop</label>
+								</div>
+								<div class="form-check form-check-inline">
+									<input class="form-check-input" type="checkbox" id="adx-campaign-android-tablet">
+									<label class="form-check-label" for="adx-campaign-android-tablet">Android Tablet</label>
+								</div>
+								<div class="form-check form-check-inline">
+									<input class="form-check-input" type="checkbox" id="adx-campaign-ipad">
+									<label class="form-check-label" for="adx-campaign-ipad">iPad</label>
+								</div>
+								<div class="form-check form-check-inline">
+									<input class="form-check-input" type="checkbox" id="adx-campaign-android-phone">
+									<label class="form-check-label" for="adx-campaign-android-phone">Android Phone</label>
+								</div>							
+								<div class="form-check form-check-inline">
+									<input class="form-check-input" type="checkbox" id="adx-campaign-iphone">
+									<label class="form-check-label" for="adx-campaign-iphone">iPhone</label>
+								</div>
+								<div class="form-check form-check-inline">
+									<input class="form-check-input" type="checkbox" id="adx-campaign-other">
+									<label class="form-check-label" for="adx-campaign-other">Other</label>
+								</div>
+	
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<th>Browser Targeting: <i class="fa fa-info-circle fa-tooltip" aria-hidden="true" onclick="notify('Target specific browsers, your ads will only be displayed in these browsers');"></i></th>
+						<td>
+							<div class="form-check form-check-inline">
+								<input class="form-check-input" type="checkbox" id="adx-campaign-browsers" onclick="$('#adx-campaign-browser-list').toggle();" checked>
+								<label class="form-check-label" for="adx-campaign-browsers">All</label>
+							</div>
+
+							<div id="adx-campaign-browser-list">
+								<div class="form-check form-check-inline">
+									<input class="form-check-input" type="checkbox" id="adx-campaign-chrome">
+									<label class="form-check-label" for="adx-campaign-chrome">Google Chrome</label>
+								</div>
+								<div class="form-check form-check-inline">
+									<input class="form-check-input" type="checkbox" id="adx-campaign-firefox">
+									<label class="form-check-label" for="adx-campaign-firefox">Firefox</label>
+								</div>
+								<div class="form-check form-check-inline">
+									<input class="form-check-input" type="checkbox" id="adx-campaign-safari">
+									<label class="form-check-label" for="adx-campaign-safari">Safari</label>
+								</div>
+								<div class="form-check form-check-inline">
+									<input class="form-check-input" type="checkbox" id="adx-campaign-ucbrowser">
+									<label class="form-check-label" for="adx-campaign-ucbrowser">UC Browser</label>
+								</div>
+								<div class="form-check form-check-inline">
+									<input class="form-check-input" type="checkbox" id="adx-campaign-opera">
+									<label class="form-check-label" for="adx-campaign-opera">Opera</label>
+								</div>
+								<div class="form-check form-check-inline">
+									<input class="form-check-input" type="checkbox" id="adx-campaign-edge">
+									<label class="form-check-label" for="adx-campaign-edge">Microsoft Edge</label>
+								</div>
+								<div class="form-check form-check-inline">
+									<input class="form-check-input" type="checkbox" id="adx-campaign-ie">
+									<label class="form-check-label" for="adx-campaign-ie">Internet Explorer</label>
+								</div>
+								<div class="form-check form-check-inline">
+									<input class="form-check-input" type="checkbox" id="adx-campaign-androidbrowser">
+									<label class="form-check-label" for="adx-campaign-androidbrowser">Android Browser</label>
+								</div>
+								<div class="form-check form-check-inline">
+									<input class="form-check-input" type="checkbox" id="adx-campaign-fbapp">
+									<label class="form-check-label" for="adx-campaign-fbapp">Facebook App</label>
+								</div>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<th>Category Targeting: <i class="fa fa-info-circle fa-tooltip" aria-hidden="true" onclick="notify('Category targeting enables advertisers to narrow an audience to a specific category or block unwanted publisher sites by theme.');"></i></th>
+						<td>
+							<div class="form-check form-check-inline">
+								<input class="form-check-input" type="checkbox" id="adx-campaign-category" onclick="$('#adx-campaign-category-list').toggle();" checked>
+								<label class="form-check-label" for="adx-campaign-category">All</label>
+							</div>
+							<div id="adx-campaign-category-list">
+								<div class="form-check form-check-inline">
+									<input class="form-check-input" type="checkbox" id="adx-campaign-general">
+									<label class="form-check-label" for="adx-campaign-general">General / Blogs</label>
+								</div>
+								<div class="form-check form-check-inline">
+									<input class="form-check-input" type="checkbox" id="adx-campaign-crypto">
+									<label class="form-check-label" for="adx-campaign-crypto">Crypto Related</label>
+								</div>
+								<div class="form-check form-check-inline">
+									<input class="form-check-input" type="checkbox" id="adx-campaign-streaming">
+									<label class="form-check-label" for="adx-campaign-streaming">File Sharing / Streaming</label>
+								</div>
+								<div class="form-check form-check-inline">
+									<input class="form-check-input" type="checkbox" id="adx-campaign-adult">
+									<label class="form-check-label" for="adx-campaign-adult">Adult Content</label>
+								</div>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<th>Domain Targeting: <i class="fa fa-info-circle fa-tooltip" aria-hidden="true" onclick="notify('Block or target specific domain names that you do not want your ads displayed upon. Domains can be added to whitelist to run ads only on these specific domains or to the blacklist to block ads running on these domains.');"></i></th>
+						<td>
+							<div class="form-check form-check-inline">
+								<input class="form-check-input" type="checkbox" id="adx-campaign-domains" onclick="$('#adx-campaign-domain-list').toggle();" checked>
+								<label class="form-check-label" for="adx-campaign-domains">All - <a href="javascript:void(0)" onclick="openCatalog();">View Catalog</a></label>
+								<i class="fa fa-info-circle fa-tooltip" aria-hidden="true" onclick="notify('The site catalog is a showcase of the available websites where you can purchase advertising placements. You can build a targeted selection of sites to match your traffic requirements or export a domain list for later use.');"></i>
+							</div>
+							<div id="adx-campaign-domain-list">
+								<table style="width: 550px;">
+									<tr>
+										<td style="width: 250px;">
+											Domain Whitelist:<br />
+											<textarea id="adx-campaign-domain-whitelist" class="adx-greylist"></textarea>
+										</td>
+										<td style="width: 50px;">
+										</td>
+										<td style="width: 250px;">
+											Domain Blacklist:<br />
+											<textarea id="adx-campaign-domain-blacklist" class="adx-greylist"></textarea>
+										</td>
+									</tr>
+								</table>																
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<th>Publisher Targeting: <i class="fa fa-info-circle fa-tooltip" aria-hidden="true" onclick="notify('Block or target specific publishers by their user ID. This can be found in the publisher report in the campaign stats. Publisher IDs can be added to a whitelist to run ads only on these sites owned by that specific publisher or to the blacklist to block ads running on any of that publishers domains.');"></i></th>
+						<td>
+							<div class="form-check form-check-inline">
+								<input class="form-check-input" type="checkbox" id="adx-campaign-publishers" onclick="$('#adx-campaign-publisher-list').toggle();" checked>
+								<label class="form-check-label" for="adx-campaign-publishers">All</label>
+							</div>
+							<div id="adx-campaign-publisher-list">
+								<table style="width: 550px;">
+									<tr>
+										<td style="width: 250px;">
+											Publisher Whitelist:<br />
+											<textarea id="adx-campaign-publisher-whitelist" class="adx-greylist"></textarea>
+										</td>
+										<td style="width: 50px;">
+										</td>
+										<td style="width: 250px;">
+											Publisher Blacklist:<br />
+											<textarea id="adx-campaign-publisher-blacklist" class="adx-greylist"></textarea>
+										</td>
+									</tr>
+								</table>																
+							</div>
+						</td>
+					</tr>
+				</table>
+				<button class="btn btn-primary mt5" onclick="loadStep2();" type="button">Upload Creatives</button>
+			</div>
+
+			<div class="" id="adx-upload-creatives">
+				<table class="table adx-campaign-table">
+					<tr>
+						<th>Ad Type: <i class="fa fa-info-circle fa-tooltip" aria-hidden="true" onclick="notify('Campaigns should target one specific ad placement such as banners or inText ads');"></i></th>
+						<td>
+							<label class="radio-inline adx-campaign-radio-label"><input type="radio" class="adx-campaign-radio" name="adx-campaign-ad-type" value="banners" checked>Banners</label>
+							<label class="radio-inline adx-campaign-radio-label"><input type="radio" class="adx-campaign-radio" name="adx-campaign-ad-type" value="intext">inText</label>
+
+							<div class="adx-ad-type-details mt10">
+								<small>Max 8 banners per campaign, PDF, JPG, GIF, 300x100, 728x90, 300x250</small>
+							</div>
+						</td>
+					</tr>		
+					<tr>
+						<th>Destination URL: <i class="fa fa-info-circle fa-tooltip" aria-hidden="true" onclick="notify('Enter the domain name or website address of the site where you want to send visitors that click your ads');"></i></th>
+						<td>
+							<input type="text" placeholder="https://example.com/index.html?country={geo}" id="adx-campaign-url" class="form-control">
+							<small><a href="javascript:void(0);" onclick="notify('{postbackID} {campaignID} {publisherID} {domain} {creative} {geo} {device} {browser} {keyword}<br><br>i.e. https://example.com/?campaign={campaignID}&country={geo}');">Dynamic Tracking Tokens</a></small>
+							<i class="fa fa-info-circle fa-tooltip" aria-hidden="true" onclick="notify('Dynamic tokens can be used to insert live data into a destination URL. i.e. you can place {geo} in your URL and it will be replaced with US for any traffic coming from the USA.');"></i>
+						</td>
+					</tr>		
+					<tr id="adx-ad-type-upload-banners">
+						<th>Upload Banner(s): <i class="fa fa-info-circle fa-tooltip" aria-hidden="true" onclick="notify('Upload the banners you wish to use for the advertising campaign in the accepted size format.<br>Sizes: 300x100, 728x90, 300x250<br>File Type: JPG, GIF, PNG<br>Max File Size: 250kb<br>Maximum 8 banners per campaign.');"></i></th>
+						<td>
+							<input type="file" class="adx-form-custom" id="adx-campaign-upload" multiple="">
+							<div id="adx-campaign-file-number" class="mt5"></div>
+						</td>
+					</tr>
+					<tr id="adx-ad-type-upload-intext">
+						<th>Keyword(s): <i class="fa fa-info-circle fa-tooltip" aria-hidden="true" onclick="notify('Enter your keywords, each on a new line.<br>Keywords must be 4 to 14 characters in length and use lowercase letters only.');"></i></th>
+						<td>
+							<textarea id="adx-campaign-keywords" class="adx-greylist"></textarea>
+						</td>
+					</tr>
+				</table>
+				<button class="btn btn-primary mt5 adx-banners-button" onclick="loadStep1();" type="button">Back</button>
+				<button class="btn btn-primary mt5 adx-banners-button" onclick="loadStep3();" type="button">Set Budgets</button>
+				<div id="adx-campaign-previously-uploaded" class="mt5"></div>
+				<div id="adx-campaign-file-list" class="mt5"></div>
+			</div>
+
+			<div class="" id="adx-budget-confirmation">
+				<table class="table adx-campaign-table">
+					<tr>
+						<th>Campaign Currency: <i class="fa fa-info-circle fa-tooltip" aria-hidden="true" onclick="notify('The ad exchange auction takes place in JSE tokens however you can bid in USD and this will be converted to the equivalent JSE amount based on the current exchange rate. This is to mitigate the risk of market volatility on your ad campaigns.');"></i></th>
+						<td>
+							<div class="form-check form-check-inline">
+								<input class="form-check-input" type="checkbox" id="adx-campaign-currency-jse" onchange="selectCurrency('jse');" checked>
+								<label class="form-check-label" for="adx-campaign-currency-jse">JSE</label>
+								<input class="form-check-input" style="margin-left: 30px;" type="checkbox" id="adx-campaign-currency-usd" onchange="selectCurrency('usd');">
+								<label class="form-check-label" for="adx-campaign-currency-usd">USD</label>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<th>Daily Campaign Budget: <i class="fa fa-info-circle fa-tooltip" aria-hidden="true" onclick="notify('How much do you want to spend per day? Your campaign will be paused once this budget is exceeded and restarted the following day.');"></i></th>
+						<td>
+							<div class="input-group">
+								<span class="input-group-addon adx-selected-currency"></span>
+								<input type="text" placeholder="0" id="adx-campaign-daily-budget" class="form-control form-number-input form-inline" onkeyup="updateEstimatedVolume();" onchange="updateEstimatedVolume();">
+							</div>
+						</td>
+					</tr>
+					<!--
+					<tr>
+						<th>Lifetime Campaign Budget:</th>
+						<td>
+							<div class="input-group">
+								<span class="input-group-addon adx-selected-currency"></span>
+								<input type="text" placeholder="unlimited" id="adx-campaign-lifetime-budget" class="form-control form-number-input form-inline">
+							</div>
+						</td>
+					</tr>
+					-->
+					<tr>
+						<th>
+							Bid Price (CPM): <i class="fa fa-info-circle fa-tooltip" aria-hidden="true" onclick="notify('The bid price is the price you wish to bid for 1000 impressions of your ad. Each time an ad is shown your account will be charged 0.1% of this bid price. Also known as CPM bidding.');"></i>
+							<br><small>Cost per 1000 impressions</small>
+						</th>
+						<td>
+							<div class="input-group">
+								<span class="input-group-addon adx-selected-currency"></span>
+								<input type="text" placeholder="0" id="adx-campaign-bid-price" class="form-control form-number-input form-inline" onkeyup="updateEstimatedVolume();" onchange="updateEstimatedVolume();">
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<th>Estimated Volume: <i class="fa fa-info-circle fa-tooltip" aria-hidden="true" onclick="notify('Volume calculations should only be used as a guide and results may vary widely depending on competition for placements and daily volumes.');"></i></th>
+						<td>
+							<div id="adx-estimated-volume">Impressions: 0 - Clicks: 0</div>	
+						</td>
+					</tr>
+
+					<tr>
+						<th> 
+							Schedule: <i class="fa fa-info-circle fa-tooltip" aria-hidden="true" onclick="notify('Optional start and stop dates for your campaign.');"></i><br>
+							<small>Optional</small>
+						</th>
+						<td>
+							<input type="date" class="adx-form-custom" id="adx-campaign-start" />
+							<br>
+							<input type="date" class="adx-form-custom mt5" id="adx-campaign-end" />
+						</td>
+					</tr>
+					<!--
+					<tr>
+						<th> 
+							Frequency Cap:
+						</th>
+						<td>
+							<div class="form-group">
+								<select class="form-control" id="adx-campaign-frequency-cap" style="max-width: 150px;">
+									<option value="1">1 / 24 hours</option>
+									<option value="2">2 / 24 hours</option>
+									<option value="3" selected="selected">3 / 24 hours</option>
+									<option value="4">4 / 24 hours</option>
+									<option value="5">5 / 24 hours</option>
+									<option value="6">6 / 24 hours</option>
+									<option value="7">7 / 24 hours</option>
+									<option value="8">8 / 24 hours</option>
+									<option value="9">9 / 24 hours</option>
+									<option value="10">10 / 24 hours</option>
+									<option value="20">20 / 24 hours</option>
+									<option value="25">25 / 24 hours</option>
+									<option value="30">30 / 24 hours</option>
+									<option value="40">40 / 24 hours</option>
+									<option value="50">50 / 24 hours</option>
+									<option value="100">100 / 24 hours</option>
+								</select>
+							</div> 
+						</td>
+					</tr>
+					-->
+					<tr>
+						<th>
+							Conversion Tracking: <i class="fa fa-info-circle fa-tooltip" aria-hidden="true" onclick="notify('Optionally you can track conversion metrics in the JSE stats panel to provide key performance indicators for your campaigns.');"></i>
+						</th> 
+						<td>
+							<a href="javascript:void(0);" class="mt5" onclick="$('#adx-campaign-conversion').toggle();">Set up conversion tracking</a>
+							<div id="adx-campaign-conversion">
+								<br><br>
+								<b>Global Pixel</b> <i class="fa fa-info-circle fa-tooltip" aria-hidden="true" onclick="notify('The global pixel can be placed into the html of a conversion page such as a shopping cart success page or a thank you for subscribing type page. This will track how many visitors that saw ads went on to complete your conversion funnel providing kpi metrics.');"></i>
+								<div class="generalbox white-box" id="adx-campaign-globalpixel"></div>
+								<br><br>
+								<b>S2S Pixel</b> <i class="fa fa-info-circle fa-tooltip" aria-hidden="true" onclick="notify('A server to server pixel can be used to fire back a postback id for integration with modern tracking systems. Affiliate networks and 3rd party trackers can often be set up with server2server tracking. Enter {postbackID} in your destination URL and then fire back the reference provided to track conversions on the JSE stats panel.');"></i>
+								<div class="generalbox white-box" id="adx-campaign-s2spixel"></div>
+							</div>
+						</td>
+					</tr>
+				</table>
+				<button class="btn btn-primary mt5" onclick="loadStep2();" type="button">Back</button>
+				<button class="btn btn-primary mt5" onclick="submitCampaign();" type="button">Submit Campaign</button>
+			</div>
+		</div>
+	</div>
+</form>
+<script>
+$('#adx-campaign-device-list').hide();
+$('#adx-campaign-browser-list').hide();
+$('#adx-campaign-category-list').hide();
+$('#adx-campaign-domain-list').hide();
+$('#adx-campaign-publisher-list').hide();
+$('#adx-campaign-conversion').hide();
+$('#adx-ad-type-upload-intext').hide();
+$('#adx-campaign-globalpixel').text('<img src="https://load.jsecoin.com/advertising/globalpixel/?aid='+user.uid+'&value=1" />');
+$('#adx-campaign-s2spixel').text('https://load.jsecoin.com/advertising/s2spixel/?aid='+user.uid+'&value=1&postback=ENTERPOSTBACKIDHERE');
+
+// update public stats for usd conversion rate
+$.ajax({url:jseServer+'/stats/',type:'GET',contentType:'application/json'}).done(function(data) {
+	publicStats = JSON.parse(data);
+});
+
+function loadStep1() {
+	$('#adx-campaign-setup').show();
+	$('#adx-upload-creatives').hide();
+	$('#adx-budget-confirmation').hide();
+	$('.modal-title').html('Setup &amp; Targeting');
+}
+loadStep1();
+
+function loadStep2() {
+	$('#adx-campaign-setup').hide();
+	$('#adx-upload-creatives').show();
+	$('#adx-budget-confirmation').hide();
+	$('.modal-title').html('Upload Creatives');
+}
+
+function loadStep3() {
+	$('#adx-campaign-setup').hide();
+	$('#adx-upload-creatives').hide();
+	$('#adx-budget-confirmation').show();
+	$('.modal-title').html('Budgets &amp; Confirmation');
+}
+
+function showBanners() {
+	$('.adx-ad-type-details').html('<small>Max 8 banners per campaign, PDF, JPG, GIF, 300x100, 728x90, 300x250</small>');
+	$('#adx-ad-type-upload-intext').hide();
+	$('#adx-ad-type-upload-banners').show();
+}
+
+function showKeywords() {
+	$('.adx-ad-type-details').html('<small>Max 100 keywords per campaign, 4 - 14 characters (a-z), one per line</small>');
+	$('#adx-ad-type-upload-banners').hide();
+	$('#adx-ad-type-upload-intext').show();
+}
+
+$('input[name="adx-campaign-ad-type"]').on('change', function(e) {
+	var adType = $("input[name='adx-campaign-ad-type']:checked").val();
+	if (adType === 'banners') {
+		showBanners();
+	} else if (adType === 'intext') {
+		showKeywords();
+	}
+});
+
+function moveCountry(tbFrom, tbTo) {
+	var arrFrom = new Array();
+	var arrTo = new Array(); 
+	var arrLU = new Array();
+	var i;
+	for (i = 0; i < tbTo.options.length; i++) {
+		arrLU[tbTo.options[i].text] = tbTo.options[i].value;
+		arrTo[i] = tbTo.options[i].text;
+	}
+	var fLength = 0;
+	var tLength = arrTo.length;
+	for(i = 0; i < tbFrom.options.length; i++) {
+		arrLU[tbFrom.options[i].text] = tbFrom.options[i].value;
+		if (tbFrom.options[i].selected && tbFrom.options[i].value != "") {
+			arrTo[tLength] = tbFrom.options[i].text;
+			tLength++;
+		} else {
+			arrFrom[fLength] = tbFrom.options[i].text;
+			fLength++;
+		}
+	}
+	tbFrom.length = 0;
+	tbTo.length = 0;
+	var ii;
+	for(ii = 0; ii < arrFrom.length; ii++) {
+		var no = new Option();
+		no.value = arrLU[arrFrom[ii]];
+		no.text = arrFrom[ii];
+		tbFrom[ii] = no;
+	}
+	for(ii = 0; ii < arrTo.length; ii++) {
+		var no = new Option();
+		no.value = arrLU[arrTo[ii]];
+		no.text = arrTo[ii];
+		tbTo[ii] = no;
+	}
+}
+
+function selectCountries() {
+	var sel = document.getElementById('ToLB');
+	for ( var i = 0; i < sel.options.length; ++i ) {
+		sel.options[i].selected = true;
+	}
+}
+
+var fileInput = document.getElementById('adx-campaign-upload');
+var fileList = [];
+var imageUploadCount = 0;
+
+function renderFileList() {
+	if ($('#adx-campaign-file-list').html() === '') {
+		$('#adx-campaign-file-list').html('<br><br><b>Preview Image Creatives</b><br><br>');
+	}
+	imageUploadCount = $("#adx-campaign-previously-uploaded").children().length;
+	fileList.forEach(function (file, index) {
+		imageUploadCount += 1;
+		var fileDisplayEl = document.createElement('div');
+		fileDisplayEl.classList.add('adx-banner-preview');
+		$('#adx-campaign-file-number').html(imageUploadCount+' Files Uploaded');
+		var previewID = 'adx-campaign-preview'+imageUploadCount;
+		fileDisplayEl.innerHTML = imageUploadCount + ': ' + file.name + '<button type="button" class="close alertx" onclick="$(this).parent().remove();"><span aria-hidden="true">&times;</span></button><br><img class="adx-campaign-previews" src="" id="'+previewID+'" />';
+		document.getElementById('adx-campaign-file-list').appendChild(fileDisplayEl);
+		var reader = new FileReader();
+		reader.onload = ((e) => {
+			if (e.target.result.length > 350000) {
+				notify('Max file size for banners is 250kb');
+				$('#'+previewID).parent().remove();
+			} else {
+				$('#'+previewID).attr('src', e.target.result);
+				$('.adx-banners-button').prop('disabled', true);
+				setTimeout(function(previewID2,originalFileName) {
+					var imgWidth = $('#'+previewID2).width();
+					var imgHeight = $('#'+previewID2).height();
+					var bannerSize = imgWidth+'x'+imgHeight;
+					$('#'+previewID2).attr('sizing',bannerSize);
+					$('#'+previewID2).attr('originalFileName',originalFileName);
+					if (bannerSize !== '300x100' && bannerSize !== '728x90' && bannerSize !== '300x250') {
+						notify('Unrecognised banner size: '+cleanString(bannerSize));
+						$('#'+previewID2).parent().remove();
+					} else if (imageUploadCount > 8 && $('#adx-campaign-file-list').find('.adx-campaign-previews').length > 8) {
+						notify('Maximum of 8 banners per campaign: '+cleanString(bannerSize));
+						$('#'+previewID2).parent().remove();
+					}
+					$('.adx-banners-button').prop('disabled', false);
+				},100,previewID,file.name);
+			}
+		});
+		reader.readAsDataURL(fileInput.files[index]);
+	});
+};
+
+fileInput.addEventListener('change', function (evnt) {
+	fileList = [];
+	for (var i = 0; i < fileInput.files.length; i++) {
+		console.log('Ready to upload: ',fileInput.files[i].name);
+		fileList.push(fileInput.files[i]);
+	}
+	renderFileList();
+});
+
+$('.adx-selected-currency').html('<small>JSE</small>');
+function selectCurrency(currency) {
+	if (currency === 'jse') {
+		$('#adx-campaign-currency-jse').prop('checked', true);
+		$('#adx-campaign-currency-usd').prop('checked', false);
+		$('.adx-selected-currency').html('<small>JSE</small>');
+	} else {
+		$('#adx-campaign-currency-jse').prop('checked', false);
+		$('#adx-campaign-currency-usd').prop('checked', true);
+		$('.adx-selected-currency').html('$');
+	}
+	updateEstimatedVolume();
+}
+
+function openCatalog() {
+	$('#tmpmodal').modal('hide');
+	currentPage = 'adxcatalog.html';
+	$("#content").load('adxcatalog.html',function() {
+		$('.titletext').html('AdX Catalog');
+	});
+}
+
+function dashToCamelCase( myStr ) {
+  return myStr.replace(/-([a-z])/g, function (g) { return g[1].toUpperCase(); });
+}
+
+function camelCaseToDash( myStr ) {
+    return myStr.replace( /([a-z])([A-Z])/g, '$1-$2' ).toLowerCase();
+}
+
+function convertCampaignDash(myStr) {
+	return dashToCamelCase(myStr.split('adx-campaign-').join(''));
+}
+function convertCampaignCamel(myStr) {
+	return 'adx-campaign-'+camelCaseToDash(myStr);
+}
+
+function updateEstimatedVolume() {
+	var estimatedImpressions = 0;
+	var estimatedClicks = 0;
+	var currentBidPrice = parseFloat($('#adx-campaign-bid-price').val());
+	var currentDailyBudget = parseFloat($('#adx-campaign-daily-budget').val());
+	if ($('#adx-campaign-currency-jse').is(':checked')) {
+		currentBidPrice = currentBidPrice * publicStats.exchangeRates.USDJSE;
+		currentDailyBudget = currentDailyBudget * publicStats.exchangeRates.USDJSE;
+	}
+	var volume = 1000;
+	var currentVolumes = { US: 11.37, ID: 8.18, RU: 5.91, IN: 5.64, FR: 5.60, BR: 4.35, HU: 4.07, GB: 4.00, ES: 3.90, IT: 3.64, DE: 3.50, UA: 2.61, PL: 2.53, NL: 2.23, PH: 2.21, PK: 1.84, CA: 1.66, MX: 1.60, BG: 1.57, RO: 1.42, VE: 1.26, CN: 1.18, TH: 1.17, AU: 1.11, GR: 1.10, AR: 1.06, BE: 0.99, PT: 0.98, VN: 0.84, CZ: 0.74, MY: 0.74, CO: 0.70, SE: 0.70, TR: 0.68, JP: 0.65, PE: 0.59, TW: 0.59, AT: 0.55, SK: 0.54, KR: 0.54, ZA: 0.53, NG: 0.52, DK: 0.50, SG: 0.49, CH: 0.45, FI: 0.43, LV: 0.39, XX: 0.37, SI: 0.35, IE: 0.31, HK: 0.29, NZ: 0.25, LT: 0.19, IL: 0.18, NO: 0.17, ET: 0.03 };
+	$('#ToLB').find("option").each(function() {
+		if (currentVolumes[$(this).val()]) {
+			volume += Math.round(5000000 * (currentVolumes[$(this).val()] / 100));
+		}
+	});
+	volume = volume * Math.min(currentBidPrice,1);
+	if (currentBidPrice < 0.3) volume = volume * currentBidPrice;
+	if (currentBidPrice < 0.15) volume = volume * currentBidPrice;
+	
+	var maxVolume = (currentDailyBudget / currentBidPrice) * 1000;
+	estimatedImpressions = Math.round(Math.min(maxVolume,volume));
+	estimatedClicks = Math.round(estimatedImpressions / 250);
+	if (currentBidPrice === 0 || currentDailyBudget === 0 || Number.isNaN(currentBidPrice) || Number.isNaN(currentDailyBudget)) {
+		estimatedImpressions = 0;
+		estimatedClicks = 0;
+	}
+	$('#adx-estimated-volume').html('Impressions: '+estimatedImpressions+' - Clicks: '+estimatedClicks);
+}
+
+function submitCampaign() {
+	var adxCampaignData = {};
+	$("#adx-campaign-setup-form").find(":input").each(function() {
+		if (convertCampaignDash(this.id) === 'ToLB') {
+			adxCampaignData['geos'] = [];
+			$(this).find("option").each(function() {
+				adxCampaignData['geos'].push($(this).val());
+			});
+		} else if (!this.id || this.id === 'FromLB' || this.id === 'adx-campaign-upload') {
+			// ignore
+		} else if ($(this).is(':checkbox')) {
+			adxCampaignData[convertCampaignDash(this.id)] = $(this).is(':checked');
+		} else {
+			adxCampaignData[convertCampaignDash(this.id)] = $(this).val();
+		}
+	});
+	adxCampaignData.url = String(adxCampaignData.url).trim(); // clean url
+	adxCampaignData.creatives = {};
+	let count = 0;
+	$('#adx-campaign-previously-uploaded').find('.adx-campaign-previews').each(function() {
+		count += 1;
+		var existingCount = parseInt(this.src.split('.')[0].split('_')[2],10);
+		if (existingCount > count) count = existingCount;
+		adxCampaignData.creatives[count] = { ref: count, size: this.getAttribute('sizing'), originalFileName: this.getAttribute('originalFileName'), src: this.src };
+	});
+	$('#adx-campaign-file-list').find('.adx-campaign-previews').each(function() {
+		count += 1;
+		if (count <= 8) {
+			adxCampaignData.creatives[count] = { ref: count, size: this.getAttribute('sizing'), originalFileName: this.getAttribute('originalFileName'), src: this.src };
+		}
+	});
+	if (adxCampaignData.keywords && count > 0) {
+		notify('Campaign can not include banners and keywords');
+		loadStep2();
+		return false;
+	}
+	if (!adxCampaignData.keywords && count === 0) {
+		notify('Please upload some banners or keywords for your campaign');
+		loadStep2();
+		return false;
+	}
+	if (!adxCampaignData.name || adxCampaignData.name.length < 1) {
+		notify('Campaign is missing a name');
+		loadStep1();
+		return false;
+	}
+	if (adxCampaignData['geos'].length < 1) {
+		notify('Campaign needs to target at least one geographic region');
+		loadStep1();
+		return false;
+	}
+	if (adxCampaignData.url.indexOf('http') === -1 || adxCampaignData.url.indexOf('.') === -1) {
+		notify('Please check the URL is valid and starts http');
+		loadStep2();
+		return false;
+	}
+	if (!adxCampaignData.dailyBudget || adxCampaignData.dailyBudget < 0.1) {
+		notify('Please set a daily budget for your campaign to limit total ad spend');
+		return false;
+	}
+	if (!adxCampaignData.bidPrice || adxCampaignData.bidPrice < 0.001) {
+		notify('Please set a bid price (cpm) for your campaign');
+		return false;
+	}
+	var credentials = {};
+	credentials.session = user.session;
+	Object.assign(credentials, adxCampaignData); // merge objects into credentials
+	$.ajax({url:jseServer+'/advertising/uploadcampaign/',type:'POST',contentType:'application/json',data: JSON.stringify(credentials)}).done(function(data) {
+		returnObject = JSON.parse(data);
+		if (returnObject && returnObject.notification) {
+			$('#tmpmodal').modal('hide');
+			notify(returnObject.notification);
+			refreshUser(function() {
+				loadAdExchange();
+			});
+		}
+	});
+}
+
+function injectCampaignData(campaignID) {
+	console.log('Injecting',campaignID);
+	const existingCampaign = user.campaigns[campaignID];
+	$('#ToLB option[value="US"]').attr('selected','selected');
+	moveCountry(document.getElementById('ToLB'),document.getElementById('FromLB'));
+	for (var camelID in existingCampaign) {
+		if (!existingCampaign.hasOwnProperty(camelID)) continue;
+		var dashID = convertCampaignCamel(camelID);
+		if (dashID === 'adx-campaign-geos') {
+			for (var i = 0; i < existingCampaign[camelID].length; i++) {
+				var nextGeo = existingCampaign[camelID][i];
+				//console.log(nextGeo);
+				$('#FromLB option[value="'+nextGeo+'"]').attr('selected','selected');
+				moveCountry(document.getElementById('FromLB'),document.getElementById('ToLB'));
+			}
+		} else if (camelID === 'currencyUsd' && existingCampaign.currencyUsd === true) {
+			selectCurrency('usd');
+		} else if (camelID === 'banners') {
+			//console.log('t1.'+existingCampaign[camelID])
+			var bannerHTML = '';
+			for (var i = 0; i < existingCampaign[camelID].length; i++) {
+				var banner = existingCampaign[camelID][i];
+				bannerHTML += '<div class="generalbox"><button type="button" class="close alertx" onclick="$(this).parent().remove();"><span aria-hidden="true">&times;</span></button><br><img class="adx-campaign-previews" sizing="'+banner.size+'" originalFileName="'+banner.originalFileName+'" src="'+jseAdXServer+'/'+banner.fileName+'" /><br>'+banner.originalFileName+' - ('+banner.size+') - '+banner.fileName+'</div>';
+			}
+			$('#adx-campaign-previously-uploaded').html(bannerHTML);
+		} else if (camelID === 'keywords') {
+			console.log('t2.'+existingCampaign[camelID])
+			showKeywords();
+			$("input[name=adx-campaign-ad-type][value='intext']").prop("checked",true);
+			var existingKeywords = '';
+			for (var i = 0; i < existingCampaign[camelID].length; i++) {
+				existingKeywords += existingCampaign[camelID][i].keyword+"\n";
+			}
+			$('#adx-campaign-keywords').html(existingKeywords);
+		} else if (!document.getElementById(dashID)) {
+			console.log(dashID, 'not found');
+		} else if (dashID === 'adx-campaign-upload') {
+			// figure out creatives
+		} else if ($('#'+dashID).is(':checkbox')) {
+			if (existingCampaign[camelID] === true) {
+				$('#'+dashID).prop('checked', true);
+			} else {
+				$('#'+dashID).prop('checked', false);
+				if (camelID === 'devices') $('#adx-campaign-device-list').show();
+				if (camelID === 'browsers') $('#adx-campaign-browser-list').show();
+				if (camelID === 'category') $('#adx-campaign-category-list').show();
+				if (camelID === 'domains') $('#adx-campaign-domain-list').show();
+				if (camelID === 'publishers') $('#adx-campaign-publisher-list').show();
+			}
+		} else {
+			$('#'+dashID).val(existingCampaign[camelID]);
+		}				
+	}
+}
+
+</script>

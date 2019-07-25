@@ -1,0 +1,831 @@
+
+
+<ul class="nav nav-tabs publisher-tabs">
+	<li id="pub-stats-tab-main" class="pub-stats-tab active"><a href="javascript:void(0)" onclick="loadPublishers();">Main</a></li>
+	<li id="pub-stats-tab-mining" class="pub-stats-tab"><a href="javascript:void(0)" onclick="pubMiningStats()">Publisher Mining</a></li>
+	<li id="pub-stats-tab-advertising" class="pub-stats-tab"><a href="javascript:void(0)" onclick="pubAdvertisingStats()">Advertising</a></li>
+	<li id="pub-stats-tab-developers" class="pub-stats-tab"><a href="javascript:void(0)" onclick="window.open('http://developer.jsecoin.com/');">Developers</a></li>
+	<!--
+	<li><a href="javascript:void(0)" onclick="loadSiteIDs()">Site ID's</a></li>
+	<li><a href="javascript:void(0)" onclick="loadSubIDs()">Sub ID's</a></li>
+	-->
+</ul>
+<div id="publisher-main-content">
+	<div class="row">
+		<div class="col-lg-6 text-center">
+			<div class="ibox float-e-margins">
+				<div class="ibox-title">
+					<h5>Setup</h5>
+				</div>
+				<div class="ibox-content">
+					Start earning JSEcoin from your websites by entering the domain name below.
+					<form class="m-t" role="form" onSubmit="return false;">
+						<div class="form-group">
+							<input type="text" class="form-control w300c" id="pub-setup-site" placeholder="example.com" />
+							<button class="btn btn-primary btn-lg dim mt5" onclick="getCode();" type="button">
+								<i class="fa fa-code"></i> Setup Site
+							</button><br>
+							<input type="checkbox" id="pub-setup-terms" value="1" checked="checked"> I agree to <a href="https://jsecoin.com/terms/" target="_blank">Terms</a>
+							<i class="fa fa-info-circle fa-tooltip" aria-hidden="true" onclick="notify('Publishers must agree to the terms before installing the mining code.');"></i>
+							<br>
+							<input type="checkbox" id="pub-setup-advertising" value="1" checked="checked" onclick="toggleAdOptions();"> <span>Earn additional revenue with advertising</span>
+							<i class="fa fa-info-circle fa-tooltip" aria-hidden="true" onclick="notify('Publishers can earn additional cryptocurrency revenue through digital display advertising.');"></i>
+							<br><br>
+
+							<button class="btn btn-primary" onclick="$('#pub-setup-advanced').toggle();">Advanced</button>
+							<div id="pub-setup-advanced" class="generalbox white-box mt5 w300c" style="margin: 10px auto;">
+								<h5>Advanced Options</h5>
+								<table class="table pub-setup-advanced-table">
+									<tr>
+										<td class="text-left">Sub ID Tracking <i class="fa fa-info-circle fa-tooltip" aria-hidden="true" onclick="notify('Track additional data such as userIDs or page references, this can be dynamically inserted into the tracking code in real time.');"></i></td>
+										<td><input type="text" class="form-control w150c inline" id="pub-setup-subid" placeholder="subid (optional)" /></td>
+									</tr>
+									<tr>
+										<td class="text-left">Dark Mode <i class="fa fa-info-circle fa-tooltip" aria-hidden="true" onclick="notify('Display a night mode version of the opt in banner.');"></i></td>
+										<td><input class="form-check-input" type="checkbox" id="pub-setup-darkmode"></td>
+									</tr>
+									<tr>
+										<td class="text-left">Notification Position <i class="fa fa-info-circle fa-tooltip" aria-hidden="true" onclick="notify('Display the notification banner either at the top or bottom of the page.');"></i></td>
+										<td>
+										<select class="form-control" id="pub-setup-position" style="width: 150px;">
+											<option value="bottom" selected="selected">Bottom</option>
+											<option value="top">Top</option>
+										</select>
+									</td>
+								</tr>
+									<tr>
+										<td class="text-left">Language <i class="fa fa-info-circle fa-tooltip" aria-hidden="true" onclick="notify('As standard we will try to match the optin banner to the language set in the browser of the website visitor however you can set it manually from this list');"></i></td>
+										<td>
+										<select class="form-control" id="pub-setup-language" style="width: 150px;">
+											<option value="auto" selected="selected">Auto</option>
+											<option value="en">en</option>
+											<option value="fr">fr</option>
+											<option value="es">es</option>
+											<option value="fi">fi</option>
+											<option value="hr">hr</option>
+											<option value="hu">hu</option>
+											<option value="zh-TW">zh-TW</option>
+											<option value="zh-CN">zh-CN</option>
+											<option value="th">th</option>
+											<option value="sv">sv</option>
+											<option value="sl">sl</option>
+											<option value="ru">ru</option>
+											<option value="ro">ro</option>
+											<option value="pt">pt</option>
+											<option value="no">no</option>
+											<option value="nl">nl</option>
+											<option value="ms">ms</option>
+											<option value="ko">ko</option>
+											<option value="it">it</option>
+											<option value="id">id</option>
+											<option value="de">de</option>
+											<option value="ar">ar</option>
+										</select>
+									</td>
+								</tr>
+								</table>
+								<div id="pub-setup-advertising-settings">
+									<h5>Advertising Settings</h5>
+									<table class="table">
+										<tr>
+											<td class="text-left">Site Category <i class="fa fa-info-circle fa-tooltip" aria-hidden="true" onclick="notify('We try to automatically determine what category your site fits via keyword analysis however you can manually set the site category here to prevent unwanted ads');"></i></td>
+											<td>
+												<select class="form-control" id="pub-setup-select-category" style="width: 150px;">
+													<option value="auto">Auto</option>
+													<option value="0">General / Blogs</option>
+													<option value="1">Cryptocurrency Related</option>
+													<option value="2">File Sharing / Streaming</option>
+													<option value="3">Adult</option>
+												</select>
+											</td>
+										</tr>
+										<tr>
+											<td class="text-left">Auto Banners <i class="fa fa-info-circle fa-tooltip" aria-hidden="true" onclick="notify('If selected publishers can earn additional revenue via display advertising. Banners are placed in the header and bottom right on desktop and just in the header on mobile');"></i></td>
+											<td>
+												<table class="table">
+													<tr>
+														<td>Top</td>
+														<td>Bottom</td>
+													</tr>
+													<tr>
+														<td><input class="form-check-input" type="checkbox" id="pub-setup-autobanner-top" checked></td>
+														<td><input class="form-check-input" type="checkbox" id="pub-setup-autobanner-bottom" checked></td>
+													</tr>
+												</table>
+											</td>
+										</tr>
+										<tr>
+											<td class="text-left">Manual Banners <i class="fa fa-info-circle fa-tooltip" aria-hidden="true" onclick="notify('This option can be used to provide more control over where your banners are displayed on the site. Banners can be set to a certain size or to automatically fit the available size of the parent container');"></i></td>
+											<td>
+												<input class="form-check-input" type="checkbox" id="pub-setup-manualbanners" onclick="$('#pub-setup-banner-code').toggle();">
+												<div id="pub-setup-banner-code">
+													<select class="form-control" id="pub-setup-select-banner" style="width: 150px;" onchange="getBannerCode();">
+														<option value="auto">Select Size</option>
+														<option value="auto">Auto</option>
+														<option value="728x90">728x90</option>
+														<option value="300x100">300x100</option>
+														<option value="300x250">300x250</option>
+													</select>
+												</div>
+											</td>
+										</tr>
+										<tr>
+											<td class="text-left">InText <i class="fa fa-info-circle fa-tooltip" aria-hidden="true" onclick="notify('InText ads create advertising links within your sites contextual content. Not available at this time, in development.');"></i></td>
+											<td><input class="form-check-input" type="checkbox" id="pub-setup-intext" checked></td>
+										</tr>
+										<tr>
+											<td class="text-left">No Mining <i class="fa fa-info-circle fa-tooltip" aria-hidden="true" onclick="notify('Run only JSE advertising without the publisher mining.');"></i></td>
+											<td><input class="form-check-input" type="checkbox" id="pub-setup-no-mining"></td>
+										</tr>
+									</table>
+									Block Advertiser IDs <i class="fa fa-info-circle fa-tooltip" aria-hidden="true" onclick="notify('It is possible to find publisher IDs by clicking on the JSE icon within an ad. These IDs can then be blocked for any reason the site owner sees fit.');"></i>
+									<div id="pub-setup-block-advertisers">
+										<textarea id="pub-setup-block" class="adx-greylist"></textarea>
+									</div>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-6">
+			<div class="row">
+				<div class="col-lg-6">
+					<div class="ibox float-e-margins">
+						<div class="ibox-title">
+							<span class="label label-primary info-label dashboard-rewards-label" onclick="notify('Mining rewards and referrals are paid out after 7 days.');">i</span>
+							<h5>Mining Rewards Pending</h5>
+						</div>
+						<div class="ibox-content text-center">
+							<h1 class="pending-publisher-mining"></h1>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-6">
+					<div class="ibox float-e-margins">
+						<div class="ibox-title">
+							<span class="label label-primary info-label dashboard-rewards-label" onclick="notify('Advertising rewards are paid out after 7 days. This stat is rounded to nearest JSE');">i</span>
+							<h5>Advertising Rewards Pending</h5>
+						</div>
+						<div class="ibox-content text-center">
+							<h1 class="pending-publisher-advertising"></h1>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--
+			<div class="ibox float-e-margins">
+				<div class="ibox-title">
+					<h5>The Future Of Content Monetization</h5>
+				</div>
+				<div class="ibox-content">
+					JSEcoin provides a suite of tools for publishers to monetize their digital content.
+					<hr style="margin: 2px 0px;">
+					<b>Mining</b> – empowers webmasters to leverage surplus resource in visitors browsers using a opt-in background cryptocurrency miner.
+					<hr style="margin: 2px 0px;">
+					<b>Advertising</b> – the JSE ad exchange provides a transparent, open marketplace for the trading of digital advertising directly between media buyers and publishers.
+					<hr style="margin: 2px 0px;">
+					<b>Merchant Tools</b> – site owners can accept simple cryptocurrency payments directly on their websites. <a href="https://jsecoin.com/en/support/FAQ/" target="_blank">...more info</a>
+				</div>
+			</div>
+			-->
+			<div class="ibox float-e-margins">
+				<div class="ibox-title">
+					<h5>JSE Captcha</h5>
+				</div>
+				<div class="ibox-content">
+					Prevent bots from accessing your content or attempting logins and registrations.
+					<hr style="margin: 2px 0px;">
+					<div id="JSE-captcha" class="pull-left"></div>
+					<script type="text/javascript" src="https://api.jsecoin.com/captcha/load/captcha.js"></script>
+					<button onclick="setupCaptcha();" class="btn btn-primary pull-left" style="margin: 3px 0px 0px 10px;"><i class="fa fa-code"></i> Setup Captcha</button>
+					<div style="clear: both;"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-lg-3">
+			<div class="ibox float-e-margins">
+				<div class="ibox-title">
+					<span class="label label-warning pull-right">Today</span>
+					<h5>Hits / Uniques</h5>
+				</div>
+				<div class="ibox-content">
+					<h1><span class="todayhits">0</span> / <span class="todayuniques">0</span></h1>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-3">
+			<div class="ibox float-e-margins">
+				<div class="ibox-title">
+					<span class="label label-warning pull-right">Today</span>
+					<h5>Opt-Ins</h5>
+				</div>
+				<div class="ibox-content">
+					<h1 class="todayoptins">0</h1>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-3">
+			<div class="ibox float-e-margins">
+				<div class="ibox-title">
+					<span class="label label-warning pull-right">Today</span>
+					<h5>Hashes</h5>
+				</div>
+				<div class="ibox-content">
+					<h1 class="todayhashes">0</h1>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-3">
+			<div class="ibox float-e-margins">
+				<div class="ibox-title">
+					<span class="label label-warning pull-right">Today</span>
+					<h5>Earnings</h5>
+				</div>
+				<div class="ibox-content">
+					<h1 class="todayearnings">0</h1>
+				</div>
+			</div>
+		</div>   
+	</div>
+
+	<div class="row">
+		<div class="col-lg-3">
+			<div class="ibox float-e-margins">
+				<div class="ibox-title">
+					<span class="label label-primary pull-right">Lifetime</span>
+					<h5>Hits / Uniques</h5>
+				</div>
+				<div class="ibox-content">
+					<h1><span class="lifetimehits">0</span> / <span class="lifetimeuniques">0</span></h1>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-3">
+			<div class="ibox float-e-margins">
+				<div class="ibox-title">
+					<span class="label label-primary pull-right">Lifetime</span>
+					<h5>Opt-Ins</h5>
+				</div>
+				<div class="ibox-content">
+					<h1 class="lifetimeoptins">0</h1>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-3">
+			<div class="ibox float-e-margins">
+				<div class="ibox-title">
+					<span class="label label-primary pull-right">Lifetime</span>
+					<h5>Hashes</h5>
+				</div>
+				<div class="ibox-content">
+					<h1 class="lifetimehashes">0</h1>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-3">
+			<div class="ibox float-e-margins">
+				<div class="ibox-title">
+					<span class="label label-primary pull-right">Lifetime</span>
+					<h5>Earnings</h5>
+				</div>
+				<div class="ibox-content">
+					<h1 class="lifetimeearnings">0</h1>
+				</div>
+			</div>
+		</div>   
+	</div>
+
+	<div class="row">
+		<div class="col-lg-6">
+			<div class="ibox float-e-margins">
+				<div class="ibox-title">
+					<h5>Recent Publisher Earnings</h5>
+
+				</div>
+				<div class="ibox-content mhtab">
+					<table class="table table-hover">
+						<thead>
+							<tr>
+								<th>Date</th>
+								<th>Amount</th>
+								<th>Site ID</th>
+							</tr>
+						</thead>
+						<tbody class="publishertable"></tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-6">
+			<div class="ibox float-e-margins">
+				<div class="ibox-title">
+					<h5>Mining Earnings Chart</h5>
+				</div>
+				<div class="ibox-content">
+					<div class="flot-chart">
+						<div class="flot-chart-content" id="publisherchart"></div>
+					</div>
+					<div style="width: 100%; text-align: center;">
+						<button class="btn btn-primary btn-sm" onclick="window.pubChartDays = 7; loadPublishers();" type="button">7 Days</button>
+						<button class="btn btn-primary btn-sm" onclick="window.pubChartDays = 14; loadPublishers();" type="button">14 Days</button>
+						<button class="btn btn-primary btn-sm" onclick="window.pubChartDays = 30; loadPublishers();" type="button">30 Days</button>
+						<button class="btn btn-primary btn-sm" onclick="window.pubChartDays = 90; loadPublishers();" type="button">90 Days</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="publisher-mining-content">
+	<div class="row">
+		<div class="col-lg-12 text-center">
+			<div class="ibox float-e-margins">
+				<div class="ibox-title">
+					<h5>SiteID Data</h5>
+					<div class="pub-csv-button publisher-siteid-csv"></div>
+					<div style="clear:both;"></div>
+				</div>
+				<div class="ibox-content publisher-siteid-data">
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-12 text-center">
+			<div class="ibox float-e-margins">
+				<div class="ibox-title">
+					<h5>SubID Data</h5>
+					<div class="pub-csv-button publisher-siteid-csv"></div>
+					<div style="clear:both;"></div>
+				</div>
+				<div class="ibox-content publisher-subid-data">
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="publisher-advertising-content">
+	<div class="row">
+		<div class="col-lg-12 text-center">
+			<div class="ibox float-e-margins">
+				<div class="ibox-title">
+					<h5 class="adx-current-siteid">Publisher Advertising Stats</h5>
+				</div>
+				<div class="ibox-content publisher-advertising-main">
+					
+					<div class="row publisher-advertising-boxes">
+						<div class="col-lg-3">
+							<div class="ibox float-e-margins">
+								<div class="ibox-title">
+									<div class="dropdown adx-timeframe-dropdown">
+										<a href="javascript:void(0)" data-toggle="dropdown" class="dropdown-toggle"><span class="label label-success" style="padding: 5px 10px;"><span class="timeframe-selector">Today</span> <b class="caret"></b></span></a>
+										<ul class="dropdown-menu adx-dropdown-list">
+										</ul>
+									</div>
+									<h5>Impressions</h5>
+								</div>
+								<div class="ibox-content text-center">
+									<h1 class="timeframeImpressions">0</h1>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-3">
+							<div class="ibox float-e-margins">
+								<div class="ibox-title">
+									<div class="dropdown adx-timeframe-dropdown">
+										<a href="javascript:void(0)" data-toggle="dropdown" class="dropdown-toggle"><span class="label label-success" style="padding: 5px 10px;"><span class="timeframe-selector">Today</span> <b class="caret"></b></span></a>
+										<ul class="dropdown-menu adx-dropdown-list">
+										</ul>
+									</div>
+									<h5>Clicks</h5>
+								</div>
+								<div class="ibox-content text-center">
+									<h1 class="timeframeClicks">0</h1>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-3">
+							<div class="ibox float-e-margins">
+								<div class="ibox-title">
+									<div class="dropdown adx-timeframe-dropdown">
+										<a href="javascript:void(0)" data-toggle="dropdown" class="dropdown-toggle"><span class="label label-success" style="padding: 5px 10px;"><span class="timeframe-selector">Today</span> <b class="caret"></b></span></a>
+										<ul class="dropdown-menu adx-dropdown-list">
+										</ul>
+									</div>
+									<h5>Conversions</h5>
+								</div>
+								<div class="ibox-content text-center">
+									<h1 class="timeframeConversions">0</h1>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-3">
+							<div class="ibox float-e-margins">
+								<div class="ibox-title">
+									<div class="dropdown adx-timeframe-dropdown">
+										<a href="javascript:void(0)" data-toggle="dropdown" class="dropdown-toggle"><span class="label label-success" style="padding: 5px 10px;"><span class="timeframe-selector">Today</span> <b class="caret"></b></span></a>
+										<ul class="dropdown-menu adx-dropdown-list">
+										</ul>
+									</div>
+									<h5>Revenue</h5>
+								</div>
+								<div class="ibox-content text-center">
+									<h1 class="timeframeRevenue">0 JSE</h1>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-lg-12">
+							<ul class="nav nav-tabs publisher-advertising-subtabs">
+								<li class="adx-stats-tab adx-pub-stats-tab active" id="adx-stats-tab-summary"><a href="javascript:void(0);" class="adx-stats-tab-link" onclick="loadAdxStats(null,'pub','summary','j');">Summary</a></li>
+								<li class="adx-stats-tab adx-pub-stats-tab" id="adx-stats-tab-subids"><a href="javascript:void(0);" class="adx-stats-tab-link" onclick="loadAdxStats(null,'pub','subids','j');">SubIDs</a></li>
+								<li class="adx-stats-tab adx-pub-stats-tab" id="adx-stats-tab-creatives"><a href="javascript:void(0);" class="adx-stats-tab-link" onclick="loadAdxStats(null,'pub','placements','j');">Placements</a></li>
+								<li class="adx-stats-tab adx-pub-stats-tab" id="adx-stats-tab-geos"><a href="javascript:void(0);" class="adx-stats-tab-link" onclick="loadAdxStats(null,'pub','geos','j');">Countries</a></li>
+								<li class="adx-stats-tab adx-pub-stats-tab" id="adx-stats-tab-domains"><a href="javascript:void(0);" class="adx-stats-tab-link" onclick="loadAdxStats(null,'pub','domains','j');">Sites</a></li>
+								<li class="adx-stats-tab adx-pub-stats-tab" id="adx-stats-tab-pubIDs"><a href="javascript:void(0);" class="adx-stats-tab-link" onclick="loadAdxStats(null,'pub','advIDs','j');">Advertisers</a></li>
+								<li class="adx-stats-tab adx-pub-stats-tab" id="adx-stats-tab-devices"><a href="javascript:void(0);" class="adx-stats-tab-link" onclick="loadAdxStats(null,'pub','devices','j');">Devices</a></li>
+							</ul>
+							<div class="ibox float-e-margins">
+								<div class="ibox-title">
+									<h5>Advertising Breakdown</h5>
+									<div id="pub-stats-datepicker">
+										<div class="pull-right">
+											<label for="adx-from-datepicker">From:</label>
+											<input id="adx-from-datepicker" class="datepicker adx-datepicker" name="adx-from-datepicker" type="date" min="2018-11-01" max="2025-12-01" onchange="loadAdxStats(null,'pub',null,'j');"> &nbsp;&nbsp; 
+											<label for="adx-to-datepicker">To:</label>
+											<input id="adx-to-datepicker" class="datepicker adx-datepicker" name="adx-to-datepicker" type="date" min="2018-11-01" max="2025-12-01" onchange="loadAdxStats(null,'pub',null,'j');">
+										</div>
+										<div style="clear: both;"></div>
+									</div>
+									<div class="dropdown adx-timeframe-dropdown" id="pub-stats-datetoggle">
+										<a href="javascript:void(0)" data-toggle="dropdown" class="dropdown-toggle"><span class="label label-success" style="padding: 5px 10px;"><span class="timeframe-selector">Today</span> <b class="caret"></b></span></a>
+										<ul class="dropdown-menu adx-dropdown-list">
+										</ul>
+									</div>
+								</div>
+								<div class="ibox-content mhtab">
+									<table class="table">
+										<tr><th id="adx-stats-th-what"></th>
+											<th class="text-center">Impressions <i class="fa fa-info-circle fa-tooltip" aria-hidden="true" onclick="notify('Number of ads displayed, this may not match your total site impressions depending on time on site and banner fulfillment');"></i></th>
+											<th class="text-center">Validated <i class="fa fa-info-circle fa-tooltip" aria-hidden="true" onclick="notify('Validated impressions shows the percentage of users that stayed on a site for a set amount of time and passed a bot detection and IP check');"></i></th>
+											<th class="text-center">Clicks <i class="fa fa-info-circle fa-tooltip" aria-hidden="true" onclick="notify('The number of times an ad has been clicked and the visitor has gone through to the destination page.');"></i></th>
+											<th class="text-center">CTR <i class="fa fa-info-circle fa-tooltip" aria-hidden="true" onclick="notify('Click through rate is the percentage of users that viewed an ad that clicked through to the landing page i.e. clicks/impressions');"></i></th>
+											<th class="text-center">Revenue (JSE) <i class="fa fa-info-circle fa-tooltip" aria-hidden="true" onclick="notify('Advertising revenue paid by media buyers to your account in JSE tokens. Tokens go in to pending for seven days for both advertising and mining payments.');"></i></th>
+										</tr>
+										<tbody id="adx-stats-table"></tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<style>
+	.publisher-tabs { border: none; }
+	.publisher-tabs li a { color: #666; }
+	.pub-setup-advanced-table td { vertical-align: middle !important; }
+	.pub-csv-button { float: right; }
+	.pub-stats-table td, .pub-stats-table th { text-align: left; }
+	.adx-pub-stats-tab a { color: #666 !important; }
+</style>
+
+<script>
+
+$('.titletext').html('Publishers');
+$('#pub-setup-advanced').hide();
+$('#publisher-mining-content').hide();
+$('#pub-setup-banner-code').hide();
+$('#pub-stats-datepicker').hide();
+
+if (!user.pubStats) {
+	$('#publisher-advertising-content').hide();
+} else {
+	currentSiteID = null;
+	printPubStats(0);
+}
+var days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+var flexiDate = new Date();
+flexiDate.setDate(flexiDate.getDate()-2);
+var twoDaysAgo = days[flexiDate.getDay()];
+flexiDate.setDate(flexiDate.getDate()-1);
+var threeDaysAgo = days[flexiDate.getDay()];
+flexiDate.setDate(flexiDate.getDate()-1);
+var fourDaysAgo = days[flexiDate.getDay()];
+flexiDate.setDate(flexiDate.getDate()-1);
+var fiveDaysAgo = days[flexiDate.getDay()];
+
+$('.adx-dropdown-list').html('<li><a href="javascript:void(0)" onclick="$(\'.timeframe-selector\').html(\'Today\'); printPubStats(0);">Today</a></li><li><a href="javascript:void(0)" onclick="$(\'.timeframe-selector\').html(\'Yesterday\'); printPubStats(1);">Yesterday</a></li><li><a href="javascript:void(0)" onclick="$(\'.timeframe-selector\').html(\''+twoDaysAgo+'\'); printPubStats(2);">'+twoDaysAgo+'</a></li><li><a href="javascript:void(0)" onclick="$(\'.timeframe-selector\').html(\''+threeDaysAgo+'\'); printPubStats(3);">'+threeDaysAgo+'</a></li><li><a href="javascript:void(0)" onclick="$(\'.timeframe-selector\').html(\''+fourDaysAgo+'\'); printPubStats(4);">'+fourDaysAgo+'</a></li><li><a href="javascript:void(0)" onclick="$(\'.timeframe-selector\').html(\''+fiveDaysAgo+'\'); printPubStats(5);">'+fiveDaysAgo+'</a></li><li><a href="javascript:void(0)" onclick="$(\'.timeframe-selector\').html(\'7 Days\'); printPubStats(7);">Last 7 Days</a></li><li><a href="javascript:void(0)" onclick="$(\'.timeframe-selector\').html(\'14 Days\'); printPubStats(14);">Last 14 Days</a></li><li><a href="javascript:void(0)" onclick="$(\'.timeframe-selector\').html(\'30 Days\'); printPubStats(30);">Last 30 Days</a></li><li><a href="javascript:void(0)" onclick="$(\'.timeframe-selector\').html(\'60 Days\'); printPubStats(30);">Last 60 Days</a></li><li><a href="javascript:void(0)" onclick="$(\'.timeframe-selector\').html(\'90 Days\'); printPubStats(90);">Last 90 Days</a></li>');
+
+
+$('.lifetimehits').html(user.statsTotal.h || 0);
+$('.lifetimeuniques').html(user.statsTotal.u || 0);
+$('.lifetimeoptins').html(user.statsTotal.o || 0);
+$('.lifetimehashes').html(user.statsTotal.a || 0);
+$('.lifetimeearnings').html(user.statsTotal.c || 0);
+if (user.statsToday) {
+	$('.todayhits').html(user.statsToday.h || 0);
+	$('.todayuniques').html(user.statsToday.u || 0);
+	$('.todayoptins').html(user.statsToday.o || 0);
+	$('.todayhashes').html(user.statsToday.a || 0);
+	$('.todayearnings').html(user.statsToday.c || 0);
+}
+
+if (String(user.balance).length > 6 && $(window).width() < 1500) { // don't add coin if not enough room
+	$('.jsebalance').html(user.balance);
+} else {
+	$('.jsebalance').html(user.balance+' <img src="img/coin_gold.png" alt="JSE" class="dashboard-coin" />')
+}
+
+calculatePendingTotal();
+$('.pending-publisher-mining').html(user.pendingPublisherMining+' <img src="img/coin_gold.png" alt="JSE" class="dashboard-coin" />');
+$('.pending-publisher-advertising').html(Math.round(user.pendingAdvertiser)+' <img src="img/coin_gold.png" alt="JSE" class="dashboard-coin" />');
+
+var transactionTable = '';
+var reverseArray = [];
+for (var i in user.mining) {
+	reverseArray.push(user.mining[i]);
+}
+for (var i = reverseArray.length - 1; i >= 0; i--) {
+	var t = reverseArray[i]
+	if (t.command && t.command == 'mining' && t.siteid !== 'Platform Mining') {
+		//var transactionTime = new Date(t.ts);
+		//t.utcdate = transactionTime.toUTCString()
+		t.localTime = utcTS2local(t.ts);
+		transactionTable += '<tr><td>'+t.localTime+'</td><td><img src="img/coin_gold.png" alt="" class="table-coin" /> '+t.value+' JSE</td><td>'+t.siteid+'</td></tr>';
+	}
+}
+$('.publishertable').html(transactionTable);
+
+//var publisherChartData = [ [1, 34], [2, 25], [3, 19], [4, 34], [5, 32], [6, 44] ];
+var publisherCoinData = [];
+var publisherUniqueData = [];
+
+// convert object to array
+var statsDaily = [];
+for (var key in stats.statsDaily) {
+	if (!stats.statsDaily.hasOwnProperty(key)) continue;
+	statsDaily.push(stats.statsDaily[key]);
+}
+
+function getPastDate(daysAgo) {
+	var date = new Date();
+	date.setDate(date.getDate()-daysAgo);
+	return date; //.getDate() + '/' + (date.getMonth()+1) + '/' + date.getFullYear();
+}
+// set the number of days to go back window.pubChartDays = 14; loadPublishers();
+var startDate = 0;
+if (!window.pubChartDays) {
+	pubChartDays = 14;
+}
+if (statsDaily.length > pubChartDays) {
+	startDate = statsDaily.length - pubChartDays;
+}
+for (var i = startDate; i < statsDaily.length; i++) {
+	var theDate = getPastDate(statsDaily.length - i);
+	publisherCoinData.push([theDate,statsDaily[i].c]);
+	publisherUniqueData.push([theDate,statsDaily[i].u]);
+}
+function doPlot(position) {
+	$.plot($("#publisherchart"), [{
+			data: publisherCoinData,
+			label: "JSE Coins Mined", color: "#2F4050",
+			bars: {
+				show: true, 
+				align: "center",
+				barWidth: 24 * 60 * 60 * 800,
+				lineWidth:1
+			}
+	}, {
+			data: publisherUniqueData,
+			label: "Unique Impressions",
+			yaxis: 2
+	}], {
+			xaxes: [{
+				//mode: 'time',timeformat: "%m/%d/%y", tickSize: [1, "day"], tickLength: 0
+				mode: 'time',timeformat: "", tickSize: [1, "day"], tickLength: 0
+			}],
+			yaxes: [{
+				min: 0,
+				axisLabel: 'JSE',
+				axisLabelUseCanvas: true
+			}, {
+				// align if we are to the right
+				axisLabel: 'Unique',
+				alignTicksWithAxis: position == "right" ? 1 : null,
+				position: position
+			}],
+			legend: {
+				position: 'sw'
+			},
+			colors: ["#1ab394"],
+			grid: {
+				color: "#999999",
+				hoverable: true,
+				clickable: true,
+				tickColor: "#D4D4D4",
+				borderWidth:0,
+				hoverable: true //IMPORTANT! this is needed for tooltip to work,
+			},
+			tooltip: true,
+			tooltipOpts: {
+				cssClass: 'chartTooltips',
+				content: "%s : %y",
+				onHover: function(flotItem, $tooltipEl) {
+						// console.log(flotItem, $tooltipEl);
+				}
+			}
+	});
+}
+doPlot("right");
+
+function toggleAdOptions() {
+	if ($('#pub-setup-advertising').is(':checked')) {
+		$('#pub-setup-banners').prop('checked', true);
+		$('#pub-setup-intext').prop('checked', true);
+		$('#pub-setup-advertising-settings').show();
+	} else {
+		$('#pub-setup-banners').prop('checked', false);
+		$('#pub-setup-intext').prop('checked', false);
+		$('#pub-setup-advertising-settings').hide();
+	}
+}
+
+function pubMiningStats() {
+	$('.pub-stats-tab').removeClass('active');
+	$('#pub-stats-tab-mining').addClass('active');
+	// Site IDs
+	var transactionTable = '<table class="table table-hover pub-stats-table"><thead><tr><th>Site ID</th><th>Earnings</th><th>Uniques</th><th>Hits</th><th>Opt-Ins</th><th>Hashes</th><th>Tools</th></tr></thead><tbody>';
+	var csvData = 'data:text/csv;charset=utf-8,';
+	csvData += '"Site ID","Earnings","Uniques","Hits","Opt-Ins","Hashes"'+"\r\n";
+	for (var i in stats.siteIDs) {
+		var t = stats.siteIDs[i];
+		if (t.s == 'Platform Mining') {
+			transactionTable += '<tr><td>'+t.s+'</td><td>'+t.c+' <small>JSE</small></td><td></td><td></td><td></td><td>'+t.a+'</td><td><button class="btn btn-sm btn-primary" onclick="loadMining(); $(\'#tmpmodal\').modal(\'hide\');">Platform Mining</button></td></tr>';
+		} else {
+			transactionTable += '<tr><td>'+t.s+'</td><td>'+t.c+' <small>JSE</small></td><td>'+t.u+'</td><td>'+t.h+'</td><td>'+(t.o || 0)+'</td><td>'+t.a+'</td><td><button class="btn btn-sm btn-primary" onclick="removeStats(\'siteIDs\',\''+t.s+'\');"><i class="fa fa-trash"></i> Remove</button> <button class="btn btn-sm btn-primary" onclick="getCodeSiteID(\''+t.s+'\');"><i class="fa fa-code"></i> Get Code</button></td></tr>';
+		}
+		csvData += '"'+t.s+'","'+t.c+'","'+t.u+'","'+t.h+'","'+(t.o || 0)+'","'+t.a+'"'+"\r\n";
+	}
+	transactionTable += '</tbody></table>';
+	var csvEncodedUri = encodeURI(csvData);
+	var csvDownloadButton = '<a class="btn btn-primary btn-xs" download="jse_siteids.csv" href="'+csvEncodedUri+'">Download CSV</a>';
+	$('.publisher-siteid-csv').html(csvDownloadButton);
+	$('.publisher-siteid-data').html(transactionTable);
+	// Sub IDs
+	transactionTable = '<table class="table table-hover pub-stats-table"><thead><tr><th>Sub ID</th><th>Earnings</th><th>Uniques</th><th>Hits</th><th>Opt-Ins</th><th>Hashes</th><th>Tools</th></tr></thead><tbody>';
+	csvData = 'data:text/csv;charset=utf-8,';
+	csvData += '"Sub ID","Earnings","Uniques","Hits","Opt-Ins","Hashes"'+"\r\n";
+	for (var i in stats.subIDs) {
+		var t = stats.subIDs[i];
+		transactionTable += '<tr><td>'+t.s+'</td><td>'+t.c+' <small>JSE</small></td><td>'+t.u+'</td><td>'+t.h+'</td><td>'+(t.o || 0)+'</td><td>'+t.a+'</td><td><button class="btn btn-sm btn-primary" onclick="removeStats(\'subIDs\',\''+t.s+'\');"><i class="fa fa-trash"></i> Remove</button></td></tr>';
+		csvData += '"'+t.s+'","'+t.c+'","'+t.u+'","'+t.h+'","'+(t.o || 0)+'","'+t.a+'"'+"\r\n";
+	}
+	transactionTable += '</tbody></table>';
+	csvEncodedUri = encodeURI(csvData);
+	csvDownloadButton = '<a class="btn btn-primary btn-xs" download="jse_subids.csv" href="'+csvEncodedUri+'">Download CSV</a>';
+	$('.publisher-subid-csv').html(csvDownloadButton);
+	$('.publisher-subid-data').html(transactionTable);
+	$('#publisher-main-content').hide();
+	$('#publisher-advertising-content').hide();
+	$('#publisher-mining-content').show();
+}
+
+function pubAdvertisingStats() {
+	$('.pub-stats-tab').removeClass('active');
+	$('#pub-stats-tab-advertising').addClass('active');
+	var pubHTML = '<h3>Advertising Stats</h3>';
+	$('#publisher-main-content').hide();
+	$('#publisher-mining-content').hide();
+	$('#publisher-advertising-content').show();
+	$('.publisher-advertising-boxes').show();
+	currentSiteID = null;
+	printPubStats(0);
+}
+
+function loadPubSummary(newSiteID) {
+	$('.publisher-advertising-subtabs').show();
+	$('.publisher-advertising-boxes').hide();
+	loadAdxStats(newSiteID,'pub','summary','j');
+}
+
+function printPubStats(timeframeInt) {
+	$('.publisher-advertising-subtabs').hide();
+	$('#pub-stats-datepicker').hide();
+	$('#pub-stats-datetoggle').show();
+	
+	var credentials = {};
+	credentials.session = user.session;
+	$.ajax({url:jseServer+'/advertising/stats/adxPubStats/',type:'POST',contentType:'application/json',data: JSON.stringify(credentials)}).done(function(data) {
+		user.pubStats = data;
+		
+		$('#adx-stats-th-what').html('Site ID');
+		var theDateToday = new Date();
+		var yymmdd = theDateToday.toISOString().slice(2,10).replace(/-/g,"");
+		$('#adx-to-datepicker').val(ymd2datepicker(yymmdd));
+		var targetDates = [];
+		if (timeframeInt <= 5) {
+			var theDate = new Date();
+			theDate.setDate(theDate.getDate()-timeframeInt);
+			var yymmdd2 = theDate.toISOString().slice(2,10).replace(/-/g,"");
+			$('#adx-to-datepicker').val(ymd2datepicker(yymmdd2));
+			$('#adx-from-datepicker').val(ymd2datepicker(yymmdd2));
+			targetDates.push(yymmdd2);
+		} else {
+			for (let i = 0; i < timeframeInt; i++) {
+				var theDate = new Date();
+				theDate.setDate(theDate.getDate()-i);
+				var yymmdd2 = theDate.toISOString().slice(2,10).replace(/-/g,"");
+				$('#adx-from-datepicker').val(ymd2datepicker(yymmdd2));
+				targetDates.push(yymmdd2);
+			}
+		}
+
+		var timeframeImpressions = 0;
+		var timeframeClicks = 0;
+		var timeframeConversions = 0;
+		var timeframeRevenue = 0;
+		var timeframeSiteIDs = {};
+
+		for (let i = 0; i < targetDates.length; i++) {
+			if (!user.pubStats[targetDates[i]]) continue;
+			var pubStatsToday = user.pubStats[targetDates[i]];
+			for (var siteID in pubStatsToday) {
+				//console.log(targetDates[i]+' '+siteID);
+				if (!pubStatsToday.hasOwnProperty(siteID)) continue;
+				if (!timeframeSiteIDs[siteID]) timeframeSiteIDs[siteID] = { i: 0, v: 0, c: 0, k: 0, j: 0 }; 
+				timeframeSiteIDs[siteID].i += (pubStatsToday[siteID].i || 0);
+				timeframeSiteIDs[siteID].v += (pubStatsToday[siteID].v || 0);
+				timeframeSiteIDs[siteID].c += (pubStatsToday[siteID].c || 0);
+				timeframeSiteIDs[siteID].k += (pubStatsToday[siteID].k || 0);
+				timeframeSiteIDs[siteID].j += (pubStatsToday[siteID].j || 0);
+
+				timeframeImpressions += (pubStatsToday[siteID].i || 0);
+				timeframeClicks += (pubStatsToday[siteID].c || 0);
+				timeframeConversions += (pubStatsToday[siteID].k || 0);
+				timeframeRevenue += (pubStatsToday[siteID].j || 0);
+				//console.log(timeframeSiteIDs);
+			}
+		}
+		var adxSiteIDTable = {};
+		for (var siteID in timeframeSiteIDs) {
+			if (!timeframeSiteIDs.hasOwnProperty(siteID)) continue;
+			var validated = Math.min(Math.round((timeframeSiteIDs[siteID].v / timeframeSiteIDs[siteID].i) * 100) || 0,100);
+			var ctr = Number(((timeframeSiteIDs[siteID].c || 0) / (timeframeSiteIDs[siteID].i || 0)) * 100).toFixed(2);
+			adxSiteIDTable += '<tr class="adx-stats-hover pointer" onclick="loadPubSummary(\''+siteID+'\');"><td style="text-align: left;">'+siteID+'</td><td class="text-center">'+(timeframeSiteIDs[siteID].i || 0)+'</td><td class="text-center">'+(validated || 0)+'%</td><td class="text-center">'+(timeframeSiteIDs[siteID].c || 0)+'</td><td class="text-center">'+(ctr || 0)+'%</td><td class="text-center">'+round((timeframeSiteIDs[siteID].j || 0)).toFixed(2)+'</td><td><button onclick="loadPubSummary(\''+siteID+'\');" class="btn btn-primary btn-xs"><i class="fa fa-bar-chart"></i> Stats</button></td></tr>';
+		}
+
+		$('.timeframeImpressions').html(timeframeImpressions);
+		$('.timeframeClicks').html(timeframeClicks);
+		$('.timeframeConversions').html(timeframeConversions);
+		$('.timeframeRevenue').html(round(timeframeRevenue).toFixed(2));
+		$('#adx-stats-table').html(adxSiteIDTable);
+
+		var startDate = 0;
+		var chartTimeframe = Math.max(timeframeInt, 7);
+		var publisherCoinData = [];
+		var publisherImpressionData = [];
+		for (var i = startDate; i <= chartTimeframe; i++) {
+			var theDate = new Date();
+			theDate.setDate(theDate.getDate()-(chartTimeframe - i));
+			var theYMD = theDate.toISOString().slice(2,10).replace(/-/g,"");
+			var adxChartSpend = 0;
+			var adxChartImpressions = 0;
+			for (var siteID in user.pubStats[theYMD]) {
+				if (!user.pubStats[theYMD].hasOwnProperty(siteID)) continue;
+				if (user.pubStats && user.pubStats[theYMD] && user.pubStats[theYMD][siteID] && user.pubStats[theYMD][siteID].j) {
+					adxChartSpend += user.pubStats[theYMD][siteID].j;
+				}
+				if (user.pubStats && user.pubStats[theYMD] && user.pubStats[theYMD][siteID] && user.pubStats[theYMD][siteID].i) {
+					adxChartImpressions += user.pubStats[theYMD][siteID].i;
+				}
+			}
+			publisherCoinData.push([theDate,adxChartSpend]);
+			publisherImpressionData.push([theDate,adxChartImpressions]);
+		}
+	});
+}
+
+function setupCaptcha() {
+	var clientSideCode = '<div id="JSE-captcha"></div><script type="text/javascript" src="https://api.jsecoin.com/captcha/load/captcha.js"></scr' + 'ipt>';
+	var verificationURL = 'https://api.jsecoin.com/captcha/check/:ipAddress/';
+	var optionalCode = '<button onclick="JSECaptchaComplete(\'customFunction\');">Login</button>';
+
+	launchModal('Captcha Setup','Client-side HTML Code:<div class="breakword"><xmp class="codeformat" id="sitecode">'+clientSideCode+'</xmp></div>Server-side Verification URL:<div class="breakword"><xmp class="codeformat" id="sitecode">'+verificationURL+'</xmp></div>Optional <i>JSECaptchaComplete()</i> Function calls your <i>customFunction()</i> if captcha complete:<div class="breakword"><xmp class="codeformat" id="sitecode">'+optionalCode+'</xmp></div><hr>Visit the developer website for more information and examples: <a href="https://developer.jsecoin.com" target="_blank">https://developer.jsecoin.com<a/>');
+}
+
+function getBannerCode() {
+	var bannerSize = $('#pub-setup-select-banner').val();
+	var bannerID = String(new Date().getTime()) +''+ String(Math.floor((Math.random() * 999999) + 1));
+	var bannerCode = '<!-- Start JSE Ad Code --><div id="JSE-banner-'+bannerID+'"></div><script>(window.JSEAdPlacements = window.JSEAdPlacements || []).push({type:\'banner\',size:\''+bannerSize+'\',placementID:\''+bannerID+'\'});</scr' + 'ipt><!-- End JSE Ad Code -->';
+	launchModal('Enter this code where you want the banner to display on the page above the main mining code snippet','<div class="breakword"><xmp class="codeformat" id="bannercode">'+bannerCode+'</xmp><br><hr><button class="btn btn-sm btn-primary" onclick="copyToClipboard(\'bannercode\'); $(this).addClass(\'animated tada\');">Copy to Clipboard</button> <span class="copiedresult"></span></div>');
+}
+
+</script>

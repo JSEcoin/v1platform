@@ -1,0 +1,94 @@
+<div class="row">
+	<div class="col-lg-1">
+	</div>
+	<div class="col-lg-10">
+		<div class="ibox float-e-margins">
+			<div class="ibox-title">
+				<h5>Transfer JSEcoin</h5>
+			</div>
+			<div class="ibox-content">
+				<h5>Send funds to:</h5>
+				<form role="form" class="form-inline" onSubmit="return false;">
+					<div class="form-group"><label for="touser" class="sr-only">Email address</label>
+						<input type="email" placeholder="Enter email" id="touser" class="form-control"></div>
+					<div class="form-group"><label for="toamount" class="sr-only">Amount</label>
+						<input type="text" placeholder="Amount" id="toamount" class="form-control"></div>
+					<div class="form-group"><label for="toreference" class="sr-only">Reference</label>
+						<input type="text" placeholder="Reference (optional)" id="toreference" class="form-control"></div>
+					<button class="btn btn-primary mt5" onclick="confirmTransfer(); $(this).addClass('animated tada');" type="button">Transfer Funds</button>
+				</form>
+				<div class="mt5"><small><a href="javascript:void(0);" onclick="showTxLimit();">Daily Transaction Limit : <span id="txLimit"></span></a></small></div>
+				<div class="mt5"><small>If you would like to test the transfer you can send a small amount to <b>charity@jsecoin.com</b> and we will do something good with it after the ICO</small></div>
+
+			</div>
+		</div>
+	</div>
+	<div class="col-lg-1">
+	</div>
+	<!--
+	<div class="col-lg-4">
+		<div class="ibox float-e-margins">
+			<div class="ibox-title">
+				<h5>Request Payment</h5>
+			</div>
+			<div class="ibox-content">
+				<div class="text-center">
+				<button class="btn btn-primary" onclick="notify('Feature not available in beta version')" >Request JSEcoin / Send Invoice</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	-->
+</div>
+
+
+<div class="row">
+	<div class="col-lg-12">
+		<div class="ibox float-e-margins">
+			<div class="ibox-title">
+				<h5>Recent Transactions</h5>
+			</div>
+			<div class="ibox-content mhtab">
+				<table class="table table-hover">
+					<thead>
+						<tr>
+							<th>Status</th>
+							<th>Value</th>
+							<th>Date</th>
+							<th>From/To</th>
+							<th>Reference</th>
+							<th>Transaction ID</th>
+						</tr>
+					</thead>
+					<tbody class="transactiontable"></tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	$('.titletext').html('Transfer');
+	$('#txLimit').html(user.txLimit);
+	var transactionTable = '';
+	var reverseArray = [];
+	for (var i in user.history) {
+		reverseArray.push(user.history[i]);
+	}
+	for (var i = reverseArray.length - 1; i >= 0; i--) {
+		var t = reverseArray[i]
+		if (t.command && t.command == 'transfer') {
+			//var transactionTime = new Date(t.ts);
+			//t.utcdate = transactionTime.toUTCString()
+			t.localTime = utcTS2local(t.ts);
+			var sentReceived = '<span class="label label-success">Received</span>';
+			var fromRef = t.user1email || t.publicKey+'<br>'; 
+			var toRef = t.user2email || t.toPublicKey; 
+			if (t.user1email == user.email) {
+				sentReceived = '<span class="label label-warning">Sent</span>';
+			}
+			transactionTable += '<tr><td><span class="label label-primary">Complete</span><br><br>'+sentReceived+'</td><td>'+t.value+'<small>JSE</small></td><td>'+t.localTime+'</td><td>'+fromRef+' &gt; '+toRef+'</td><td>'+t.reference+'</td><td>'+t.tid+'</td></tr>';
+		}
+	}
+	$('.transactiontable').html(transactionTable);
+</script>

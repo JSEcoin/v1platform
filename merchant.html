@@ -1,0 +1,496 @@
+<div class="row">
+	<div class="col-lg-8">
+		<div class="ibox float-e-margins">
+			<div class="ibox-title">
+					<h5>Merchant Tools</h5>
+			</div>
+			<div class="ibox-content">
+				<div class="generalbox">
+					<div id="merchant-setup-container">
+						<div id="merchant-setup-title">Setup your merchant account to accept cryptocurrency payments</div>
+						<div id="merchant-setup-form">
+							<div id="merchant-field-payment-type" class="merchant-field-title">Choose a payment type:</div>
+							<select onchange="togglePaymentType();" id="merchant-payment-type-select" class="merchant-select-input">
+								<option value="singlePayment">Single Payment</option>
+								<option value="recurringPayment">Recurring Payment</option>
+							</select>
+
+							<div id="merchant-field-item-name" class="merchant-field-title">Item Name / ID</div>
+							<input type="text" id="merchant-item-name-value" class="merchant-text-input">
+
+							<div id="merchant-single-payment-pricing">
+								<div id="merchant-field-price" class="merchant-field-title">Price</div>
+								<input type="text" id="merchant-single-price-value" class="merchant-text-input merchant-price-input">
+								<select id="merchant-single-price-currency" class="merchant-text-input merchant-price-input">
+									<option value="JSE" selected>JSE</option>
+									<option value="BTC">BTC</option>
+									<option value="ETH">ETH</option>
+									<option value="USD">USD</option>
+									<option value="EUR">EUR</option>
+									<option value="JPY">JPY</option>
+									<option value="GBP">GBP</option>
+									<option value="AUD">AUD</option>
+									<option value="CAD">CAD</option>
+									<option value="CHF">CHF</option>
+									<option value="CNY">CNY</option>
+									<option value="SEK">SEK</option>
+									<option value="NZD">NZD</option>
+									<option value="MXN">MXN</option>
+									<option value="SGD">SGD</option>
+									<option value="HKD">HKD</option>
+									<option value="NOK">NOK</option>
+									<option value="KRW">KRW</option>
+									<option value="TRY">TRY</option>
+									<option value="RUB">RUB</option>
+									<option value="INR">INR</option>
+									<option value="BRL">BRL</option>
+									<option value="ZAR">ZAR</option>
+								</select>
+							</div>
+
+							<div id="merchant-recurring-payment-pricing">
+								<div id="merchant-field-initial-price" class="merchant-field-title">Initial Price</div>
+								<input type="text" id="merchant-initial-price-value" class="merchant-text-input merchant-price-input">
+								<select id="merchant-initial-price-currency" class="merchant-text-input merchant-price-input">
+									<option value="JSE" selected>JSE</option>
+									<option value="BTC">BTC</option>
+									<option value="ETH">ETH</option>
+									<option value="USD">USD</option>
+									<option value="EUR">EUR</option>
+									<option value="JPY">JPY</option>
+									<option value="GBP">GBP</option>
+									<option value="AUD">AUD</option>
+									<option value="CAD">CAD</option>
+									<option value="CHF">CHF</option>
+									<option value="CNY">CNY</option>
+									<option value="SEK">SEK</option>
+									<option value="NZD">NZD</option>
+									<option value="MXN">MXN</option>
+									<option value="SGD">SGD</option>
+									<option value="HKD">HKD</option>
+									<option value="NOK">NOK</option>
+									<option value="KRW">KRW</option>
+									<option value="TRY">TRY</option>
+									<option value="RUB">RUB</option>
+									<option value="INR">INR</option>
+									<option value="BRL">BRL</option>
+									<option value="ZAR">ZAR</option>
+								</select>
+
+								<div id="merchant-field-recurring-price" class="merchant-field-title">Recurring Price</div>
+								<input type="text" id="merchant-recurring-price-value" class="merchant-text-input merchant-price-input">
+								<select id="merchant-recurring-price-currency" class="merchant-text-input merchant-price-input">
+									<option value="JSE" selected>JSE</option>
+									<option value="BTC">BTC</option>
+									<option value="ETH">ETH</option>
+									<option value="USD">USD</option>
+									<option value="EUR">EUR</option>
+									<option value="JPY">JPY</option>
+									<option value="GBP">GBP</option>
+									<option value="AUD">AUD</option>
+									<option value="CAD">CAD</option>
+									<option value="CHF">CHF</option>
+									<option value="CNY">CNY</option>
+									<option value="SEK">SEK</option>
+									<option value="NZD">NZD</option>
+									<option value="MXN">MXN</option>
+									<option value="SGD">SGD</option>
+									<option value="HKD">HKD</option>
+									<option value="NOK">NOK</option>
+									<option value="KRW">KRW</option>
+									<option value="TRY">TRY</option>
+									<option value="RUB">RUB</option>
+									<option value="INR">INR</option>
+									<option value="BRL">BRL</option>
+									<option value="ZAR">ZAR</option>
+								</select>	
+
+								<div id="merchant-field-rebill-frequency" class="merchant-field-title">Rebill frequency</div>
+								<input type="checkbox" value="1" class="merchant-checkboxes merchant-rebill-frequency-checkboxes" id="merchant-rebill-daily" onclick="rebillCheckBox('daily');" />
+								<label for="merchant-rebill-daily" class="merchant-checkbox-label">Daily</label>
+								<input type="checkbox" value="1" class="merchant-checkboxes merchant-rebill-frequency-checkboxes" id="merchant-rebill-weekly" onclick="rebillCheckBox('weekly');" />
+								<label for="merchant-rebill-weekly" class="merchant-checkbox-label">Weekly</label>
+								<input type="checkbox" value="1" class="merchant-checkboxes merchant-rebill-frequency-checkboxes" id="merchant-rebill-monthly" onclick="rebillCheckBox('monthly');" />
+								<label for="merchant-rebill-monthly" class="merchant-checkbox-label">Monthly</label>
+								<input type="checkbox" value="1" class="merchant-checkboxes merchant-rebill-frequency-checkboxes" id="merchant-rebill-annually" onclick="rebillCheckBox('annually');" />
+								<label for="merchant-rebill-annually" class="merchant-checkbox-label">Annually</label>
+							</div>
+
+							<div id="merchant-field-completion-url" class="merchant-field-title">Completion URL</div>
+							<input type="text" id="merchant-completion-url-value" class="merchant-text-input merchant-url-input" placeholder="https://yoursite.com/checkoutcomplete.html" >
+
+							<div id="merchant-setup-buttons">
+								<button id="merchant-getcode-button" class="btn btn-primary" onclick="getMerchantCode();">Get Code</button> <a href="javascript:void(0)" class="merchant-advanced-link" onclick="showMerchantAdvanced();">Advanced</a>
+								<br><br>
+								<button class="btn btn-primary" onclick="merchantHelp();">Merchant Setup Help</button>
+							</div>
+	
+							<div id="merchant-advanced-container">
+								<div class="merchant-field-title" id="merchant-advanced-title">Advanced Options</div>
+
+								<div class="mt5">
+									<input type="checkbox" class="merchant-checkboxes" id="merchant-checkbox-obfuscate-url" value="1"  />
+									<label for="merchant-checkbox-obfuscate-url" class="merchant-checkbox-label">Obfuscate URL Data</label>
+								</div>
+								<div class="mt5">
+									<input type="checkbox" class="merchant-checkboxes" id="merchant-checkbox-hash-data" value="1"  />
+									<label for="merchant-checkbox-hash-data" class="merchant-checkbox-label">Hash Obfuscated Data (Prevent manipulation)</label>
+								</div>
+								<div class="mt5">
+									<input type="checkbox" class="merchant-checkboxes" id="merchant-checkbox-hide-address" value="1"  />
+									<label for="merchant-checkbox-hide-address" class="merchant-checkbox-label">Auto-hide delivery address</label>
+								</div>
+								<div class="mt5">
+									<input type="checkbox" class="merchant-checkboxes" id="merchant-checkbox-charity-account" value="1"  />
+									<label for="merchant-checkbox-charity-account" class="merchant-checkbox-label">Send funds to charity account (useful for testing)</label>
+								</div>
+								<div id="merchant-field-cancellation-url" class="merchant-field-title">Cancellation URL <span class="merchant-field-optional-text">(Optional)</span></div>
+								<input type="text" id="merchant-cancellation-url-value" class="merchant-text-input merchant-url-input" placeholder="https://yoursite.com/cancel.html">
+								
+								<div id="merchant-field-ipn-url" class="merchant-field-title">IPN Postback URL <span class="merchant-field-optional-text">(Optional)</span></div>
+								<input type="text" id="merchant-ipn-url-value" class="merchant-text-input merchant-url-input" placeholder="https://yoursite.com/s2s.php?ref={item}">
+
+								<div id="merchant-field-logo-url" class="merchant-field-title">Merchant Logo URL <span class="merchant-field-optional-text">(Optional)</span></div>
+								<input type="text" id="merchant-logo-url-value" class="merchant-text-input merchant-url-input" placeholder="https://yoursite.com/img/logo.jpg">
+
+								<div id="merchant-field-tracking-variables" class="merchant-field-title">Tracking Variables <span class="merchant-field-optional-text">(Optional)</span></div>
+								<input type="text" id="merchant-c1-value" class="merchant-text-input" placeholder="c1"><br>
+								<input type="text" id="merchant-c2-value" class="merchant-text-input" placeholder="c2"><br>
+								<input type="text" id="merchant-c3-value" class="merchant-text-input" placeholder="c3"><br>
+
+
+							</div>
+						</div>
+						<div id="merchant-code-container">
+							<div id="merchant-code-instructions" class="merchant-field-title">Copy and paste this code into your website HTML:</div>
+							<div id="merchant-code-div"><xmp id="merchant-code-xmp"></xmp></div>
+							<div id="merchant-code-buttons">
+								<button id="merchant-back-button" class="btn btn-primary" onclick="merchantCodeBack();">Back</button>
+								<button id="merchant-copy-clipboard" class="btn btn-primary" onclick="copyToClipboard('merchant-code-xmp');">Copy to Clipboard</button>
+							</div>
+							<div id="merchant-code-example-container">
+								<div class="merchant-field-title">Example:</div>
+								<div id="merchant-code-example-target"></div>	
+							</div>
+						</div>
+					</div>  
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-lg-4">
+
+		<div class="ibox float-e-margins">
+			<div class="ibox-title">
+				<span class="pull-right"><i class="fa fa-qrcode" aria-hidden="true"></i></span>
+				<h5>Merchant Payment Request</h5>
+			</div>
+			<div class="ibox-content">
+				<div id="payment-request-setup">
+					Value:<br>
+					<input type="text" id="payment-request-value" class="merchant-text-input merchant-price-input"> JSE<br>
+					Reference:<br>
+					<input type="text" id="payment-request-reference" class="merchant-text-input"><br><br>
+					<button class="btn btn-primary" onclick="paymentRequest();">Launch Payment Request</button>
+				</div>
+			</div>
+		</div>
+
+		<div class="ibox float-e-margins">
+			<div class="ibox-title">
+				<span class="label label-primary pull-right">Sales</span>
+				<h5>Sales Lifetime</h5>
+			</div>
+			<div class="ibox-content">
+				<h1 class="saleslifetime">0</h1>
+			</div>
+		</div>
+		<div class="ibox float-e-margins">
+			<div class="ibox-title">
+				<span class="label label-primary pull-right">Sales</span>
+				<h5>Sales 24 Hrs</h5>
+			</div>
+			<div class="ibox-content">
+				<h1 class="sales24hrs">0</h1>
+			</div>
+		</div>
+		<div class="ibox float-e-margins">
+			<div class="ibox-title">
+				<span class="label label-primary pull-right">Subscriptions</span>
+				<h5>Active Subscriptions</h5>
+			</div>
+			<div class="ibox-content">
+				<h1 class="activesubscriptions">0</h1>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-lg-12">
+			<div class="ibox float-e-margins">
+					<div class="ibox-title">
+							<h5>Merchant Transactions</h5>
+					</div>
+					<div class="ibox-content mhtab">
+							<table class="table table-hover">
+									<thead>
+											<tr>
+													<th>Type</th>
+													<th>Date</th>
+													<th>Item</th>
+													<th>E-mail</th>
+													<th>Value</th>
+													<th>Transaction ID</th>
+													<th>Actions</th>
+											</tr>
+									</thead>
+									<tbody class="merchanttable"></tbody>
+							</table>
+					</div>
+			</div>
+	</div>
+</div>
+
+<script>
+// Load Page
+$('.titletext').html('Merchant Tools');
+if (typeof user.merchantSales !== 'undefined') {
+	var transactionTable = '';
+	var reverseArray = [];
+	for (var i in user.merchantSales) {
+		reverseArray.push(user.merchantSales[i]);
+	}
+	var salesLifetime = 0;
+	var sales24hrs = 0;
+	var activeSubscriptions = 0;
+
+	for (var i = reverseArray.length - 1; i >= 0; i--) {
+		var t = reverseArray[i];
+		salesLifetime += 1;
+		var timeCheck = new Date().getTime();
+		if (t.completedTS > (timeCheck - 86400000)) {
+			sales24hrs += 1;
+		}
+		t.localTime = utcTS2local(t.completedTS);
+		t.niceAmount = '<img src="img/coin_gold.png" alt="" class="table-coin" /> '+t.amount+' <small>JSE</small>';
+		t.niceType = 'Single Payment';
+		t.actions = '<button class="btn btn-xs btn-primary" onclick="notify(\''+t.deliveryAddress+'\');" type="button">Delivery Address</button> <button class="btn btn-xs btn-primary" onclick="setupTransfer(\''+t.buyerEmail+'\',\''+t.amount+'\',\'Refund. '+t.item+'\');" type="button">Refund</button> ';
+		if (t.type === 'recurring') {
+			t.niceType = 'Subscription';
+			t.niceAmount = 'Initial: '+t.amount+' <small>JSE</small>, '+t.rebillFrequency+': '+t.recurringPrice+' <small>JSE</small><br>Due: '+utcTS2local(t.payableDate);
+			if (typeof t.cancelledTS !== 'undefined') {
+				t.niceType = 'Cancelled Subscription';
+				t.localTime += '<br><span style="color: #D00;">Cancelled: '+utcTS2local(t.cancelledTS)+'</span>';
+			} else {
+				t.actions += '<button class="btn btn-xs btn-primary" onclick="cancelSubscription(\''+t.reference+'\');" type="button">Cancel Subscription</button> ';
+				activeSubscriptions += 1;
+			}
+		}
+		if (typeof t.processedTS !== 'undefined') {
+			t.actions += '<button class="btn btn-xs btn-secondary" onclick="notify(\'This order has already been processed\');" type="button">Processed</button> ';
+		} else {
+			t.actions += '<button class="btn btn-xs btn-primary" onclick="processMerchantOrder(\''+t.reference+'\'); $(this).removeClass(\'btn-primary\'); $(this).addClass(\'btn-secondary\'); $(this).html(\'Processed\');" type="button">Process</button> ';
+		}
+		transactionTable += '<tr><td>'+t.niceType+'</td><td>'+t.localTime+'</td><td>'+t.item+'</td><td>'+t.buyerEmail+'</td><td>'+t.niceAmount+'</td><td>'+t.reference+'</td><td>'+t.actions+'</td></tr>';
+	}
+	$('.merchanttable').html(transactionTable);
+}
+$('.saleslifetime').html(salesLifetime);
+$('.sales24hrs').html(sales24hrs);
+$('.activesubscriptions').html(activeSubscriptions);
+$('#merchant-payment-type-select').val('singlePayment');
+$('#merchant-recurring-payment-pricing').hide();
+$('#merchant-single-payment-pricing').show();	
+$('.merchant-rebill-frequency-checkboxes').prop('checked', false);
+$('#merchant-rebill-monthly').prop('checked', true);
+
+// Merchant code
+var recurringPayment = false;
+function togglePaymentType() {
+	if ($('#merchant-single-payment-pricing').is(":visible")) {
+		recurringPayment = true;
+		$('#merchant-single-payment-pricing').hide();
+		$('#merchant-recurring-payment-pricing').show();
+	} else {
+		recurringPayment = false;
+		$('#merchant-recurring-payment-pricing').hide();
+		$('#merchant-single-payment-pricing').show();	
+	}
+}
+
+function getMerchantCode() {
+	// validation checks
+	if (!$('#merchant-item-name-value').val()) { notify('Please enter an item description or ID number'); return false; }
+	if (recurringPayment === false) {
+		if (!$('#merchant-single-price-value').val()) { notify('Please enter the price in JSE for your item'); return false; }
+	} else {
+		if (!$('#merchant-initial-price-value').val()) { notify('Please enter the initial price in JSE for your item'); return false; }
+		if (!$('#merchant-recurring-price-value').val()) { notify('Please enter the recurring price in JSE for your item'); return false; }	
+		if ($('#merchant-initial-price-currency').val() !== $('#merchant-recurring-price-currency').val()) { notify('Your initial and recurring currencies must match'); return false; }
+	}	
+	if (!$('#merchant-completion-url-value').val()) { notify('Please enter a URL to send visitors back to your site after checkout'); return false; }
+	if ($('#merchant-completion-url-value').val().indexOf('http') == -1) { notify('Please enter a valid URL such as "https://yoursite.com/yourpage.html"'); return false; }
+
+	$('#merchant-setup-form').hide();
+	$('#merchant-code-container').show();
+	
+	var merchantQueryString = 'uid='+user.uid;
+	merchantQueryString += '&sAuth='+user.apiKey.substring(0, 5);
+	if ($('#merchant-checkbox-charity-account').prop('checked')) {
+		merchantQueryString = 'uid=2895&sAuth=LP02h';
+	}
+	var currency = 'JSE';
+	merchantQueryString += '&item='+encodeURIComponent($('#merchant-item-name-value').val());
+	if (recurringPayment === false) {
+		merchantQueryString += '&singlePrice='+encodeURIComponent($('#merchant-single-price-value').val());
+		currency = $('#merchant-single-price-currency').val();
+		if (currency !== 'JSE') {
+			merchantQueryString += '&currency='+encodeURIComponent($('#merchant-single-price-currency').val());
+		}
+	} else {
+		merchantQueryString += '&initialPrice='+encodeURIComponent($('#merchant-initial-price-value').val());
+		merchantQueryString += '&recurringPrice='+encodeURIComponent($('#merchant-recurring-price-value').val());
+		merchantQueryString += '&rebillFrequency='+rebillFrequency;
+		currency = $('#merchant-initial-price-currency').val(); // initital and recurring currencies must be same, check above
+		if (currency !== 'JSE') {
+			merchantQueryString += '&currency='+encodeURIComponent($('#merchant-initial-price-currency').val());
+		}
+	}
+
+	var completionURL = encodeURIComponent($('#merchant-completion-url-value').val());
+	merchantQueryString += '&completionURL='+completionURL;
+
+	if ($('#merchant-cancellation-url-value').val()) {
+		var cancellationURL = encodeURIComponent($('#merchant-cancellation-url-value').val());
+		merchantQueryString += '&cancellationURL='+cancellationURL;
+	}
+	if ($('#merchant-ipn-url-value').val()) {
+		var ipnURL = encodeURIComponent($('#merchant-ipn-url-value').val());
+		merchantQueryString += '&ipnURL='+ipnURL;
+	}
+
+	if ($('#merchant-logo-url-value').val()) {
+		var logoURL = encodeURIComponent($('#merchant-logo-url-value').val());
+		merchantQueryString += '&logoURL='+logoURL;
+	}
+	if ($('#merchant-c1-value').val()) {
+		var c1 = encodeURIComponent($('#merchant-c1-value').val());
+		merchantQueryString += '&c1='+c1;
+	}
+	if ($('#merchant-c2-value').val()) {
+		var c2 = encodeURIComponent($('#merchant-c2-value').val());
+		merchantQueryString += '&c2='+c2;
+	}
+	if ($('#merchant-c3-value').val()) {
+		var c3 = encodeURIComponent($('#merchant-c3-value').val());
+		merchantQueryString += '&c3='+c3;
+	}
+	if ($('#merchant-checkbox-hide-address').prop('checked')) {
+		merchantQueryString += '&hideAddress=1';
+	}
+
+	if ($('#merchant-checkbox-obfuscate-url').prop('checked')) {
+		var encObj = {};
+		encObj.uid = user.uid;
+		encObj.sAuth = user.apiKey.substring(0, 5);
+		if ($('#merchant-checkbox-charity-account').prop('checked')) {
+			encObj.uid = 2895;
+			encObj.sAuth = 'LP02h';
+		}
+		encObj.item = $('#merchant-item-name-value').val();
+
+		if (recurringPayment === false) {
+			encObj.singlePrice = $('#merchant-single-price-value').val();
+		} else {
+			encObj.initialPrice = $('#merchant-initial-price-value').val();
+			encObj.recurringPrice = $('#merchant-recurring-price-value').val();
+			encObj.rebillFrequency = rebillFrequency;
+		}
+		if (currency !== 'JSE') {
+			encObj.currency = currency;
+		}
+		encObj.completionURL = $('#merchant-completion-url-value').val()
+		if ($('#merchant-cancellation-url-value').val()) {
+			encObj.cancellationURL = $('#merchant-cancellation-url-value').val()
+		}
+		if ($('#merchant-ipn-url-value').val()) {
+			encObj.ipnURL = $('#merchant-ipn-url-value').val()
+		}
+		if ($('#merchant-logo-url-value').val()) {
+			encObj.logoURL = $('#merchant-logo-url-value').val()
+		}
+		if ($('#merchant-c1-value').val()) {
+			encObj.c1 = $('#merchant-c1-value').val();
+		}
+		if ($('#merchant-c2-value').val()) {
+			encObj.c2 = $('#merchant-c2-value').val();
+		}
+		if ($('#merchant-c3-value').val()) {
+			encObj.c3 = $('#merchant-c3-value').val();
+		}
+		if ($('#merchant-checkbox-hide-address').prop('checked')) {
+			encObj.hideAddress = 1;
+		}
+
+		var encodedURL = encodeURIComponent(unescape(btoa(JSON.stringify(encObj))));
+		merchantQueryString = 'encoded='+encodedURL;
+		// SHA256 the data
+		if ($('#merchant-checkbox-hash-data').prop('checked')) {
+			var safeHashString = encodedURL+user.email+user.apiKey.substring(0, 10)+user.regip+user.registrationDate; // 10 digits public/private api sub-key mixed in with some user data to prevent brute force attack
+			if ($('#merchant-checkbox-charity-account').prop('checked')) {
+				safeHashString = encodedURL+'charity@jsecoin.comLP02hxLkHl90.11.151.2401505205877100'; // exposes some charity account data but non-critical
+			}
+			var buffer = textEncoderUTF8(safeHashString);
+			crypto.subtle.digest("SHA-256", buffer).then(function (hash) { // async, will have to print out once complete
+				var sha256hash = hex(hash);
+				merchantQueryString += '&hash='+sha256hash;
+				printMerchantCode(merchantQueryString);
+			});
+		}
+	}
+	if (!safeHashString) {
+		printMerchantCode(merchantQueryString);
+	}
+}
+
+function printMerchantCode(merchantQueryString) {
+	var merchantCodeForm = '<a href="https://platform.jsecoin.com/checkout.html?'+merchantQueryString+'" target="_top"><img src="https://platform.jsecoin.com/img/pay-with-jse.png" style="border: 0; outline : none; heigth: 40px; width: 150px;" alt="Pay with JSE" /></a>';
+	$('#merchant-code-xmp').text(merchantCodeForm);
+	$('#merchant-code-example-target').html(merchantCodeForm);
+}
+
+function showMerchantAdvanced() {
+	$('#merchant-advanced-container').toggle();
+}
+
+function merchantCodeBack() {
+	$('#merchant-code-container').hide();	
+	$('#merchant-setup-form').show();
+}
+
+function paymentRequest() {
+	var paymentRequestValue = parseFloat($('#payment-request-value').val());
+	var paymentRequestReference = cleanString($('#payment-request-reference').val());
+	launchModal('Payment Request From '+user.email,`Please scan, click or tap the QR code to make a payment for ${paymentRequestValue} JSE.<br><div class="qrcontainer"><div id="payment-request-qrcode" style="width:300px; height:300px; margin: 0 auto;"></div></div><div id="payment-request-details"></div>`);
+	var qrElement = new QRCode(document.getElementById("payment-request-qrcode"), {
+		width : 300,
+		height : 300
+	});
+	var paymentRequestURL = 'https://platform.jsecoin.com/checkout.html?uid='+user.uid+'&sAuth='+user.apiKey.substring(0, 5)+'&item='+encodeURIComponent(paymentRequestReference)+'&singlePrice='+encodeURIComponent(paymentRequestValue)+'&completionURL=https%3A%2F%2Fjsecoin.com';
+	qrElement.makeCode(paymentRequestURL);
+	$('#payment-request-details').html('Value: '+paymentRequestValue+' JSE <br>Reference: '+paymentRequestReference+'<br><br><a href="'+paymentRequestURL+'" target="_blank">'+paymentRequestURL+'</a>');
+	$('#payment-request-qrcode').on('click', function(e){ window.open(paymentRequestURL, '_blank'); });
+}
+
+
+var rebillFrequency = 'monthly';
+//"merchant-checkboxes merchant-rebill-frequency-checkboxes" id="merchant-rebill-daily" onclick="rebillCheckBox('daily')
+function rebillCheckBox(timePeriod) {
+	$('.merchant-rebill-frequency-checkboxes').prop('checked', false);
+	$('#merchant-rebill-'+timePeriod).prop('checked', true);
+	rebillFrequency = timePeriod;
+}
+
+</script>
+		

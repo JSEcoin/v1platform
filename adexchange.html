@@ -1,0 +1,321 @@
+
+<div class="row">
+	<div class="col-lg-12">
+		<div class="ibox float-e-margins">
+			<div class="ibox-title">
+				<button class="btn btn-primary btn-sm pull-right" onclick="newCampaign();" type="button"><i class="fa fa-plus"></i> &nbsp;New Campaign</button>
+				<!--
+				<div class="pull-right">
+					<button class="btn btn-primary btn-sm" onclick="adxStats();" type="button"><i class="fa fa-bar-chart"></i> &nbsp;Stats</button>
+				</div>
+				-->
+				<h5 class="mt10">The JSE Ad-Exchange</h5>
+				<div style="clear: both;"></div>
+			</div>
+			<div class="ibox-content">
+				<div class="flot-chart">
+					<div class="flot-chart-content" id="adx-chart"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-lg-3">
+		<div class="ibox float-e-margins">
+			<div class="ibox-title">
+				<div class="dropdown adx-timeframe-dropdown">
+					<a href="javascript:void(0)" data-toggle="dropdown" class="dropdown-toggle"><span class="label label-success" style="padding: 5px 10px;"><span class="timeframe-selector">Today</span> <b class="caret"></b></span></a>
+					<ul class="dropdown-menu adx-dropdown-list">
+					</ul>
+				</div>
+				<h5>Impressions</h5>
+			</div>
+			<div class="ibox-content text-center">
+				<h1 class="timeframeImpressions">0</h1>
+			</div>
+		</div>
+	</div>
+	<div class="col-lg-3">
+		<div class="ibox float-e-margins">
+			<div class="ibox-title">
+				<div class="dropdown adx-timeframe-dropdown">
+					<a href="javascript:void(0)" data-toggle="dropdown" class="dropdown-toggle"><span class="label label-success" style="padding: 5px 10px;"><span class="timeframe-selector">Today</span> <b class="caret"></b></span></a>
+					<ul class="dropdown-menu adx-dropdown-list">
+					</ul>
+				</div>
+				<h5>Clicks</h5>
+			</div>
+			<div class="ibox-content text-center">
+				<h1 class="timeframeClicks">0</h1>
+			</div>
+		</div>
+	</div>
+	<div class="col-lg-3">
+		<div class="ibox float-e-margins">
+			<div class="ibox-title">
+				<div class="dropdown adx-timeframe-dropdown">
+					<a href="javascript:void(0)" data-toggle="dropdown" class="dropdown-toggle"><span class="label label-success" style="padding: 5px 10px;"><span class="timeframe-selector">Today</span> <b class="caret"></b></span></a>
+					<ul class="dropdown-menu adx-dropdown-list">
+					</ul>
+				</div>
+				<h5>Conversions</h5>
+			</div>
+			<div class="ibox-content text-center">
+				<h1 class="timeframeConversions">0</h1>
+			</div>
+		</div>
+	</div>
+	<div class="col-lg-3">
+		<div class="ibox float-e-margins">
+			<div class="ibox-title">
+				<div class="dropdown adx-timeframe-dropdown">
+					<a href="javascript:void(0)" data-toggle="dropdown" class="dropdown-toggle"><span class="label label-success" style="padding: 5px 10px;"><span class="timeframe-selector">Today</span> <b class="caret"></b></span></a>
+					<ul class="dropdown-menu adx-dropdown-list">
+					</ul>
+				</div>
+				<h5>Spend</h5>
+			</div>
+			<div class="ibox-content text-center">
+				<h1 class="timeframeSpend">0 JSE</h1>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col-lg-12">
+		<div class="ibox float-e-margins">
+			<div class="ibox-title">
+				<div class="pull-right">		
+					<div class="dropdown adx-timeframe-dropdown">
+						<a href="javascript:void(0)" data-toggle="dropdown" class="dropdown-toggle"><span class="label label-success" style="padding: 5px 10px;"><span class="timeframe-selector">Today</span> <b class="caret"></b></span></a>
+						<ul class="dropdown-menu adx-dropdown-list">
+						</ul>
+					</div>
+				</div>
+				<h5>Top Campaigns</h5>
+				<div style="clear: both;"></div>
+			</div>
+			<div class="ibox-content mhtab">   
+				<table class="table">
+					<tr>
+						<th>Status <i class="fa fa-info-circle fa-tooltip" aria-hidden="true" onclick="notify('Campaigns require manual approval which may take up to 48 hours');"></i></th>
+						<th>Campaign</th>
+						<th class="text-center">Impressions <i class="fa fa-info-circle fa-tooltip" aria-hidden="true" onclick="notify('Impressions is the number of times your ad has been viewed');"></i></th>
+						<th class="text-center">Validated <i class="fa fa-info-circle fa-tooltip" aria-hidden="true" onclick="notify('Validated impressions shows the percentage of users that stayed on a site for a set amount of time and passed a bot detection and IP check');"></i></th>
+						<th class="text-center">Clicks <i class="fa fa-info-circle fa-tooltip" aria-hidden="true" onclick="notify('The number of times an ad has been clicked and the user has gone through to the destination page.');"></i></th>
+						<th class="text-center">Conversions <i class="fa fa-info-circle fa-tooltip" aria-hidden="true" onclick="notify('Conversion tracking data can be set up in the campaign setup page to provide key performance indicators for your campaigns');"></i></th>
+						<th class="text-center">Spend (JSE) <i class="fa fa-info-circle fa-tooltip" aria-hidden="true" onclick="notify('Advertising cost in JSE tokens');"></i></th>
+						<th class="text-center">Actions</th></tr>
+					<tbody id="adx-campaign-table"></tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+
+$('.sharebuttoncontainer').html('');
+var days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+var flexiDate = new Date();
+flexiDate.setDate(flexiDate.getDate()-2);
+var twoDaysAgo = days[flexiDate.getDay()];
+flexiDate.setDate(flexiDate.getDate()-1);
+var threeDaysAgo = days[flexiDate.getDay()];
+flexiDate.setDate(flexiDate.getDate()-1);
+var fourDaysAgo = days[flexiDate.getDay()];
+flexiDate.setDate(flexiDate.getDate()-1);
+var fiveDaysAgo = days[flexiDate.getDay()];
+
+$('.adx-dropdown-list').html('<li><a href="javascript:void(0)" onclick="$(\'.timeframe-selector\').html(\'Today\'); printAdvStats(0);">Today</a></li><li><a href="javascript:void(0)" onclick="$(\'.timeframe-selector\').html(\'Yesterday\'); printAdvStats(1);">Yesterday</a></li><li><a href="javascript:void(0)" onclick="$(\'.timeframe-selector\').html(\''+twoDaysAgo+'\'); printAdvStats(2);">'+twoDaysAgo+'</a></li><li><a href="javascript:void(0)" onclick="$(\'.timeframe-selector\').html(\''+threeDaysAgo+'\'); printAdvStats(3);">'+threeDaysAgo+'</a></li><li><a href="javascript:void(0)" onclick="$(\'.timeframe-selector\').html(\''+fourDaysAgo+'\'); printAdvStats(4);">'+fourDaysAgo+'</a></li><li><a href="javascript:void(0)" onclick="$(\'.timeframe-selector\').html(\''+fiveDaysAgo+'\'); printAdvStats(5);">'+fiveDaysAgo+'</a></li><li><a href="javascript:void(0)" onclick="$(\'.timeframe-selector\').html(\'7 Days\'); printAdvStats(7);">Last 7 Days</a></li><li><a href="javascript:void(0)" onclick="$(\'.timeframe-selector\').html(\'14 Days\'); printAdvStats(14);">Last 14 Days</a></li><li><a href="javascript:void(0)" onclick="$(\'.timeframe-selector\').html(\'30 Days\'); printAdvStats(30);">Last 30 Days</a></li><li><a href="javascript:void(0)" onclick="$(\'.timeframe-selector\').html(\'60 Days\'); printAdvStats(30);">Last 60 Days</a></li><li><a href="javascript:void(0)" onclick="$(\'.timeframe-selector\').html(\'90 Days\'); printAdvStats(90);">Last 90 Days</a></li>');
+
+var rightNow = new Date();
+var yymmdd = rightNow.toISOString().slice(2,10).replace(/-/g,"");;
+
+function updateBidPrice(cid) {
+	var bidPrice = user.campaigns[cid].bidPrice;
+	var currency = 'JSE';
+	if (user.campaigns[cid].currencyUsd && user.campaigns[cid].currencyUsd === true) {
+		currency = 'USD';
+	}
+	var modalContent = '<b>Campaign: '+user.campaigns[cid].name+'</b><br><br>Current Bid Price: '+bidPrice+' <small>'+currency+'</small><br><br>Bid is per 1000 impressions<br><br> New Bid Price: <div class="input-group"><span class="input-group-addon">'+currency+'</span><input type="text" id="adx-new-bid-price" class="form-control form-number-input form-inline w150" placeholder="'+bidPrice+'" /></div><br><button onclick="setBidPrice(\''+cid+'\');" class="btn btn-primary"><i class="fa fa-pencil-square-o"></i>Update Bid Price</button><br>';
+	launchModal('Adjust Bid Price',modalContent);
+}
+
+function setBidPrice(cid) {
+	var credentials = {};
+	credentials.session = user.session;
+	credentials.cid = cid;
+	credentials.bidPrice = $('#adx-new-bid-price').val();
+	$.ajax({url:jseServer+'/advertising/bidprice/',type:'POST',contentType:'application/json',data: JSON.stringify(credentials)}).done(function(data) {
+		var res = JSON.parse(data);
+		if (res.success) {
+			$('#tmpmodal').modal('hide');
+			loadAdExchange();
+		} else {
+			notify('Error updating bid price');
+		}
+	});
+}
+
+function printAdvStats(timeframeInt) {
+	var credentials = {};
+	credentials.session = user.session;
+	$.ajax({url:jseServer+'/advertising/getcampaigns/',type:'POST',contentType:'application/json',data: JSON.stringify(credentials)}).done(function(data) {
+		user.campaigns = JSON.parse(data);
+		$.ajax({url:jseServer+'/advertising/getadvstats/',type:'POST',contentType:'application/json',data: JSON.stringify(credentials)}).done(function(data2) {
+			if (data === 'null') { return false; }
+			user.advStats = JSON.parse(data2);
+			var targetDates = [];
+			if (timeframeInt <= 5) {
+				var theDate = new Date();
+				theDate.setDate(theDate.getDate()-timeframeInt);
+				targetDates.push(theDate.toISOString().slice(2,10).replace(/-/g,""));
+			} else {
+				for (let i = 0; i < timeframeInt; i++) {
+					var theDate = new Date();
+					theDate.setDate(theDate.getDate()-i);
+					targetDates.push(theDate.toISOString().slice(2,10).replace(/-/g,""));		
+				}
+			}
+
+			var timeframeImpressions = 0;
+			var timeframeClicks = 0;
+			var timeframeConversions = 0;
+			var timeframeSpend = 0;
+			var timeframeCampaigns = {};
+			var adxCampaignTable = '';
+
+			for (let i = 0; i < targetDates.length; i++) {
+				if (!user.advStats || !user.advStats[targetDates[i]]) continue;
+				var advStatsToday = user.advStats[targetDates[i]];
+				for (var campaignID in advStatsToday) {
+					//console.log(targetDates[i]+' '+campaignID);
+					if (!advStatsToday.hasOwnProperty(campaignID)) continue;
+					if (!timeframeCampaigns[campaignID]) timeframeCampaigns[campaignID] = { i: 0, v: 0, c: 0, k: 0, j: 0 }; 
+					timeframeCampaigns[campaignID].i += (advStatsToday[campaignID].i || 0);
+					timeframeCampaigns[campaignID].v += (advStatsToday[campaignID].v || 0);
+					timeframeCampaigns[campaignID].c += (advStatsToday[campaignID].c || 0);
+					timeframeCampaigns[campaignID].k += (advStatsToday[campaignID].k || 0);
+					timeframeCampaigns[campaignID].j += (advStatsToday[campaignID].j || 0);
+
+					timeframeImpressions += (advStatsToday[campaignID].i || 0);
+					timeframeClicks += (advStatsToday[campaignID].c || 0);
+					timeframeConversions += (advStatsToday[campaignID].k || 0);
+					timeframeSpend += (advStatsToday[campaignID].j || 0);
+					//console.log(timeframeCampaigns);
+				}
+			}
+			
+			for (var campaignID in user.campaigns) {
+				if (!user.campaigns.hasOwnProperty(campaignID)) continue;
+				if (!timeframeCampaigns[campaignID]) timeframeCampaigns[campaignID] = { i: 0, v: 0, c: 0, k: 0, j: 0 };
+				if (user.campaigns[campaignID].archived) continue;
+				var pausePlayButton = '<button onclick="event.stopPropagation(); pauseCampaign(\''+campaignID+'\');" class="btn btn-primary btn-xs" title="Pause Campaign"><i class="fa fa-pause"></i> Pause</button>';
+				if (user.campaigns[campaignID].paused) {
+					pausePlayButton = '<button onclick="event.stopPropagation(); restartCampaign(\''+campaignID+'\');" class="btn btn-primary btn-xs" style="background:#079F80;" title="Restart Campaign"><i class="fa fa-play"></i> Restart</button>';
+				}
+				var disabledStatus = '';
+				if (user.campaigns[campaignID].disabled === 'pending') {
+					disabledStatus = '<span class="label label-warning">Pending</span>';
+				} else if (!user.campaigns[campaignID].disabled) {
+					disabledStatus = '<span class="label label-success">Live</span>';
+				} else {
+					disabledStatus = '<span class="label label-danger">Disabled</span>';
+				}
+				var validated = Math.min(Math.round((timeframeCampaigns[campaignID].v / timeframeCampaigns[campaignID].i) * 100) || 0,100);
+				adxCampaignTable += '<tr class="adx-stats-hover pointer" onclick="loadAdxCampaignStats(\''+campaignID+'\');"><td>'+disabledStatus+'</td><td>'+user.campaigns[campaignID].name+'</td><td class="text-center">'+timeframeCampaigns[campaignID].i+'</td><td class="text-center">'+validated+'%</td><td class="text-center">'+timeframeCampaigns[campaignID].c+'</td><td class="text-center">'+timeframeCampaigns[campaignID].k+'</td><td class="text-center">'+round(timeframeCampaigns[campaignID].j).toFixed(2)+'</td><td class="text-center"><button onclick="event.stopPropagation(); updateBidPrice(\''+campaignID+'\');" class="btn btn-primary btn-xs"><i class="fa fa-pencil-square-o"></i> Bid Price</button> <button onclick="loadAdxCampaignStats(\''+campaignID+'\');" class="btn btn-primary btn-xs"><i class="fa fa-bar-chart"></i> Stats</button> <button onclick="event.stopPropagation(); editCampaign(\''+campaignID+'\');" class="btn btn-primary btn-xs"><i class="fa fa-cog"></i> Edit</button> '+pausePlayButton+' <button onclick="event.stopPropagation(); duplicateCampaign(\''+campaignID+'\');" class="btn btn-primary btn-xs" title="Duplicate Campaign"><i class="fa fa-copy"></i> Copy</button> <button onclick="event.stopPropagation(); archiveCampaign(\''+campaignID+'\');" class="btn btn-primary btn-xs" title="Archive Campaign"><i class="fa fa-trash"></i> Delete</button></td></tr>';
+			}
+
+			$('.timeframeImpressions').html(timeframeImpressions);
+			$('.timeframeClicks').html(timeframeClicks);
+			$('.timeframeConversions').html(timeframeConversions);
+			$('.timeframeSpend').html(round(timeframeSpend).toFixed(2));
+			$('#adx-campaign-table').html(adxCampaignTable);
+
+			var startDate = 0;
+			var chartTimeframe = Math.max(timeframeInt, 7);
+			var publisherCoinData = [];
+			var publisherImpressionData = [];
+			for (var i = startDate; i <= chartTimeframe; i++) {
+				var theDate = new Date();
+				theDate.setDate(theDate.getDate()-(chartTimeframe - i));
+				var theYMD = theDate.toISOString().slice(2,10).replace(/-/g,"");
+				var adxChartSpend = 0;
+				var adxChartImpressions = 0;
+				if (!user.advStats) continue;
+				for (var campaignID in user.advStats[theYMD]) {
+					if (!user.advStats[theYMD].hasOwnProperty(campaignID)) continue;
+					if (user.advStats && user.advStats[theYMD] && user.advStats[theYMD][campaignID] && user.advStats[theYMD][campaignID].j) {
+						adxChartSpend += user.advStats[theYMD][campaignID].j;
+					}
+					if (user.advStats && user.advStats[theYMD] && user.advStats[theYMD][campaignID] && user.advStats[theYMD][campaignID].i) {
+						adxChartImpressions += user.advStats[theYMD][campaignID].i;
+					}
+				}
+				publisherCoinData.push([theDate,adxChartSpend]);
+				publisherImpressionData.push([theDate,adxChartImpressions]);
+			}
+
+			function doPlot(position) {
+				$('#adx-chart').html('');
+				$.plot($("#adx-chart"), [{
+						data: publisherCoinData,
+						label: "Spend JSE", color: "#2F4050",
+						bars: {
+							show: true, 
+							align: "center",
+							barWidth: 24 * 60 * 60 * 800,
+							lineWidth:1
+						}
+				}, {
+						data: publisherImpressionData,
+						label: "Unique Impressions",
+						yaxis: 2
+				}], {
+						xaxes: [{
+							//mode: 'time',timeformat: "%m/%d/%y", tickSize: [1, "day"], tickLength: 0
+							mode: 'time',timeformat: "", tickSize: [1, "day"], tickLength: 0
+						}],
+						yaxes: [{
+							min: 0,
+							axisLabel: 'JSE',
+							axisLabelUseCanvas: true
+						}, {
+							// align if we are to the right
+							axisLabel: 'Unique',
+							alignTicksWithAxis: position == "right" ? 1 : null,
+							position: position
+						}],
+						legend: {
+							position: 'sw'
+						},
+						colors: ["#1ab394"],
+						grid: {
+							color: "#999999",
+							hoverable: true,
+							clickable: true,
+							tickColor: "#D4D4D4",
+							borderWidth:0,
+							hoverable: true //IMPORTANT! this is needed for tooltip to work,
+						},
+						tooltip: true,
+						tooltipOpts: {
+							cssClass: 'chartTooltips',
+							content: "%s : %y",
+							onHover: function(flotItem, $tooltipEl) {
+									// console.log(flotItem, $tooltipEl);
+							}
+						}
+				});
+			}
+			doPlot("right");
+		});
+	});
+}
+
+
+printAdvStats(0);
+
+</script>

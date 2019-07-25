@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>JSEcoin - iFrame HomePage</title>
+	<meta name="description" content="Search the web and browse while mining JSEcoins in your browser window. JSEcoins are cryptocurrency tokens which are earned by helping us secure the JSE blockchain.">
+
+	<style>
+		@import url(//www.google.com/cse/api/branding.css);
+		a { color: red; }
+		body { font-style: italic; color: red; background: #FFF; height:100%; width: 100%; margin: 0px; padding: 0px; }
+		.google-search { max-width: 400px; margin: 10% auto 0 auto; }
+		.homepage-logo { width: 300px; margin: 20px auto; }
+		.cse-branding-logo { margin: auto; }
+		.cse-branding-form { text-align: center; }
+		.cse-branding-text { font-family: Arial, sans-serif; color: #CCC; font-style: normal; font-size: 10px; }
+		.google-button { margin-top: 8px; background-image: -moz-linear-gradient(top,#f5f5f5,#f1f1f1); -moz-border-radius: 2px; -moz-user-select: none; background-color: #f2f2f2; border: 1px solid #f2f2f2; border-radius: 2px; color: #757575; font-family: arial,sans-serif; font-size: 13px; font-weight: bold; margin: 11px 4px; min-width: 54px; padding: 8px 16px; text-align: center; cursor: pointer; }
+		.google-button:hover { border: 1px solid #CCC; }
+		.google-field { border: 1px solid #DDD; border-radius: 2px; padding: 0px 5px; outline: medium none; line-height: 34px; height: 34px; white-space: nowrap; margin: 0px auto; width: 390px; }
+	</style>
+
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+
+	<script>
+	$(function() {
+		if (window.innerWidth < 400) {
+			$('.google-field').css('width','280px');
+			$('.google-search').css('max-width','300px');
+		}
+	});
+	</script>
+
+</head>
+<body>
+
+	<div class="homepage-logo">
+		<a href="https://jsecoin.com/" target="_blank"><img src="https://jsecoin.com/img/logo300black.png" alt="JSEcoin" /></a>
+	</div>
+
+	<div class="google-search">
+
+		<div class="cse-branding-right" style="background-color:#FFFFFF;color:#000000">
+		  <div class="cse-branding-form">
+		    <form action="https://www.google.com" id="cse-search-box">
+		      <div>
+		        <input type="hidden" name="cx" value="partner-pub-7452885367396051:2745741901" />
+		        <input type="hidden" name="ie" value="UTF-8" />
+		        <input type="text" name="q" class="google-field" />
+		        <br>
+		        <input type="submit" name="sa" class="google-button" value="Google Search" />
+		        <input type="submit" name="sa" class="google-button" value="I'm Feeling Lucky" />
+		      </div>
+		    </form>
+		  </div>
+
+		  <div class="cse-branding-logo">
+		    <img src="https://www.google.com/images/poweredby_transparent/poweredby_FFFFFF.gif" alt="Google" />
+		  </div>
+		  <div class="cse-branding-text">
+		    Custom Search
+		  </div>
+		</div>
+		<script type="text/javascript" src="https://www.google.com/cse/query_renderer.js"></script>
+		<div id="queries"></div>
+		<script src="https://www.google.com/cse/api/partner-pub-7452885367396051/cse/2745741901/queries/js?oe=UTF-8&amp;callback=(new+PopularQueryRenderer(document.getElementById(%22queries%22))).render"></script>
+
+	</div>
+
+</body>
+</html>

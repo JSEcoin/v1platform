@@ -1,0 +1,151 @@
+
+<div class="row">
+	<div class="col-lg-6">
+		<div class="ibox float-e-margins">
+			<div class="ibox-title">
+				<h5 class="mt10"><i class="fa fa-link" aria-hidden="true"></i> Side-Chains</h5>
+			</div>
+			<div class="ibox-content">
+				The public JSEcoin network can be used to write and validate hashes from 3rd party subchains.
+				<br><br>
+				Public data can be hashed using the SHA256 algorithm and then uploaded via a sethash command.
+				<div class="input-group">
+					<span class="input-group-addon">
+						<a href="javascript:void(0);" onclick="window.open(document.getElementById('enterprise-sethash').value, '_blank');">
+							<i class="fa fa-external-link" aria-hidden="true"></i>
+						</a>
+					</span>
+					<input type="text" id="enterprise-sethash" class="form-control form-inline" value="https://api.jsecoin.com/enterprise/sethash/auth/:hash/">
+				</div>
+				<br>
+				Hashes are timestamped, written to the blockchain and can be validated without an API key.
+				<div class="input-group">
+					<span class="input-group-addon">
+						<a href="javascript:void(0);" onclick="window.open(document.getElementById('enterprise-gethash').value, '_blank');">
+							<i class="fa fa-external-link" aria-hidden="true"></i>
+						</a>
+					</span>
+					<input type="text" id="enterprise-gethash" class="form-control form-inline" value="https://api.jsecoin.com/enterprise/gethash/:hash/">
+				</div>
+				<button class="mt10 btn btn-primary" onclick="sideChainExample();">Enter Test Data</button>
+				<p class="mt10">
+					Public hash verification script: <a href="https://jsecoin.com/misc/hashverification.html" target="_blank">https://jsecoin.com/misc/hashverification.html</a>
+				</p>
+				<div class="mt10">
+					For more information, pricing and examples visit:<br>
+					<a href="https://developer.jsecoin.com/API/enterprise#SideChain" target="_blank">https://developer.jsecoin.com/API/enterprise#SideChain</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-lg-6">
+		<div class="ibox float-e-margins">
+			<div class="ibox-title">
+				<h5 class="mt10"><i class="fa fa-shield" aria-hidden="true"></i> IP Check</h5>
+			</div>
+			<div class="ibox-content">
+				IP intelligence service providing real-time data using JSE's bot detection resources.
+				<br>
+				<div class="input-group">
+					<span class="input-group-addon">
+						<a href="javascript:void(0);" onclick="window.open(document.getElementById('enterprise-ipcheck').value, '_blank');">
+							<i class="fa fa-external-link" aria-hidden="true"></i>
+						</a>
+					</span>
+					<input type="text" id="enterprise-ipcheck" class="form-control form-inline" value="https://api.jsecoin.com/enterprise/ipcheck/auth/:ipAddress/">
+				</div>
+				<div class="pull-right hidden-xs"><img src="img/ipcheck.png" style="width: 138px; padding: 10px; opacity: 0.7;"/></div>
+				<button class="mt10 btn btn-primary" onclick="ipCheckExample();">Enter IP Address</button>
+				<div class="mt10">
+					For more information, pricing and examples visit:<br>
+					<a href="https://developer.jsecoin.com/API/enterprise#IPCheck" target="_blank">https://developer.jsecoin.com/API/enterprise#IPCheck</a>
+				</div>
+				<div style="clear: both;"></div>
+			</div>
+		</div>
+	</div>
+
+</div>
+
+<div class="row">
+	<div class="col-lg-6">
+		<div class="ibox float-e-margins">
+			<div class="ibox-title">
+				<h5>Enterprise Billing</h5>
+			</div>
+			<div class="ibox-content mhtab">   
+				<table class="table">
+					<tr>
+						<th>Date</th>
+						<th class="text-center">API Calls <i class="fa fa-info-circle fa-tooltip" aria-hidden="true" onclick="notify('Number of requests to Enterprise APIs');"></i></th>
+						<th class="text-center">Spend (JSE) <i class="fa fa-info-circle fa-tooltip" aria-hidden="true" onclick="notify('Cost in JSE tokens');"></i></th>
+					</tr>
+					<tbody id="enterprise-billing-table"></tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-lg-6 text-center">
+		<div class="ibox float-e-margins">
+			<div class="ibox-title">
+				<h5>API Key</h5>
+			</div>
+			<div class="ibox-content">
+				<div class="generalbox">
+					<h3>API</h3>
+					<button class="btn btn-primary" onclick="showAPIKey()">Show API Key</button>
+					<div class="linkbox hide" id="apikey"></div>
+					<div class="hide" id="additional-api-buttons">
+						<button class="btn btn-primary" onclick="copyToClipboard('apikey');">Copy To Clipboard</button>
+						<button class="btn btn-primary" onclick="resetAPIKey();">Reset API Key</button>
+					</div>
+					<select class="form-control w300c breakword" id="apilevel" onchange="updateAPILevel()">
+					  <option value="0">0 - Off, no API access, select another option to use API</option>
+					  <option value="1">1 - Read access, required for IP Check</option>
+					  <option value="2">2 - Write access, required for writing side-chain hashes</option>
+					</select>
+					<script>$('#apilevel option[value="'+user.apiLevel+'"]').attr("selected", "selected");</script>
+					<div class="linkbox">For information on the API please visit: <a href="https://developer.jsecoin.com/" target="_blank">https://developer.jsecoin.com/</a></div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>
+<script>
+function sideChainExample() {
+	var testData = prompt('Enter some text data to generate a SHA256 hash');
+	var buffer = textEncoderUTF8(testData);
+	crypto.subtle.digest("SHA-256", buffer).then(function (hash) {
+		var hexHash = hex(hash);
+		document.getElementById('enterprise-sethash').value = 'https://api.jsecoin.com/enterprise/sethash/auth/'+hexHash+'/';
+		document.getElementById('enterprise-gethash').value = 'https://api.jsecoin.com/enterprise/gethash/'+hexHash+'/';
+	});
+}
+
+function ipCheckExample() {
+	var testData = prompt('Enter an IP address to check');
+	document.getElementById('enterprise-ipcheck').value = 'https://api.jsecoin.com/enterprise/ipcheck/auth/'+testData+'/';
+}
+
+function printEnterprisePayments() {
+	var credentials = {};
+	credentials.session = user.session;
+	$.ajax({url:jseServer+'/enterprisepayments/',type:'POST',contentType:'application/json',data: JSON.stringify(credentials)}).done(function(data) {
+		if (!data) return false;
+		var enterprisePaymentsTable = '';
+		user.enterprisePayments = JSON.parse(data);
+		for (var yymmdd in user.enterprisePayments) {
+			if (!user.enterprisePayments.hasOwnProperty(yymmdd)) continue;
+			var formattedDate = '20'+yymmdd.substr(0,2)+'-'+yymmdd.substr(2,2)+'-'+yymmdd.substr(4,2);
+			enterprisePaymentsTable += '<tr><td>'+formattedDate+'</td><td class="text-center">'+user.enterprisePayments[yymmdd]+'</td><td class="text-center">'+user.enterprisePayments[yymmdd]+' <small>JSE</small></td></tr>';
+		}
+		$('#enterprise-billing-table').html(enterprisePaymentsTable);
+	});
+}
+
+printEnterprisePayments();
+
+</script>

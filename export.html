@@ -1,0 +1,87 @@
+<div class="row">
+	<div class="col-lg-6">
+		<div class="ibox float-e-margins">
+			<div class="ibox-title">
+				<h5>Export</h5>
+			</div>
+			<div class="ibox-content">
+				<p>Available Balance: <span class="jsebalance"></span> <small>JSE</small></p>
+				<form role="form" class="form-inline mt5" onSubmit="return false;">
+					 <div class="form-group"><label for="exportamount" class="sr-only">Amount</label>
+						<input type="text" placeholder="Amount" id="exportamount" class="form-control">
+						<button class="btn btn-primary mt5" onclick="exportCoins(); $(this).addClass('animated tada');" type="button"><i class="fa fa-download"></i> Export Coincode</button>
+						<div class="mt5"><small><a href="javascript:void(0);" onclick="showTxLimit();">Daily Transaction Limit : <span id="txLimit"></span></a></small></div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<div class="col-lg-6">
+		<div class="ibox float-e-margins">
+			<div class="ibox-title">
+				<h5>Import</h5>
+			</div>
+			<div class="ibox-content">
+				<form role="form" class="form-inline">
+					 <div class="form-group wfull"><label for="importcode" class="sr-only">Import Code</label>
+						<textarea placeholder="Import Code" id="importcode" class="form-control wfull"></textarea></div>
+					<div class="mt5"><button class="btn btn-primary" onclick="importCoins(); $(this).addClass('animated tada');" type="button"><i class="fa fa-upload"></i> Import Coincode</button></div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col-lg-12">
+		<div class="ibox float-e-margins">
+			<div class="ibox-title">
+				<h5>Exported Coincodes</h5>
+			</div>
+			<div class="ibox-content mhtab">
+				<table class="table table-hover">
+					<thead>
+						<tr>
+							<th>Coin Code</th>
+							<th>Value</th>
+							<th>Date</th>
+							<th>Used</th>
+							<th>Import</th>
+						</tr>
+					</thead>
+					<tbody class="exporttable"></tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	$('.titletext').html('Export / Import');
+	$('.jsebalance').html(user.balance);
+	$('#txLimit').html(user.txLimit);
+	var credentials = {};
+	credentials.session = user.session;
+	$.ajax({url:jseServer+'/myexports/',type:'POST',contentType:'application/json',data: JSON.stringify(credentials)}).done(function(data) {
+		var returnObject = JSON.parse(data);
+		var transactionTable = '';
+		var reverseArray = [];
+		for (var i in returnObject) {
+			reverseArray.push(returnObject[i]);
+		}
+		reverseArray.sort(function(a,b){
+				return new Date(b.ts) - new Date(a.ts);
+		});
+		for (var i = 0; i < reverseArray.length; i++) {
+			t = reverseArray[i];
+			//var transactionTime = new Date(t.ts);
+			//t.utcdate = transactionTime.toUTCString()
+			t.localTime = utcTS2local(t.ts);
+			if (t.used) {
+				t.spent = '<span class="label label-warning">Used</span>';
+			} else {
+				t.spent = '<span class="label label-success">Available</span>';
+			}
+			transactionTable += '<tr><td class="breakword">'+t.coinCode+'</td><td><img src="img/coin_gold.png" alt="" class="table-coin" /> '+t.value+' JSE</td><td>'+t.localTime+'</td><td>'+t.spent+'</td><td><button class="btn btn-sm btn-primary" onclick="$(\'#importcode\').val(\''+t.coinCode+'\'); importCoins(); $(this).addClass(\'animated tada\');" type="button"><i class="fa fa-upload" aria-hidden="true"></i> Import</button> <button class="btn btn-sm btn-danger" onclick="removeCoin(\''+t.coinCode+'\');"><i class="fa fa-trash" aria-hidden="true"></i>	Remove</button></td></tr>';
+		}
+		$('.exporttable').html(transactionTable);
+	});
+	</script>
