@@ -80,11 +80,11 @@
 
 		<div id="checkout-currency-container">
 			<div id="checkout-currency-title">Select your payment currency</div>
-			<div class="checkout-currency-option" onclick="$('#checkout-currency-container').hide(); loadBTC();">
+			<div class="checkout-currency-option" onclick="$('#checkout-currency-container').hide(); loadBtcEth('btc');">
 				<img class="checkout-currency-icon" src="img/bitcoin.png" />
 				Bitcoin
 			</div>
-			<div class="checkout-currency-option" onclick="$('#checkout-currency-container').hide(); loadETH();">
+			<div class="checkout-currency-option" onclick="$('#checkout-currency-container').hide(); loadBtcEth('eth');">
 				<img class="checkout-currency-icon" src="img/ethereum.png" />
 				Ethereum
 			</div>
@@ -95,8 +95,8 @@
 		</div>
 
 		<div id="checkout-btceth-container">
-			<div id="checkout-btceth-title">Select your payment currency</div>
-			<div id="checkout-btceth-address">Select your payment currency</div>
+			<div id="checkout-btceth-title"></div>
+			<div id="checkout-btceth-address"></div>
 			<button class="btn btn-primary" onclick="copyToClipboard('checkout-btceth-address');">Copy</button>
 			<button class="btn btn-primary" onclick="$('#checkout-btceth-container').hide(); $('#checkout-currency-container').show();">Return</button>
 			<div id="checkout-btceth-info">Payment will be received automatically after two block confirmations and you will be returned to the merchants website.</div>
@@ -189,206 +189,232 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 <script src="js/jsecoin.min.js?v=1.8.25"></script>
 
-	<script>
+<script>
 
-	function cleanURL(stringRaw) { // includes &={}
-		var stringClean = String(stringRaw);
-		stringClean = stringClean.split(/[^ {}&=.$*+?\\\-_:/,@a-zA-Z0-9\s]/).join('');
-		stringClean = stringClean.substr(0, 255);
-		return stringClean;
+function cleanURL(stringRaw) { // includes &={}
+	var stringClean = String(stringRaw);
+	stringClean = stringClean.split(/[^ {}&=.$*+?\\\-_:/,@a-zA-Z0-9\s]/).join('');
+	stringClean = stringClean.substr(0, 255);
+	return stringClean;
+}
+
+function getQueryParams(qs) {
+	qs = qs.split("+").join(" ");
+	var params = {}, tokens, re = /[?&]?([^=]+)=([^&]*)/g;
+	while (tokens = re.exec(qs)) { params[decodeURIComponent(tokens[1])] = decodeURIComponent(tokens[2]); }
+	return params;
+}
+var get = getQueryParams(document.location.search);
+
+var checkout = {};
+if (typeof get.encoded !== 'undefined') {
+	var getParsed = JSON.parse(atob(get.encoded));
+} else {
+	var getParsed = get;
+}
+
+checkout.uid = cleanString(getParsed.uid);
+checkout.sAuth = cleanString(getParsed.sAuth);
+checkout.item = cleanString(getParsed.item);
+if (typeof getParsed.rebillFrequency !== 'undefined') {
+	$('#checkout-currency-container').hide();
+	$('#checkout-login-container').show(); // Only JSE for recurring payments
+	checkout.initialPrice = cleanString(getParsed.initialPrice);
+	checkout.recurringPrice = cleanString(getParsed.recurringPrice);
+	checkout.rebillFrequency = cleanString(getParsed.rebillFrequency);
+	var now = new Date();
+	if (checkout.rebillFrequency === 'daily') {
+		checkout.payableDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 11, 0, 0);
+	} else if (checkout.rebillFrequency === 'weekly') {
+		checkout.payableDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 7, 11, 0, 0);
+	} else if (checkout.rebillFrequency === 'monthly') {
+		checkout.payableDate = new Date(now.getFullYear(), now.getMonth() + 1, now.getDate(), 11, 0, 0);
+	} else if (checkout.rebillFrequency === 'annually') {
+		checkout.payableDate = new Date(now.getFullYear() + 1, now.getMonth(), now.getDate(), 11, 0, 0);
 	}
+	checkout.payableDateString = new Date(checkout.payableDate.getTime() + 3600000).toLocaleString();
+} else {
+	checkout.singlePrice = cleanString(getParsed.singlePrice);
+}
+if (typeof getParsed.currency !== 'undefined' && getParsed.currency !== 'JSE') { // leave blank if JSE
+	checkout.currency = cleanString(getParsed.currency);
+}
 
-	function getQueryParams(qs) {
-		qs = qs.split("+").join(" ");
-		var params = {}, tokens, re = /[?&]?([^=]+)=([^&]*)/g;
-		while (tokens = re.exec(qs)) { params[decodeURIComponent(tokens[1])] = decodeURIComponent(tokens[2]); }
-		return params;
+var initialOrSinglePrice = checkout.singlePrice || checkout.initialPrice;
+checkout.completionURL = cleanURL(getParsed.completionURL).split('{item}').join(checkout.item).split('{price}').join(initialOrSinglePrice).split('{c1}').join(cleanString(getParsed.c1)).split('{c2}').join(cleanString(getParsed.c2)).split('{c3}').join(cleanString(getParsed.c3)); // buyeremail and reference added later
+
+if (typeof getParsed.cancellationURL !== 'undefined') {
+	checkout.cancellationURL = cleanURL(getParsed.cancellationURL).split('{item}').join(checkout.item).split('{price}').join(initialOrSinglePrice).split('{c1}').join(cleanString(getParsed.c1)).split('{c2}').join(cleanString(getParsed.c2)).split('{c3}').join(cleanString(getParsed.c3));
+}
+
+if (typeof getParsed.ipnURL !== 'undefined') {
+	checkout.ipnURL = cleanURL(getParsed.ipnURL).split('{item}').join(checkout.item).split('{price}').join(initialOrSinglePrice).split('{c1}').join(cleanString(getParsed.c1)).split('{c2}').join(cleanString(getParsed.c2)).split('{c3}').join(cleanString(getParsed.c3)); // buyer email added later, IPN added server side
+}
+
+if (typeof getParsed.logoURL !== 'undefined') {
+	checkout.logoURL = cleanURL(getParsed.logoURL);
+	if (checkout.logoURL.match(/\.(jpeg|jpg|gif|png)$/) != null && checkout.logoURL.indexOf('?') == -1) {
+		$('#checkout-logo-container').html(`<img class="checkout-logo-dual-images" src="img/merchant-logo.png" alt="JSEcoin" /><img class="checkout-logo-dual-images" src="${checkout.logoURL}" alt="JSEcoin" /><div style="clear: both;"></div>`);
 	}
-	var get = getQueryParams(document.location.search);
+}
 
-	function loadBTC() {
-		$('#checkout-btceth-container').show();
-		$('#checkout-btceth-title').html('Please make your Bitcoin payment within the next hour to:');
-		$('#checkout-btceth-address').html('0x7a1f4c1031f11571a95e4778c2b4281af88c1e28');
-	}
+checkout.ts = new Date().getTime();
 
-	function loadETH() {
-		$('#checkout-btceth-container').show();
-		$('#checkout-btceth-title').html('Please make your Ethereum payment within the next hour to:');
-		$('#checkout-btceth-address').html('0x7a1f4c1031f11571a95e4778c2b4281af88c1e28');
-	}
+//checkout.completedTS = new Date().getTime();
+//checkout.cancelledTS = new Date().getTime();
 
-	var checkout = {};
-	if (typeof get.encoded !== 'undefined') {
-		var getParsed = JSON.parse(atob(get.encoded));
-	} else {
-		var getParsed = get;
-	}
-
-	checkout.uid = cleanString(getParsed.uid);
-	checkout.sAuth = cleanString(getParsed.sAuth);
-	checkout.item = cleanString(getParsed.item);
-	if (typeof getParsed.rebillFrequency !== 'undefined') {
-		checkout.initialPrice = cleanString(getParsed.initialPrice);
-		checkout.recurringPrice = cleanString(getParsed.recurringPrice);
-		checkout.rebillFrequency = cleanString(getParsed.rebillFrequency);
-		var now = new Date();
-		if (checkout.rebillFrequency === 'daily') {
-			checkout.payableDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 11, 0, 0);
-		} else if (checkout.rebillFrequency === 'weekly') {
-			checkout.payableDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 7, 11, 0, 0);
-		} else if (checkout.rebillFrequency === 'monthly') {
-			checkout.payableDate = new Date(now.getFullYear(), now.getMonth() + 1, now.getDate(), 11, 0, 0);
-		} else if (checkout.rebillFrequency === 'annually') {
-			checkout.payableDate = new Date(now.getFullYear() + 1, now.getMonth(), now.getDate(), 11, 0, 0);
-		}
-		checkout.payableDateString = new Date(checkout.payableDate.getTime() + 3600000).toLocaleString();
-	} else {
-		checkout.singlePrice = cleanString(getParsed.singlePrice);
-	}
-	if (typeof getParsed.currency !== 'undefined' && getParsed.currency !== 'JSE') { // leave blank if JSE
-		checkout.currency = cleanString(getParsed.currency);
-	}
-
-	var initialOrSinglePrice = checkout.singlePrice || checkout.initialPrice;
-	checkout.completionURL = cleanURL(getParsed.completionURL).split('{item}').join(checkout.item).split('{price}').join(initialOrSinglePrice).split('{c1}').join(cleanString(getParsed.c1)).split('{c2}').join(cleanString(getParsed.c2)).split('{c3}').join(cleanString(getParsed.c3)); // buyeremail and reference added later
-
-	if (typeof getParsed.cancellationURL !== 'undefined') {
-		checkout.cancellationURL = cleanURL(getParsed.cancellationURL).split('{item}').join(checkout.item).split('{price}').join(initialOrSinglePrice).split('{c1}').join(cleanString(getParsed.c1)).split('{c2}').join(cleanString(getParsed.c2)).split('{c3}').join(cleanString(getParsed.c3));
-	}
-
-	if (typeof getParsed.ipnURL !== 'undefined') {
-		checkout.ipnURL = cleanURL(getParsed.ipnURL).split('{item}').join(checkout.item).split('{price}').join(initialOrSinglePrice).split('{c1}').join(cleanString(getParsed.c1)).split('{c2}').join(cleanString(getParsed.c2)).split('{c3}').join(cleanString(getParsed.c3)); // buyer email added later, IPN added server side
-	}
-
-	if (typeof getParsed.logoURL !== 'undefined') {
-		checkout.logoURL = cleanURL(getParsed.logoURL);
-		if (checkout.logoURL.match(/\.(jpeg|jpg|gif|png)$/) != null && checkout.logoURL.indexOf('?') == -1) {
-			$('#checkout-logo-container').html(`<img class="checkout-logo-dual-images" src="img/merchant-logo.png" alt="JSEcoin" /><img class="checkout-logo-dual-images" src="${checkout.logoURL}" alt="JSEcoin" /><div style="clear: both;"></div>`);
-		}
-	}
-
-	checkout.ts = new Date().getTime();
-	
-	//checkout.completedTS = new Date().getTime();
-	//checkout.cancelledTS = new Date().getTime();
-
-	function checkoutHideAddress() {
-		if ($('#checkout-delivery-address').text() == 'Hidden') {
-			$('#checkout-delivery-address').html(user.address+'<br>'+user.country);
-		} else {
-			$('#checkout-delivery-address').text('Hidden');
-		}
-	}
-
-	function merchantCheckoutLogin() {
-		$('#checkout-login-container').hide();
-		$('#checkout-complete-container').show();
-		if (checkout.currency) {
-			// Get live exchange rates
-			$.ajax({url:jseServer+'/stats/',type:'GET',contentType:'application/json'}).done(function(publicStatsJSON) {
-				var publicStats = JSON.parse(publicStatsJSON);
-				if (publicStats.exchangeRates[checkout.currency+'JSE']) {
-					if (typeof checkout.rebillFrequency !== 'undefined') {
-						checkout.calculatedPrice = Math.round(checkout.initialPrice / publicStats.exchangeRates[checkout.currency+'JSE']);
-						$('#checkout-complete-title').html('Complete your payment for '+checkout.calculatedPrice+' JSE ('+checkout.initialPrice+' '+checkout.currency+')');
-						$('#checkout-contract').html('Make payment for '+checkout.calculatedPrice+' JSE ('+checkout.initialPrice+' '+checkout.currency+')  with a recurring '+checkout.rebillFrequency+' payment of '+checkout.recurringPrice+' '+checkout.currency+' in JSE. First recurring payment will <b>automatically be billed on the '+checkout.payableDateString+'</b>, you will receive e-mail notification 24hrs in advance. This billing agreement is cancellable at any time.');
-					} else {
-						checkout.calculatedPrice = Math.round(checkout.singlePrice / publicStats.exchangeRates[checkout.currency+'JSE']);
-						$('#checkout-complete-title').html('Complete your payment for '+checkout.calculatedPrice+' JSE ('+checkout.singlePrice+' '+checkout.currency+')');
-						$('#checkout-contract').html('Make a single payment for '+checkout.calculatedPrice+' JSE ('+checkout.singlePrice+' '+checkout.currency+')');
-					}
-				} else {
-					notify('Error: live exchange rates not found, please refresh and try again in 30 seconds');
-					return false;
-				}
-			});
-		} else {
-			if (typeof checkout.rebillFrequency !== 'undefined') {
-				$('#checkout-complete-title').html('Complete your payment for '+checkout.initialPrice+' JSE');
-				$('#checkout-contract').html('Make payment for '+checkout.initialPrice+' JSE with a recurring '+checkout.rebillFrequency+' payment of '+checkout.recurringPrice+' JSE. First recurring payment will <b>automatically be billed on the '+checkout.payableDateString+'</b>, you will receive e-mail notification 24hrs in advance. This billing agreement is cancellable at any time.');
-			} else {
-				$('#checkout-complete-title').html('Complete your payment for '+checkout.singlePrice+' JSE');
-				$('#checkout-contract').html('Make a single payment for '+checkout.singlePrice+' JSE');
-			}
-		}
-		$('#checkout-complete-item').html(checkout.item);
+function checkoutHideAddress() {
+	if ($('#checkout-delivery-address').text() == 'Hidden') {
 		$('#checkout-delivery-address').html(user.address+'<br>'+user.country);
-		$('#checkout-payment-method').html('<img src="img/jseicon.png" id="checkout-jse-icon" /> User ID '+user.uid+' - Balance '+user.balance+' JSE');
-
-		checkout.buyer = {};
-		checkout.session = user.session; // sensative data
-		checkout.buyer.uid = user.uid;
-		checkout.buyer.email = user.email;
-		checkout.buyer.name = user.name;
-		checkout.buyer.address = user.address;
-		checkout.buyer.country = user.country;
-		//checkout.buyer.deliveryAddress = $('#checkout-delivery-address').html(); // done on completion
-		checkout.buyer.balance = user.balance;
-		if (typeof checkout.ipnURL !== 'undefined') {
-			checkout.ipnURL = checkout.ipnURL.split('{buyeremail}').join(encodeURIComponent(checkout.buyer.email));
-		}
-		if (typeof checkout.completionURL !== 'undefined') {
-			checkout.completionURL = checkout.completionURL.split('{buyeremail}').join(encodeURIComponent(checkout.buyer.email));
-		}
-		if (typeof getParsed.hideAddress !== 'undefined') {
-			checkoutHideAddress();
-			$('#checkout-hide-address').prop('checked', true);
-		} else {
-			// focus on contenteditable address div?
-		}
+	} else {
+		$('#checkout-delivery-address').text('Hidden');
 	}
+}
 
-	function notify(txtString) {
-		alert(txtString);
-	}
-
-	function cancelCheckout() {
-		$('#checkout-complete-buttons').hide();
-		notify('Checkout has been cancelled');
-		checkout.cancelledTS = new Date().getTime();
-		if (typeof checkout.cancellationURL !== 'undefined') {
-			window.location.href = checkout.cancellationURL;
-		} else {
-			$('#checkout-complete-container').html('<div id="checkout-complete-body"><div id="checkout-complete-title">Please use the back button to navigate back to the merchant webstie</div></div>');
-		}
-	}
-
-	function completeCheckout() {
-		$('#checkout-complete-buttons').hide();
-		checkPin(function() {
-			checkout.completedTS = new Date().getTime();
-			checkout.deliveryAddress = $('#checkout-delivery-address').text();
-			if (get.encoded && get.hash) {
-				checkout.encoded = get.encoded;
-				checkout.hash = get.hash;
-			}
-			checkout.pin = getPin();
-			$.ajax({url:jseServer+'/checkout/',type:'POST',contentType:'application/json',data: JSON.stringify(checkout)}).done(function(data) {
-				var response = JSON.parse(data);
-				if (response.fail) {
-					notify(response.notification);
-					grecaptcha.reset();
-					$('#checkout-complete-buttons').show();
+function merchantCheckoutLogin() {
+	$('#checkout-login-container').hide();
+	$('#checkout-complete-container').show();
+	if (checkout.currency) {
+		// Get live exchange rates
+		$.ajax({url:jseServer+'/stats/',type:'GET',contentType:'application/json'}).done(function(publicStatsJSON) {
+			var publicStats = JSON.parse(publicStatsJSON);
+			if (publicStats.exchangeRates[checkout.currency+'JSE']) {
+				if (typeof checkout.rebillFrequency !== 'undefined') {
+					checkout.calculatedPrice = Math.round(checkout.initialPrice / publicStats.exchangeRates[checkout.currency+'JSE']);
+					$('#checkout-complete-title').html('Complete your payment for '+checkout.calculatedPrice+' JSE ('+checkout.initialPrice+' '+checkout.currency+')');
+					$('#checkout-contract').html('Make payment for '+checkout.calculatedPrice+' JSE ('+checkout.initialPrice+' '+checkout.currency+')  with a recurring '+checkout.rebillFrequency+' payment of '+checkout.recurringPrice+' '+checkout.currency+' in JSE. First recurring payment will <b>automatically be billed on the '+checkout.payableDateString+'</b>, you will receive e-mail notification 24hrs in advance. This billing agreement is cancellable at any time.');
 				} else {
-					notify('Payment completed, redirecting back to merchant website');
-					setTimeout(function() {
-						if (response.reference) {
-							window.location.href = checkout.completionURL.split('{reference}').join(response.reference); // reference sent back from JSON response
-						} else {
-							window.location.href = checkout.completionURL;
-						}
-					}, 1500);
+					checkout.calculatedPrice = Math.round(checkout.singlePrice / publicStats.exchangeRates[checkout.currency+'JSE']);
+					$('#checkout-complete-title').html('Complete your payment for '+checkout.calculatedPrice+' JSE ('+checkout.singlePrice+' '+checkout.currency+')');
+					$('#checkout-contract').html('Make a single payment for '+checkout.calculatedPrice+' JSE ('+checkout.singlePrice+' '+checkout.currency+')');
 				}
+			} else {
+				notify('Error: live exchange rates not found, please refresh and try again in 30 seconds');
 				return false;
-			}).fail(function(data2) {
-				var failObj = JSON.parse(data2.responseText);
-				if (failObj && failObj.notification) { notify(failObj.notification); }
-				$('#checkout-complete-buttons').show();
-				return false;
-			});
+			}
 		});
+	} else {
+		if (typeof checkout.rebillFrequency !== 'undefined') {
+			$('#checkout-complete-title').html('Complete your payment for '+checkout.initialPrice+' JSE');
+			$('#checkout-contract').html('Make payment for '+checkout.initialPrice+' JSE with a recurring '+checkout.rebillFrequency+' payment of '+checkout.recurringPrice+' JSE. First recurring payment will <b>automatically be billed on the '+checkout.payableDateString+'</b>, you will receive e-mail notification 24hrs in advance. This billing agreement is cancellable at any time.');
+		} else {
+			$('#checkout-complete-title').html('Complete your payment for '+checkout.singlePrice+' JSE');
+			$('#checkout-contract').html('Make a single payment for '+checkout.singlePrice+' JSE');
+		}
 	}
+	$('#checkout-complete-item').html(checkout.item);
+	$('#checkout-delivery-address').html(user.address+'<br>'+user.country);
+	$('#checkout-payment-method').html('<img src="img/jseicon.png" id="checkout-jse-icon" /> User ID '+user.uid+' - Balance '+user.balance+' JSE');
+
+	checkout.buyer = {};
+	checkout.session = user.session; // sensative data
+	checkout.buyer.uid = user.uid;
+	checkout.buyer.email = user.email;
+	checkout.buyer.name = user.name;
+	checkout.buyer.address = user.address;
+	checkout.buyer.country = user.country;
+	//checkout.buyer.deliveryAddress = $('#checkout-delivery-address').html(); // done on completion
+	checkout.buyer.balance = user.balance;
+	if (typeof checkout.ipnURL !== 'undefined') {
+		checkout.ipnURL = checkout.ipnURL.split('{buyeremail}').join(encodeURIComponent(checkout.buyer.email));
+	}
+	if (typeof checkout.completionURL !== 'undefined') {
+		checkout.completionURL = checkout.completionURL.split('{buyeremail}').join(encodeURIComponent(checkout.buyer.email));
+	}
+	if (typeof getParsed.hideAddress !== 'undefined') {
+		checkoutHideAddress();
+		$('#checkout-hide-address').prop('checked', true);
+	} else {
+		// focus on contenteditable address div?
+	}
+}
+
+function notify(txtString) {
+	alert(txtString);
+}
+
+function loadBtcEth(btcEth) {
+	$('#checkout-btceth-container').show();
+	$('#checkout-btceth-address').html('Generating Address...');
+	let longCurrency = 'Bitcoin';
+	if (btcEth === 'eth') longCurrency = 'Ethereum';
+	$('#checkout-btceth-title').html(`Please make your ${longCurrency} payment for <span id="checkout-btceth-amount">...</span> within the next hour to:`);
+	if (!checkout.payAddress || (checkout.payCurrency && checkout.payCurrency !== btcEth)) {
+		checkout.payCurrency = btcEth;
+		$.ajax({url:jseServer+'/checkout/setuptransaction/',type:'POST',contentType:'application/json',data: JSON.stringify(checkout)}).done(function(data) {
+			var transactionData = JSON.parse(data);
+			checkout.payAddress = transactionData.payAddress;
+			if (btcEth === 'eth') checkout.payAddress = checkout.payAddress.toLowerCase(); // fit in long hex address
+			checkout.payPrice = transactionData.payPrice;
+			checkout.calculatedPrice = transactionData.calculatedPrice;
+			checkout.pendingRef = transactionData.pendingRef;
+			$('#checkout-btceth-amount').html(`${checkout.payPrice.toFixed(8).replace(/\.?0+$/,"")} <small>${checkout.payCurrency.toUpperCase()}</small>`);
+			$('#checkout-btceth-address').html(checkout.payAddress);
+		});
+		setTimeout(function() { checkPendingPayment(); }, 60000);
+	} else {
+		$('#checkout-btceth-amount').html(`${checkout.payPrice.toFixed(8).replace(/\.?0+$/,"")} <small>${checkout.payCurrency.toUpperCase()}</small>`);
+		$('#checkout-btceth-address').html(checkout.payAddress);
+	}
+}
+
+function checkPendingPayment() {
+	$.ajax({url:jseServer+'/checkout/checkpending/'+checkout.pendingRef+'/',type:'GET',contentType:'application/json'}).done(function(data) {
+		var paymentCheckData = JSON.parse(data);
+		var paymentReceived = paymentCheckData.paymentReceived;
+		if (paymentReceived) {
+			window.location.href = checkout.completionURL.split('{reference}').join(paymentCheckData.reference);
+		}
+	});
+	setTimeout(function() { checkPendingPayment(); }, 60000);
+}
+
+function cancelCheckout() {
+	$('#checkout-complete-buttons').hide();
+	notify('Checkout has been cancelled');
+	checkout.cancelledTS = new Date().getTime();
+	if (typeof checkout.cancellationURL !== 'undefined') {
+		window.location.href = checkout.cancellationURL;
+	} else {
+		$('#checkout-complete-container').html('<div id="checkout-complete-body"><div id="checkout-complete-title">Please use the back button to navigate back to the merchant webstie</div></div>');
+	}
+}
+
+function completeCheckout() {
+	$('#checkout-complete-buttons').hide();
+	checkPin(function() {
+		checkout.completedTS = new Date().getTime();
+		checkout.deliveryAddress = $('#checkout-delivery-address').text();
+		if (get.encoded && get.hash) {
+			checkout.encoded = get.encoded;
+			checkout.hash = get.hash;
+		}
+		checkout.pin = getPin();
+		$.ajax({url:jseServer+'/checkout/',type:'POST',contentType:'application/json',data: JSON.stringify(checkout)}).done(function(data) {
+			var response = JSON.parse(data);
+			if (response.fail) {
+				notify(response.notification);
+				grecaptcha.reset();
+				$('#checkout-complete-buttons').show();
+			} else {
+				notify('Payment completed, redirecting back to merchant website');
+				setTimeout(function() {
+					if (response.reference) {
+						window.location.href = checkout.completionURL.split('{reference}').join(response.reference); // reference sent back from JSON response
+					} else {
+						window.location.href = checkout.completionURL;
+					}
+				}, 1500);
+			}
+			return false;
+		}).fail(function(data2) {
+			var failObj = JSON.parse(data2.responseText);
+			if (failObj && failObj.notification) { notify(failObj.notification); }
+			$('#checkout-complete-buttons').show();
+			return false;
+		});
+	});
+}
 
 </script>
 
