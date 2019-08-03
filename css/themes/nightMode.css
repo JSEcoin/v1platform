@@ -61,9 +61,6 @@ a:hover {
 .nav-header,body.mini-navbar .nav-header {
 	background-color: #0b0e11;
 }
-.nav-header .dropdown {
-	text-align: center;
-}
 
 .btn-primary {
     background-color: transparent;
