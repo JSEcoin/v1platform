@@ -274,7 +274,9 @@ if (user.lastLogin == Number(user.lastLogin)) { // convert old style timestamps
 	}
 	lastLoginDetails = utcTS2local(Number(user.lastLogin.ts))+'<br>'+user.lastLogin.geo+', '+user.lastLogin.ip+', '+llDevice;
 }
-$('.accountdetails').html('<table class="table"><tr><th><i class="fa fa-id-card custom-fa-dashboard"></i> User ID</th><td>'+user.uid+'</td></tr><tr><th class="pointer" onclick="viewLogins();"><i class="fa fa-eye custom-fa-dashboard"></i> Sessions</th><td>'+lastLoginDetails+'</td></tr><tr><th><i class="fa fa-user custom-fa-dashboard"></i> Name</th><td>'+user.name+'</td></tr><tr><th><i class="fa fa-envelope custom-fa-dashboard"></i> E-mail</th><td>'+user.email+'</td></tr><tr><th><i class="fa fa-home custom-fa-dashboard"></i> Address</th><td>'+user.address+'<br>'+user.country+'</td></tr></table>');
+$('.accountdetails').html('<table class="table"><tr><th><i class="fa fa-id-card custom-fa-dashboard"></i> User ID</th><td>'+user.uid+'</td></tr><tr><th class="pointer" onclick="viewLogins();"><i class="fa fa-eye custom-fa-dashboard"></i> Sessions</th><td>'+lastLoginDetails+'</td></tr><tr><th><i class="fa fa-user custom-fa-dashboard"></i> Name</th><td>'+user.name+'</td></tr><tr><th><i class="fa fa-envelope custom-fa-dashboard"></i> E-mail</th><td>'+user.email+'</td></tr></table>');
+// <tr><th><i class="fa fa-home custom-fa-dashboard"></i> Address</th><td>'+user.address+'<br>'+user.country+'</td></tr>
+
 calculatePendingTotal();
 $('.pending-total').html(user.pendingTotal.toFixed(4)+' <img src="img/coin_gold.png" alt="JSE" class="dashboard-coin" />');
 $('.pending-self-mining').html(user.pendingSelfMining+' <img src="img/coin_silver.png" alt="JSE" class="dashboard-small-coin"  />');
