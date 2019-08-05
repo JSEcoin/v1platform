@@ -60,7 +60,7 @@
 	$('#txLimit').html(user.txLimit);
 	var credentials = {};
 	credentials.session = user.session;
-	$.ajax({url:jseServer+'/myexports/',type:'POST',contentType:'application/json',data: JSON.stringify(credentials)}).done(function(data) {
+	$.ajax({url:jseServer+'/account/myexports/',type:'POST',contentType:'application/json',data: JSON.stringify(credentials)}).done(function(data) {
 		var returnObject = JSON.parse(data);
 		var transactionTable = '';
 		var reverseArray = [];

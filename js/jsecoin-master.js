@@ -1089,7 +1089,7 @@ function setPin() {
 		return false;
 	}
 	credentials.pin = $('#new-pin').val().split(/[^0-9]/).join('');
-	$.ajax({url:jseServer+'/setpin/',type:'POST',contentType:'application/json',data: JSON.stringify(credentials)}).done(function(data) {
+	$.ajax({url:jseServer+'/account/setpin/',type:'POST',contentType:'application/json',data: JSON.stringify(credentials)}).done(function(data) {
 		var returnObject = JSON.parse(data);
 		if (returnObject.success) { $('#tmpmodal').modal('hide'); }
 		notify(returnObject.notification);
@@ -1105,7 +1105,7 @@ function showAPIKey() {
 		var credentials = {};
 		credentials.session = user.session;
 		credentials.pin = getPin();
-		$.ajax({url:jseServer+'/getapikey/',type:'POST',contentType:'application/json',data: JSON.stringify(credentials)}).done(function(data) {
+		$.ajax({url:jseServer+'/account/getapikey/',type:'POST',contentType:'application/json',data: JSON.stringify(credentials)}).done(function(data) {
 			var returnObject = JSON.parse(data);
 			if (returnObject.fail) { notify(returnObject.notification); }
 			if (returnObject.apiKey) {
@@ -1127,7 +1127,7 @@ function resetAPIKey() {
 			var credentials = {};
 			credentials.session = user.session;
 			credentials.pin = getPin();
-			$.ajax({url:jseServer+'/resetapikey/',type:'POST',contentType:'application/json',data: JSON.stringify(credentials)}).done(function(data) {
+			$.ajax({url:jseServer+'/account/resetapikey/',type:'POST',contentType:'application/json',data: JSON.stringify(credentials)}).done(function(data) {
 				var returnObject = JSON.parse(data);
 				if (returnObject.fail) { notify(returnObject.notification); }
 				if (returnObject.newAPIKey) {
@@ -1151,7 +1151,7 @@ function updateAPILevel() {
 		credentials.session = user.session;
 		credentials.newAPILevel = newAPILevel;
 		credentials.pin = getPin();
-		$.ajax({url:jseServer+'/updateapilevel/',type:'POST',contentType:'application/json',data: JSON.stringify(credentials)}).done(function(data) {
+		$.ajax({url:jseServer+'/account/updateapilevel/',type:'POST',contentType:'application/json',data: JSON.stringify(credentials)}).done(function(data) {
 			refreshUser(function() {
 				loadSettings();
 			});
@@ -1217,7 +1217,7 @@ function updateDetails() {
 		credentials.newName = cleanString($('#newname').val());
 		credentials.newAddress = cleanString($('#newaddress').val());
 		credentials.pin = getPin();
-		$.ajax({url:jseServer+'/updatedetails/',type:'POST',contentType:'application/json',data: JSON.stringify(credentials)}).done(function(data) {
+		$.ajax({url:jseServer+'/account/updatedetails/',type:'POST',contentType:'application/json',data: JSON.stringify(credentials)}).done(function(data) {
 			refreshUser(function() {
 				loadSettings();
 			});
@@ -1539,7 +1539,7 @@ function removeStats(what,ref) {
 	credentials.what = cleanString(what);
 	credentials.ref = cleanString(ref);
 	if (confirm('Are you sure you want to permanently remove this '+credentials.what.substring(0, credentials.what.length - 1)+' reference '+credentials.ref+'?')) {
-		$.ajax({url:jseServer+'/removestats/',type:'POST',contentType:'application/json',data: JSON.stringify(credentials)}).done(function(data) {
+		$.ajax({url:jseServer+'/account/removestats/',type:'POST',contentType:'application/json',data: JSON.stringify(credentials)}).done(function(data) {
 			//var returnObject = JSON.parse(data);
 			loadPublishers();
 		}).fail(function(data2) {
@@ -1819,7 +1819,7 @@ function updateHashRateAcceleration() {
 function viewLogins() {
 	var credentials = {};
 	credentials.session = user.session;
-	$.ajax({url:jseServer+'/lastlogins/',type:'POST',contentType:'application/json',data: JSON.stringify(credentials)}).done(function(data) {
+	$.ajax({url:jseServer+'/account/lastlogins/',type:'POST',contentType:'application/json',data: JSON.stringify(credentials)}).done(function(data) {
 		var returnObject = JSON.parse(data);
 		var targetHTML = '<table class="table target-table"><tr><th>GEO</th><th>App</th><th>IP Address</th><th>Date</th><th>User Agent</th></tr>';
 		var reverseLogins = [];
@@ -1973,7 +1973,7 @@ function setupTransfer(email,amount,reference) {
 function showTxLimit() {
 	var credentials = {};
 	credentials.session = user.session;
-	$.ajax({url:jseServer+'/txtoday/',type:'POST',contentType:'application/json',data: JSON.stringify(credentials)}).done(function(data) {
+	$.ajax({url:jseServer+'/account/txtoday/',type:'POST',contentType:'application/json',data: JSON.stringify(credentials)}).done(function(data) {
 		var returnObject = JSON.parse(data);
 		if (returnObject.fail) {
 			notify (returnObject.notification);
@@ -1995,7 +1995,7 @@ function adjustTxLimit() {
 		return false;
 	}
 	credentials.pin = $('#tx-limit-pin').val();
-	$.ajax({url:jseServer+'/updatetxlimit/',type:'POST',contentType:'application/json',data: JSON.stringify(credentials)}).done(function(data) {
+	$.ajax({url:jseServer+'/account/updatetxlimit/',type:'POST',contentType:'application/json',data: JSON.stringify(credentials)}).done(function(data) {
 		var returnObject = JSON.parse(data);
 		if (returnObject.fail) {
 			notify (returnObject.notification);
@@ -2019,7 +2019,7 @@ function removeCoin(coinCode) {
 	credentials.session = user.session;
 	credentials.coinCode = coinCode;
 	if (confirm('Once removed from your account there will be no way to retrieve this code. Have you stored the coincode safely and are you sure you want to remove this coincode?')) {
-		$.ajax({url:jseServer+'/removecoincode/',type:'POST',contentType:'application/json',data: JSON.stringify(credentials)}).done(function(data) {
+		$.ajax({url:jseServer+'/account/removecoincode/',type:'POST',contentType:'application/json',data: JSON.stringify(credentials)}).done(function(data) {
 			var returnObject = JSON.parse(data);
 			if (returnObject.fail) {
 				notify (returnObject.notification);
@@ -2180,7 +2180,7 @@ function toggleEmailSettings(type) {
 	//console.log('toggleEmail');
 	var credentials = {};
 	credentials.session = user.session;
-	$.ajax({url:jseServer+'/toggleemail/'+type+'/',type:'POST',contentType:'application/json',data: JSON.stringify(credentials)}).done(function(data) {
+	$.ajax({url:jseServer+'/account/toggleemail/'+type+'/',type:'POST',contentType:'application/json',data: JSON.stringify(credentials)}).done(function(data) {
 		var returnObject = JSON.parse(data);
 		if (returnObject.fail) {
 			notify(returnObject.notification);
@@ -2581,7 +2581,7 @@ function loadPublishers() {
 	currentPage = 'publishers.html';
 	var credentials = {};
 	credentials.session = user.session;
-	$.ajax({url:jseServer+'/pubstats/',type:'POST',contentType:'application/json',data: JSON.stringify(credentials)}).done(function(data) {
+	$.ajax({url:jseServer+'/account/pubstats/',type:'POST',contentType:'application/json',data: JSON.stringify(credentials)}).done(function(data) {
 		stats = JSON.parse(data);
 		$("#content").load('publishers.html',function() {});
 	});

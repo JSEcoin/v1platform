@@ -172,7 +172,7 @@
 
 	var credentials = {};
 	credentials.session = user.session;
-	$.ajax({url:jseServer+'/referrals/',type:'POST',contentType:'application/json',data: JSON.stringify(credentials)}).done(function(data) {
+	$.ajax({url:jseServer+'/account/referrals/',type:'POST',contentType:'application/json',data: JSON.stringify(credentials)}).done(function(data) {
 		//console.log(data);
 		if (data == 'null') { // No referrals
 			//console.log('t1');

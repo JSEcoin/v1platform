@@ -77,6 +77,8 @@
 				<hr>
 				<div><a href="javascript:void(0)" onclick="loadPage('ResetPassword');">Change Password</a></div>
 				<br>
+				<div><a href="javascript:void(0)" onclick="deleteAccount();">Delete Account</a></div>
+				<br>
 				<h3>Public Key:</h3>
 				<div class="linkbox" id="publicKeyBox"></div>
 			</div>
@@ -104,4 +106,26 @@ if (user.noEmailTransaction) {
 $('#newname').val(user.name);
 $('#newemail').val(user.email);
 $('#newaddress').val(user.address);
+
+function deleteAccount() {
+	if (confirm('Are you sure you want to delete your JSEcoin account?')) {
+		setTimeout(function() {
+			if (confirm('Are you sure? All funds held in the account will be lost and this action is not reversible.')) {
+				var credentials = {};
+				credentials.session = user.session;
+				$.ajax({url:jseServer+'/account/delete/',type:'POST',contentType:'application/json',data: JSON.stringify(credentials)}).done(function(data) {
+					var returnObject = JSON.parse(data);
+					if (returnObject.fail) {
+						notify (returnObject.notification);
+					} else if (returnObject.success) {
+						notify('Account deleted :(');
+						setTimout(function() {
+							document.location.href = 'https://platform.jsecoin.com';
+						},2000);
+					}
+				});
+			}
+		}, 1000);
+	}
+}
 </script>
