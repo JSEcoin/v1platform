@@ -9,17 +9,17 @@
 					<div id="merchant-setup-container">
 						<div id="merchant-setup-title">Setup your merchant account to accept cryptocurrency payments</div>
 						<div id="merchant-setup-form">
-							<div id="merchant-field-payment-type" class="merchant-field-title">Choose a payment type:</div>
+							<div id="merchant-field-payment-type" class="merchant-field-title">Choose a payment type: <i class="fa fa-info-circle fa-tooltip" aria-hidden="true" onclick="notify('Choose between a one off single payment and a rebilled recurring payment. Recurring payments require purchaser to have a JSE account.');"></i></div>
 							<select onchange="togglePaymentType();" id="merchant-payment-type-select" class="merchant-select-input">
 								<option value="singlePayment">Single Payment</option>
 								<option value="recurringPayment">Recurring Payment</option>
 							</select>
 
-							<div id="merchant-field-item-name" class="merchant-field-title">Item Name / ID</div>
+							<div id="merchant-field-item-name" class="merchant-field-title">Item Name / ID <i class="fa fa-info-circle fa-tooltip" aria-hidden="true" onclick="notify('Give your product or service a name or reference which will be logged in the transaction table below.');"></i></div>
 							<input type="text" id="merchant-item-name-value" class="merchant-text-input">
 
 							<div id="merchant-single-payment-pricing">
-								<div id="merchant-field-price" class="merchant-field-title">Price</div>
+								<div id="merchant-field-price" class="merchant-field-title">Price <i class="fa fa-info-circle fa-tooltip" aria-hidden="true" onclick="notify('Choose a price and currency. Currency conversion is calculated from current exchange rates at time of purchase.');"></i></div>
 								<input type="text" id="merchant-single-price-value" class="merchant-text-input merchant-price-input">
 								<select id="merchant-single-price-currency" class="merchant-text-input merchant-price-input">
 									<option value="JSE" selected>JSE</option>
@@ -116,7 +116,7 @@
 								<label for="merchant-rebill-annually" class="merchant-checkbox-label">Annually</label>
 							</div>
 
-							<div id="merchant-field-completion-url" class="merchant-field-title">Completion URL</div>
+							<div id="merchant-field-completion-url" class="merchant-field-title">Completion URL  <i class="fa fa-info-circle fa-tooltip" aria-hidden="true" onclick="notify('After payment users will be sent back to this address. This is public so use the a secured IPN URL from advanced options to do any payment processing.');"></i></div>
 							<input type="text" id="merchant-completion-url-value" class="merchant-text-input merchant-url-input" placeholder="https://yoursite.com/checkoutcomplete.html" >
 
 							<div id="merchant-setup-buttons">
@@ -127,7 +127,7 @@
 	
 							<div id="merchant-advanced-container">
 								<div class="merchant-field-title" id="merchant-advanced-title">Advanced Options</div>
-
+								<!--
 								<div class="mt5">
 									<input type="checkbox" class="merchant-checkboxes" id="merchant-checkbox-obfuscate-url" value="1"  />
 									<label for="merchant-checkbox-obfuscate-url" class="merchant-checkbox-label">Obfuscate URL Data</label>
@@ -136,24 +136,31 @@
 									<input type="checkbox" class="merchant-checkboxes" id="merchant-checkbox-hash-data" value="1"  />
 									<label for="merchant-checkbox-hash-data" class="merchant-checkbox-label">Hash Obfuscated Data (Prevent manipulation)</label>
 								</div>
+								-->
+								<div class="mt5">
+									<input type="checkbox" class="merchant-checkboxes" id="merchant-checkbox-simple-url" value="1"  />
+									<label for="merchant-checkbox-simple-url" class="merchant-checkbox-label">Simple URL (less secure) <i class="fa fa-info-circle fa-tooltip" aria-hidden="true" onclick="notify('This wont obfuscate or hash the URL which means buttons can more easily be dynamically generated. However this also means that clients can manipulate prices and descriptions so make sure you check incoming payments on the platform.');"></i></label>
+								</div>
 								<div class="mt5">
 									<input type="checkbox" class="merchant-checkboxes" id="merchant-checkbox-hide-address" value="1"  />
-									<label for="merchant-checkbox-hide-address" class="merchant-checkbox-label">Auto-hide delivery address</label>
+									<label for="merchant-checkbox-hide-address" class="merchant-checkbox-label">Auto-hide delivery address <i class="fa fa-info-circle fa-tooltip" aria-hidden="true" onclick="notify('Delivery address not required.');"></i></label>
 								</div>
 								<div class="mt5">
 									<input type="checkbox" class="merchant-checkboxes" id="merchant-checkbox-charity-account" value="1"  />
-									<label for="merchant-checkbox-charity-account" class="merchant-checkbox-label">Send funds to charity account (useful for testing)</label>
+									<label for="merchant-checkbox-charity-account" class="merchant-checkbox-label">Send funds to charity account (useful for testing) <i class="fa fa-info-circle fa-tooltip" aria-hidden="true" onclick="notify('This will set up a button for payment to the charity account. This can be used for testing so you can use your own JSEcoin account as the purchaser.');"></i></label>
 								</div>
-								<div id="merchant-field-cancellation-url" class="merchant-field-title">Cancellation URL <span class="merchant-field-optional-text">(Optional)</span></div>
+								<div id="merchant-field-cancellation-url" class="merchant-field-title">Cancellation URL <i class="fa fa-info-circle fa-tooltip" aria-hidden="true" onclick="notify('Users are redirected to this web address if they cancel the payment.');"></i></div>
 								<input type="text" id="merchant-cancellation-url-value" class="merchant-text-input merchant-url-input" placeholder="https://yoursite.com/cancel.html">
 								
-								<div id="merchant-field-ipn-url" class="merchant-field-title">IPN Postback URL <span class="merchant-field-optional-text">(Optional)</span></div>
-								<input type="text" id="merchant-ipn-url-value" class="merchant-text-input merchant-url-input" placeholder="https://yoursite.com/s2s.php?ref={item}">
+								<div id="merchant-field-ipn-url" class="merchant-field-title">IPN Postback URL <span class="merchant-field-optional-text">(or reference)</span> <i class="fa fa-info-circle fa-tooltip" aria-hidden="true" onclick="notify('A server-side GET request is made to the IPN URL on successful payment receipt. Once secured a reference will appear in the box which hides the actual URL from the client.');"></i></div>
+								<input type="text" id="merchant-ipn-url-value" class="merchant-text-input merchant-url-input" onchange="$(this).css('color', '#C00');"  placeholder="https://yoursite.com/s2s.php?ref={item}">
+								<br>
+								<button class="btn btn-primary btn-sm" onclick="saveIPN();">Save and secure IPN URL</button>
 
-								<div id="merchant-field-logo-url" class="merchant-field-title">Merchant Logo URL <span class="merchant-field-optional-text">(Optional)</span></div>
+								<div id="merchant-field-logo-url" class="merchant-field-title">Merchant Logo URL <i class="fa fa-info-circle fa-tooltip" aria-hidden="true" onclick="notify('Include your company or website logo on the checkout page');"></i></div>
 								<input type="text" id="merchant-logo-url-value" class="merchant-text-input merchant-url-input" placeholder="https://yoursite.com/img/logo.jpg">
 
-								<div id="merchant-field-tracking-variables" class="merchant-field-title">Tracking Variables <span class="merchant-field-optional-text">(Optional)</span></div>
+								<div id="merchant-field-tracking-variables" class="merchant-field-title">Tracking Variables <i class="fa fa-info-circle fa-tooltip" aria-hidden="true" onclick="notify('Tracking variables can be used to pass through additional data to the payment processing URLs. Dynamic tokens for the URLs are {item} {price} {c1} {c2} {c3} {buyeremail} {reference}');"></i></div>
 								<input type="text" id="merchant-c1-value" class="merchant-text-input" placeholder="c1"><br>
 								<input type="text" id="merchant-c2-value" class="merchant-text-input" placeholder="c2"><br>
 								<input type="text" id="merchant-c3-value" class="merchant-text-input" placeholder="c3"><br>
@@ -319,6 +326,27 @@ function togglePaymentType() {
 	}
 }
 
+function saveIPN() {
+	var credentials = {};
+	credentials.session = user.session;
+	credentials.ipnURL = $('#merchant-ipn-url-value').val();
+	$.ajax({url:jseServer+'/saveIPN/',type:'POST',contentType:'application/json',data: JSON.stringify(credentials)}).done(function(data) {
+		var returnObj = JSON.parse(data);
+		if (returnObj.success) {
+			$('#merchant-ipn-url-value').val(returnObj.pushRef);
+			$('#merchant-ipn-url-value').css('color', '#0C0');
+		}
+	}).fail(function(data2) {
+		var failObj = JSON.parse(data2.responseText);
+		if (failObj && failObj.notification) { notify(failObj.notification); }
+		return false;
+	});
+}
+
+function merchantHelp() {
+	launchModal('Merchant Setup Help','The merchant tools enable webmasters to accept simple payments via their website. You don’t need programming knowledge to accept JSE payments via your website or app. Simply give your item a name or ID reference, set a price and provide a thank you page for visitors to return to. Then click “Get Code” and copy and paste the payment code to your website where you want the button to be displayed.<br><br>You will receive email notification and your sales will be displayed in the merchant table below the setup form where you can check delivery address and “process” the order which will send an email notification to the buyer that the order has been processed (this is an optional step).<br><br><b>Advanced options</b><br><br>As standard the data URL is hashed and obfuscated however it can be set to just a simple URL with editable parameters. This may be useful if you want to create buttons dynamically but please beware that price can be manipulated by the end user. You can also provide a cancellation URL to redirect users to if they cancel the order.<br><br>Tracking variables can be used to pass data to the merchant form and then back to the completion URL, IPN URL, or cancellation URL. This enables integration of the JSE payment gateway with 3rd party shopping cart applications by transferring session/cart/order variables. The IPN postback URL will be made as a simple GET request from the server side code which executes the order, this can be used as an instant notification of order to update 3rd party tracking and shopping cart software. To set this up enter a valid URL and click "Save and secure IPN URL", this will provide a referance and your IPN is saved remotely.<br><br>The dynamic tracking tokens to use in your URL are:-<br>{item} {price} {c1} {c2} {c3} {buyeremail} {reference}<br>(Note buyeremail and reference are only available in IPN postback and completion URL)<br><br>Example return URL: https://myshop.com/thankyou.html?cartID={c1}&cartValue={price}<br><br><b>Subscriptions</b><br><br>Many SaaS and Membership sites rely on rebill subscriptions to provide a steady income stream. You can now take daily, weekly, monthly or annual subscription payments with the JSEcoin merchant tools. Simply set the “Recurring Payment” option from the payment type drop down menu and complete the required forms. Initial payment will be taken at the time of checkout, this can be a $1 trial special offer for example. Recurring payment amount will be debited from the buyers account after the defined rebillFrequency has passed i.e. a month later for monthly subscriptions. A merchant or user can cancel their subscription at any time and email notifications will be provided.<br><br>If you have any problems our technical support team is available to help get the merchant tools platform setup on your site. Contact us at: <a href="https://jsecoin.com/en/support/contact/" target="_blank">https://jsecoin.com/en/support/contact/</a>');
+}
+
 function getMerchantCode() {
 	// validation checks
 	if (!$('#merchant-item-name-value').val()) { notify('Please enter an item description or ID number'); return false; }
@@ -390,7 +418,7 @@ function getMerchantCode() {
 		merchantQueryString += '&hideAddress=1';
 	}
 
-	if ($('#merchant-checkbox-obfuscate-url').prop('checked')) {
+	if (!$('#merchant-checkbox-simple-url').prop('checked')) {
 		var encObj = {};
 		encObj.uid = user.uid;
 		encObj.sAuth = user.apiKey.substring(0, 5);
@@ -435,19 +463,19 @@ function getMerchantCode() {
 
 		var encodedURL = encodeURIComponent(unescape(btoa(JSON.stringify(encObj))));
 		merchantQueryString = 'encoded='+encodedURL;
+		//if (!$('#merchant-checkbox-simple-url').prop('checked')) {
 		// SHA256 the data
-		if ($('#merchant-checkbox-hash-data').prop('checked')) {
-			var safeHashString = encodedURL+user.email+user.apiKey.substring(0, 10)+user.regip+user.registrationDate; // 10 digits public/private api sub-key mixed in with some user data to prevent brute force attack
-			if ($('#merchant-checkbox-charity-account').prop('checked')) {
-				safeHashString = encodedURL+'charity@jsecoin.comLP02hxLkHl90.11.151.2401505205877100'; // exposes some charity account data but non-critical
-			}
-			var buffer = textEncoderUTF8(safeHashString);
-			crypto.subtle.digest("SHA-256", buffer).then(function (hash) { // async, will have to print out once complete
-				var sha256hash = hex(hash);
-				merchantQueryString += '&hash='+sha256hash;
-				printMerchantCode(merchantQueryString);
-			});
+		var safeHashString = encodedURL+user.email+user.apiKey.substring(0, 10)+user.regip+user.registrationDate; // 10 digits public/private api sub-key mixed in with some user data to prevent brute force attack
+		if ($('#merchant-checkbox-charity-account').prop('checked')) {
+			safeHashString = encodedURL+'charity@jsecoin.comLP02hxLkHl90.11.151.2401505205877100'; // exposes some charity account data but non-critical
 		}
+		var buffer = textEncoderUTF8(safeHashString);
+		crypto.subtle.digest("SHA-256", buffer).then(function (hash) { // async, will have to print out once complete
+			var sha256hash = hex(hash);
+			merchantQueryString += '&hash='+sha256hash;
+			printMerchantCode(merchantQueryString);
+		});
+
 	}
 	if (!safeHashString) {
 		printMerchantCode(merchantQueryString);
