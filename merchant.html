@@ -465,7 +465,8 @@ function getMerchantCode() {
 		merchantQueryString = 'encoded='+encodedURL;
 		//if (!$('#merchant-checkbox-simple-url').prop('checked')) {
 		// SHA256 the data
-		var safeHashString = encodedURL+user.email+user.apiKey.substring(0, 10)+user.regip+user.registrationDate; // 10 digits public/private api sub-key mixed in with some user data to prevent brute force attack
+		var safeHashString =  decodeURIComponent(encodedURL)+user.email+user.apiKey.substring(0, 10)+user.regip+user.registrationDate; // 10 digits public/private api sub-key mixed in with some user data to prevent brute force attack
+		console.log(safeHashString);
 		if ($('#merchant-checkbox-charity-account').prop('checked')) {
 			safeHashString = encodedURL+'charity@jsecoin.comLP02hxLkHl90.11.151.2401505205877100'; // exposes some charity account data but non-critical
 		}

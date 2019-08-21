@@ -889,7 +889,7 @@ function login() {
 
 	if (typeof grecaptcha !== 'undefined') {
 		credentials['g-recaptcha-response'] = grecaptcha.getResponse();
-		if(credentials['g-recaptcha-response'] === undefined || credentials['g-recaptcha-response'] === '' || credentials['g-recaptcha-response'] === null) {
+		if (credentials['g-recaptcha-response'] === undefined || credentials['g-recaptcha-response'] === '' || credentials['g-recaptcha-response'] === null) {
 			notify('Complete the ReCaptcha "I am not a robot"'); return false;
 		}
 	}

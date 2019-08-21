@@ -41,7 +41,8 @@
 		.checkout-currency-icon { width: 40px; height: 40px; margin: -4px 20px 0px 20px; }
 		#checkout-btceth-container { background: #FFF; border: 1px solid #CCC; padding: 15px 10px 30px 10px; border-radius: 3px; width: 300px; display: none; }
 		#checkout-btceth-info { font-size: 12px; margin-top: 10px; }
-		.checkout-btceth-refresh { float:right; margin: 5px; }
+		#checkout-btceth-monitoring { font-size: 12px; margin-top: 10px; }
+		.checkout-btceth-refresh { float:right; margin: -3px 3px; font-size: 20px; }
 		#checkout-btceth-address { padding: 5px; font-size: 11px; border: 1px solid #CCC; border-radius: 3px; margin: 10px 0px; }
 		#checkout-login-container { background: #FFF; border: 1px solid #CCC; padding: 30px; border-radius: 3px; min-width: 300px; display: none; }
 		#checkout-login-title { width: 100%; text-align: center; font-size: 14px; }
@@ -99,8 +100,13 @@
 			<div id="checkout-btceth-address"></div>
 			<button class="btn btn-primary" onclick="copyToClipboard('checkout-btceth-address');">Copy</button>
 			<button class="btn btn-primary" onclick="$('#checkout-btceth-container').hide(); $('#checkout-currency-container').show();">Return</button>
+			<div id="checkout-btceth-qrcode" style="width:120px; height:120px; margin: 2px; float: right;"></div>
 			<div id="checkout-btceth-info">Payment will be received automatically after two block confirmations and you will be returned to the merchants website.</div>
-			<i class="checkout-btceth-refresh fa fa-spinner fa-spin" aria-hidden="true"></i>
+			<div style="clear: both;"></div>
+			<div id="checkout-btceth-monitoring">
+				Monitoring blockchain for incoming payment
+				<i class="checkout-btceth-refresh fa fa-spinner fa-spin" aria-hidden="true"></i>
+			</div>
 		</div>
 
 		<div id="checkout-login-container">
@@ -168,9 +174,6 @@
 			<span aria-hidden="true">&times;</span>
 		</button>
 		<div class="notifycontent mt5"></div>
-		<button type="button" class="btn btn-primary alertbutton" onclick="closeAlert()">
-			OK
-		</button>
 	</div>
 	
 	<div class="check-pin-container hide">
@@ -187,7 +190,8 @@
 
 <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-<script src="js/jsecoin.min.js?v=1.8.25"></script>
+<script src="js/jsecoin.min.js?v=1.9.1"></script>
+<script src="js/qrcode.min.js"></script>
 
 <script>
 
@@ -329,13 +333,28 @@ function merchantCheckoutLogin() {
 	}
 }
 
-function notify(txtString) {
-	alert(txtString);
+function notify(msg) {
+	if (app === false) {
+		$('.notifycontent').html(msg+'<br><button type="button" class="btn btn-sm btn-primary alertbutton" onclick="closeAlert()">OK</button>');
+		$(".alert").removeClass('hide animated fadeOutUp').addClass('animated fadeInDown');
+	} else {
+		console.log('NOTIFY: '+msg);
+	}
+}
+
+function notifyThen(msg,callback) {
+	notify(msg);
+	$(".alertbutton").click(function() {
+		closeAlert();
+		callback();
+	});
 }
 
 function loadBtcEth(btcEth) {
 	$('#checkout-btceth-container').show();
 	$('#checkout-btceth-address').html('Generating Address...');
+	$('#checkout-btceth-qrcode').html('');
+	var qrBtcEthElement = new QRCode(document.getElementById("checkout-btceth-qrcode"), { width : 120, height : 120 });
 	let longCurrency = 'Bitcoin';
 	if (btcEth === 'eth') longCurrency = 'Ethereum';
 	$('#checkout-btceth-title').html(`Please make your ${longCurrency} payment for <span id="checkout-btceth-amount">...</span> within the next hour to:`);
@@ -350,41 +369,46 @@ function loadBtcEth(btcEth) {
 			checkout.pendingRef = transactionData.pendingRef;
 			$('#checkout-btceth-amount').html(`${checkout.payPrice.toFixed(8).replace(/\.?0+$/,"")} <small>${checkout.payCurrency.toUpperCase()}</small>`);
 			$('#checkout-btceth-address').html(checkout.payAddress);
+			qrBtcEthElement.makeCode(checkout.payAddress);
 		});
 		setTimeout(function() { checkPendingPayment(); }, 60000);
 	} else {
 		$('#checkout-btceth-amount').html(`${checkout.payPrice.toFixed(8).replace(/\.?0+$/,"")} <small>${checkout.payCurrency.toUpperCase()}</small>`);
 		$('#checkout-btceth-address').html(checkout.payAddress);
+		qrBtcEthElement.makeCode(checkout.payAddress);
 	}
 }
 
+var paymentReceived = false;
 function checkPendingPayment() {
 	$.ajax({url:jseServer+'/checkout/checkpending/'+checkout.pendingRef+'/',type:'GET',contentType:'application/json'}).done(function(data) {
 		var paymentCheckData = JSON.parse(data);
-		var paymentReceived = paymentCheckData.paymentReceived;
+		paymentReceived = paymentCheckData.paymentReceived;
 		if (paymentReceived) {
-			notify('Payment completed, redirecting back to merchant website');
-			setTimeout(function() {
-				if (response.reference) {
+			notifyThen('Payment completed, redirecting back to merchant website',function() {
+				if (paymentCheckData.reference) {
 					window.location.href = checkout.completionURL.split('{reference}').join(paymentCheckData.reference); // reference sent back from JSON response
 				} else {
 					window.location.href = checkout.completionURL;
 				}
-			}, 1500);
+			});
 		}
 	});
-	setTimeout(function() { checkPendingPayment(); }, 60000);
+	if (!paymentReceived) {
+		setTimeout(function() { checkPendingPayment(); }, 60000);
+	}
 }
 
 function cancelCheckout() {
 	$('#checkout-complete-buttons').hide();
-	notify('Checkout has been cancelled');
-	checkout.cancelledTS = new Date().getTime();
-	if (typeof checkout.cancellationURL !== 'undefined') {
-		window.location.href = checkout.cancellationURL;
-	} else {
-		$('#checkout-complete-container').html('<div id="checkout-complete-body"><div id="checkout-complete-title">Please use the back button to navigate back to the merchant webstie</div></div>');
-	}
+	notifyThen('Checkout has been cancelled',function() {
+		checkout.cancelledTS = new Date().getTime();
+		if (typeof checkout.cancellationURL !== 'undefined') {
+			window.location.href = checkout.cancellationURL;
+		} else {
+			$('#checkout-complete-container').html('<div id="checkout-complete-body"><div id="checkout-complete-title">Please use the back button to navigate back to the merchant website</div></div>');
+		}
+	});
 }
 
 function completeCheckout() {
@@ -404,14 +428,13 @@ function completeCheckout() {
 				grecaptcha.reset();
 				$('#checkout-complete-buttons').show();
 			} else {
-				notify('Payment completed, redirecting back to merchant website');
-				setTimeout(function() {
+				notifyThen('Payment completed, redirecting back to merchant website', function() {
 					if (response.reference) {
 						window.location.href = checkout.completionURL.split('{reference}').join(response.reference); // reference sent back from JSON response
 					} else {
 						window.location.href = checkout.completionURL;
 					}
-				}, 1500);
+				});
 			}
 			return false;
 		}).fail(function(data2) {
