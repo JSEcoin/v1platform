@@ -770,26 +770,28 @@ function startSocketIOConnection() {
 }
 
 function register() {
-	if(!$("#newterms").is(':checked')) { notify('You need to agree to terms'); grecaptcha.reset(); return false; }
-	if($('#newemail').val() !== $('#retypeemail').val()) { notify('Email addresses do not match'); grecaptcha.reset(); return false; }
+	if(!$("#newterms").is(':checked')) { notify('You need to agree to terms'); return false; }
+	if($('#newemail').val() !== $('#retypeemail').val()) { notify('Email addresses do not match'); return false; }
 	var newUser = {};
 	newUser.name = cleanString($('#newname').val());
 	newUser.email = cleanString($('#newemail').val());
-	if (!validateEmail(newUser.email)) { notify('Email invalid, please check your email address'); grecaptcha.reset(); return false; }
+	if (!validateEmail(newUser.email)) { notify('Email invalid, please check your email address'); return false; }
 	var badEmailProviders = ['jsecoin.com','jsecoins.com','cobin2hood.com','mailinator','luxusmail','inboxalias','maildrop.cc','guerrillamail','tm2mail.com','muimail.com','hitbts.com','minex-coin.com','c1oramn.com','balanc3r.com','c1oramn.com','letsmail9.com','crymail2.com','ax80mail.com'];
 	for (var i = badEmailProviders.length - 1; i >= 0; i--) {
 		if (newUser.email.indexOf(badEmailProviders[i]) > -1) {
-			notify('Temporary email addresses will be closed, please use your real address'); grecaptcha.reset(); return false;
+			notify('Temporary email addresses will be closed, please use your real address'); return false;
 		}
 	}
 	newUser.password = $('#newpassword').val(); // not cleaned in case it fups the hash
-	if (!goodPassword(newUser.password)) { notify('You need to use a stronger password'); grecaptcha.reset(); return false; }
+	if (!goodPassword(newUser.password)) { notify('You need to use a stronger password'); return false; }
 	newUser.address = cleanString($('#newaddress').val());
 	newUser.country = cleanString($('#newcountry').val());
+	/*
 	newUser['g-recaptcha-response'] = grecaptcha.getResponse();
 	if(newUser['g-recaptcha-response'] === undefined || newUser['g-recaptcha-response'] === '' || newUser['g-recaptcha-response'] === null) {
 		notify('Complete the ReCaptcha "I am not a robot"'); return false;
 	}
+	*/
 	newUser.preRegHashes = 0; // not need after next update
 	var localTime = new Date();
 	newUser.localTS = localTime.getTime();
@@ -834,7 +836,6 @@ function register() {
 		if (failObj && failObj.notification) {
 			notify(failObj.notification);
 			delete user;
-			grecaptcha.reset();
 		}
 		return false;
 	});
