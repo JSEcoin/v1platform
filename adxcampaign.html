@@ -912,6 +912,10 @@ function submitCampaign() {
 		notify('Please set a bid price (cpm) for your campaign');
 		return false;
 	}
+	if (adxCampaignData.bidPrice > adxCampaignData.dailyBudget) {
+		notify('Daily budget must be greater than your bid price (cpm)');
+		return false;
+	}
 	var credentials = {};
 	credentials.session = user.session;
 	Object.assign(credentials, adxCampaignData); // merge objects into credentials
