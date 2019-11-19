@@ -818,6 +818,11 @@ function updateEstimatedVolume() {
 	var estimatedClicks = 0;
 	var currentBidPrice = parseFloat($('#adx-campaign-bid-price').val());
 	var currentDailyBudget = parseFloat($('#adx-campaign-daily-budget').val());
+	if (currentBidPrice > currentDailyBudget) {
+		$('#adx-campaign-daily-budget').css('color', '#C00');
+	} else {
+		$('#adx-campaign-daily-budget').css('color', '#000');
+	}
 	if ($('#adx-campaign-currency-jse').is(':checked')) {
 		currentBidPrice = currentBidPrice * publicStats.exchangeRates.USDJSE;
 		currentDailyBudget = currentDailyBudget * publicStats.exchangeRates.USDJSE;
@@ -826,7 +831,7 @@ function updateEstimatedVolume() {
 	var currentVolumes = { US: 11.37, ID: 8.18, RU: 5.91, IN: 5.64, FR: 5.60, BR: 4.35, HU: 4.07, GB: 4.00, ES: 3.90, IT: 3.64, DE: 3.50, UA: 2.61, PL: 2.53, NL: 2.23, PH: 2.21, PK: 1.84, CA: 1.66, MX: 1.60, BG: 1.57, RO: 1.42, VE: 1.26, CN: 1.18, TH: 1.17, AU: 1.11, GR: 1.10, AR: 1.06, BE: 0.99, PT: 0.98, VN: 0.84, CZ: 0.74, MY: 0.74, CO: 0.70, SE: 0.70, TR: 0.68, JP: 0.65, PE: 0.59, TW: 0.59, AT: 0.55, SK: 0.54, KR: 0.54, ZA: 0.53, NG: 0.52, DK: 0.50, SG: 0.49, CH: 0.45, FI: 0.43, LV: 0.39, XX: 0.37, SI: 0.35, IE: 0.31, HK: 0.29, NZ: 0.25, LT: 0.19, IL: 0.18, NO: 0.17, ET: 0.03 };
 	$('#ToLB').find("option").each(function() {
 		if (currentVolumes[$(this).val()]) {
-			volume += Math.round(5000000 * (currentVolumes[$(this).val()] / 100));
+			volume += Math.round(3000000 * (currentVolumes[$(this).val()] / 100));
 		}
 	});
 	volume = volume * Math.min(currentBidPrice,1);
