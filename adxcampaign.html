@@ -904,16 +904,16 @@ function submitCampaign() {
 		loadStep2();
 		return false;
 	}
-	if (!adxCampaignData.dailyBudget || adxCampaignData.dailyBudget < 0.1) {
+	if (!adxCampaignData.dailyBudget || parseFloat(adxCampaignData.dailyBudget) < 0.00001) {
 		notify('Please set a daily budget for your campaign to limit total ad spend');
 		return false;
 	}
-	if (!adxCampaignData.bidPrice || adxCampaignData.bidPrice < 0.001) {
+	if (!adxCampaignData.bidPrice || parseFloat(adxCampaignData.bidPrice) < 0.00001) {
 		notify('Please set a bid price (cpm) for your campaign');
 		return false;
 	}
-	if (adxCampaignData.bidPrice > adxCampaignData.dailyBudget) {
-		notify('Daily budget must be greater than your bid price (cpm)');
+	if (parseFloat(adxCampaignData.bidPrice) > parseFloat(adxCampaignData.dailyBudget)) {
+		notify('Daily budget must be greater than or equal to your bid price (cpm)');
 		return false;
 	}
 	var credentials = {};
